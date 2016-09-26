@@ -6,7 +6,7 @@
     </ion-header-bar>
 
     <ion-content scroll="false" resize="true">
-      <map on-create="mapCreated(map)"></map>
+      <map id="map" on-create="mapCreated(map)" data-tap-disabled="true"></map>
       <div id="notification">
         <p id="noticeMsg">You have notification waiting</p>
         <button id="accepto" type="button"> Accepto! </button>
