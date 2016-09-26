@@ -2790,11 +2790,23 @@ ionic.tap = {
     return false;
   },
 
+  // isElementTapDisabled: function(ele) {
+  //   if (ele && ele.nodeType === 1) {
+  //     var element = ele;
+  //     while (element) {
+  //       if ((element.dataset ? element.dataset.tapDisabled : element.getAttribute('data-tap-disabled')) == 'true') {
+  //         return true;
+  //       }
+  //       element = element.parentElement;
+  //     }
+  //   }
+  //   return false;
+  // },
   isElementTapDisabled: function(ele) {
-    if (ele && ele.nodeType === 1) {
+    if(ele && ele.nodeType === 1) {
       var element = ele;
-      while (element) {
-        if ((element.dataset ? element.dataset.tapDisabled : element.getAttribute('data-tap-disabled')) == 'true') {
+      while(element) {
+        if( element.getAttribute('data-tap-disabled') == 'true' || element.dataset.tapDisabled == 'true' ) {
           return true;
         }
         element = element.parentElement;
