@@ -7,14 +7,22 @@
 
     <ion-content scroll="false" resize="true">
       <map on-create="mapCreated(map)"></map>
-      <div id="notification"><p id="noticeMsg">You have notification waiting</p>
-<button id="accepto" type="button"> Accepto! </button>
-<button id="accepto2" type="button" onclick="approve()"> Aprove </button>
-</div>
-<div class="floatingButton"><div id="loading">Please wait while we load your location...</div><button type="button" id="pickupshift" class="button button-large button-block button-positive" ng-click="pickup()">Pick up shift</button>
-<button type="button" id="covermyshift" class="button button-large button-block button-positive" ui-sref="app.tab.cover">
-    Cover My Shift
-  </button>
+      <div id="notification">
+        <p id="noticeMsg">You have notification waiting</p>
+        <button id="accepto" type="button"> Accepto! </button>
+        <button id="accepto2" type="button" onclick="approve()"> Aprove </button>
+      </div>
+      <div class="floatingButton">
+        <div id="loading">Please wait while we load your location...</div>
+        <button type="button" id="pickupshift" class="button button-large button-block button-positive" ng-click="pickup()">Pick up shift</button>
+        <button type="button" id="covermyshift" class="button button-large button-block button-positive" ui-sref="app.tab.cover">Cover My Shift</button>
+      </div>
+      <div class="floatingButton" id="searchMe">
+        <label class="item item-input">
+          <i class="icon ion-search placeholder-icon"></i>
+          <input type="search" placeholder="Search by Zip code">
+        </label>
+      </div>
     </ion-content>
 
 <!--     <ion-footer-bar class="bar-stable">
