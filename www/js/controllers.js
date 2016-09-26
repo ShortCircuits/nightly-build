@@ -52,7 +52,7 @@ angular.module('starter.controllers', [])
       console.log("window.approve is running here!")
       $http({
             method: 'PATCH',
-            url: 'http://localhost:4000/pickup',
+            url: 'https://shift-it.herokuapp.com/pickup',
             //TODO needs to pickup data from the service                
             data: {shift_id: "57e6b0ed1c3a043e94624a87"}
         }).then(function successCallback(response) {
@@ -71,7 +71,7 @@ angular.module('starter.controllers', [])
       if (confirmation){
         $http({
           method: 'PATCH',
-          url: 'http://localhost:4000/users',
+          url: 'https://shift-it.herokuapp.com/users',
           data: {home_store: myStoreObj}
         }).then(function successCallback(response){
           console.log("home store set as: ", response.data)
@@ -89,7 +89,7 @@ angular.module('starter.controllers', [])
       
       $http({
             method: 'GET',
-            url: 'http://localhost:4000/whoami'
+            url: 'https://shift-it.herokuapp.com/whoami'
         }).then(function successCallback(response) {
             Maps.setUser(response.data);
             console.log("this is me", response.data)
@@ -101,7 +101,7 @@ angular.module('starter.controllers', [])
       // make request to the server too see if there shotul be notification for the user
       $http({
             method: 'GET',
-            url: 'http://localhost:4000/pickup'
+            url: 'https://shift-it.herokuapp.com/pickup'
         }).then(function successCallback(response) {
             console.log("got response", response)
             Maps.setApprovals(response.data);
@@ -141,7 +141,7 @@ angular.module('starter.controllers', [])
         $scope.show($ionicLoading);
         $http({
             method: 'GET',
-            url: 'http://localhost:4000/shifts/lat/' + $scope.location.lat + '/lng/' + $scope.location.lng + '/rad/5000'
+            url: 'https://shift-it.herokuapp.com/shifts/lat/' + $scope.location.lat + '/lng/' + $scope.location.lng + '/rad/5000'
         }).then(function successCallback(response) {
             console.log("got response", response.data)
             callback(response.data)
@@ -326,7 +326,7 @@ angular.module('starter.controllers', [])
       // Code you want executed every time view is opened
       $http({
         method: 'GET',
-        url: 'http://localhost:4000/getProfileInfo'
+        url: 'https://shift-it.herokuapp.com/getProfileInfo'
       }).then(function successCallback(response){
         $scope.profileData = response.data[0];
       }, function errorCallback(response){
@@ -360,7 +360,7 @@ angular.module('starter.controllers', [])
     $scope.submitProfile = function(){
       $http({
         method: 'PATCH',
-        url: 'http://localhost:4000/users',
+        url: 'https://shift-it.herokuapp.com/users',
         data: $scope.editProfileTempData,
       }).then(function successCallback(response){
         $scope.profileData = response.data;
@@ -536,7 +536,7 @@ angular.module('starter.controllers', [])
   $scope.postShift = function() {
     $http({
       method: 'POST',
-      url: 'http://localhost:4000/shifts',
+      url: 'https://shift-it.herokuapp.com/shifts',
       data: shift
     }).then(function(response){
       console.log("shift submitted to database with shift data: ", shift);
@@ -571,7 +571,7 @@ angular.module('starter.controllers', [])
 
         $http({
               method: 'POST',
-              url: 'http://localhost:4000/pickup',
+              url: 'https://shift-it.herokuapp.com/pickup',
               data: theData
           }).then(function successCallback(response) {
               console.log("got response", response.data)
@@ -602,7 +602,7 @@ angular.module('starter.controllers', [])
 
       $http({
             method: 'PATCH',
-            url: 'http://localhost:4000/pickup',                  
+            url: 'https://shift-it.herokuapp.com/pickup',                  
             data: {shift_id: shiftId}
         }).then(function successCallback(response) {
             console.log("aprove return: ", response.data);
@@ -622,7 +622,7 @@ angular.module('starter.controllers', [])
     };
     $http({
           method: 'GET',
-          url: 'http://localhost:4000/user/id/' + userId,
+          url: 'https://shift-it.herokuapp.com/user/id/' + userId,
     }).then(function (data) {
       console.log("this is the data: ", data);
       var data = data.data;
@@ -644,7 +644,7 @@ angular.module('starter.controllers', [])
 
   $http({
     method: 'GET',
-    url: 'http://localhost:4000/myshifts'
+    url: 'https://shift-it.herokuapp.com/myshifts'
   }).then(function(data) {
     $scope.shifts = data.data;
     console.log("Here are the shifts: ", $scope.shifts);
