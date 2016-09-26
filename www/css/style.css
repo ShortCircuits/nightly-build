@@ -20,9 +20,10 @@ map {
     z-index: 9;
 }
 
-/*.cover {
-  text-align: center;
-}*/
+#searchMe {
+  top: 87%;
+  width: 340px;
+}
 
 .card {
   font-size: 20px;
