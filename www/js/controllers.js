@@ -92,7 +92,7 @@ angular.module('starter.controllers', [])
             url: 'https://shift-it.herokuapp.com/whoami'
         }).then(function successCallback(response) {
             Maps.setUser(response.data);
-            console.log("this is me", response.data)
+            console.log("whoami endpoint returning: ", response.data)
         
         }, function errorCallback(response) {
             alert("Could not get user Id from server, suprise")
