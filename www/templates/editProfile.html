@@ -1,0 +1,39 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Edit Profile</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeEditProfile()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+
+      <div class="list">
+
+        <label class="item item-input">
+          <span class="input-label">First Name</span>
+          <input type="text" name="name" ng-model="editProfileTempData.firstName">
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Last Name</span>
+          <input type="text" name="name" ng-model="editProfileTempData.lastName">
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Email</span>
+          <input type="email" name="email" ng-model="editProfileTempData.email">
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Phone</span>
+          <input type="tel" name="phone" ng-model="editProfileTempData.phone">
+        </label>
+
+        <label class="item">
+          <button class="button button-block button-positive" type="submit" ng-click="submitProfile()">Save Changes</button>
+        </label>
+        
+      </div>
+
+  </ion-content>
+</ion-modal-view>

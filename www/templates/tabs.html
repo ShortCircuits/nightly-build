@@ -1,0 +1,28 @@
+<!-- 
+  Create tabs with an icon and label, using the tabs-positive style. 
+  Each tab's child <ion-nav-view> directive will have its own 
+  navigation history that also transitions its views in and out.
+-->
+<ion-tabs class="tabs-icon-top">
+
+  <!-- Map Tab -->
+  <ion-tab title="Home" icon="icon ion-home" ui-sref="app.tab.map">
+    <ion-nav-view name="tab-map"></ion-nav-view>
+  </ion-tab>
+
+  <!-- Friends Tab -->
+  <ion-tab title="Pickup Shift" icon="icon ion-android-sync" ui-sref="app.tab.pickup-list">
+    <ion-nav-view name="tab-pickup-list"></ion-nav-view>
+  </ion-tab>
+
+  <!-- Account Tab -->
+  <ion-tab title="Post a shift" icon="icon ion-gear-b" ui-sref="app.tab.cover">
+    <ion-nav-view name="tab-cover"></ion-nav-view>
+  </ion-tab>
+
+  <!-- My Shifts Tab -->
+  <ion-tab title="My Shifty" ng-if="true" icon="icon ion-gear-b" ui-sref="app.tab.myshifts">
+    <ion-nav-view name="tab-myshifts"></ion-nav-view>
+  </ion-tab>
+
+</ion-tabs>

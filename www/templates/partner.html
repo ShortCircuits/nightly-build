@@ -1,0 +1,20 @@
+<ion-view view-title="Shift Partner">
+  <ion-content class="padding">
+    <img src={{partnerInfo.facebookPic}}>
+  	<p class="contact-header"> Name </p>
+  	<p class="contact-info">{{partnerInfo.name}}</p>
+  	
+  	<p class="contact-header"> Email </p>
+  	<p class="contact-info">{{partnerInfo.email}}</p>
+  	
+  	<p class="contact-header"> Phone </p>
+  	<p class="contact-info">{{partnerInfo.phone}}</p>
+  	
+   	<p class="contact-header"> User Rep </p>
+  	<p class="contact-info">{{partnerInfo.userRep}}</p>
+
+  	<button class="button button-positive">Contact</button>
+    <button type="button" id="approveShift" class="button button-positive" ng-click="approve()">Accept</button>
+    <button class="button button-positive">Reject</button>
+  </ion-content>
+</ion-view>

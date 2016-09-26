@@ -1,0 +1,21 @@
+<ion-modal-view style="width: 90%; top: 5%; left: 5%; right: 5%;">
+  <ion-header-bar>
+    <h1 class="title">Prize</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closePrize()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <form class="prize" ng-submit="addPrize()">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">Prize Amount</span>
+          <input type="text" ng-model="shiftData.prize">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Add Prize</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

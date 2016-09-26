@@ -1,0 +1,21 @@
+<ion-view view-title="Profile">
+  <ion-content class="padding">
+
+    <img ng-src="{{profileData.profilePicture}}" alt="good looking dude" />
+
+  	<p class="profile-header"> Name </p>
+  	<p class="profile-info">{{ profileData.firstName + " " + profileData.lastName }}</p>
+  	
+  	<p class="profile-header"> Email </p>
+  	<p class="profile-info">{{ profileData.email }}</p>
+  	
+  	<p class="profile-header"> Phone </p>
+  	<p class="profile-info">{{ profileData.phone }}</p>
+  	
+   	<p class="profile-header"> Home Store</p>
+    <p class="profile-info">{{ profileData.home_store.address }}</p>
+
+
+  	<button class="button button-positive" ng-click="openEditProfile()">Edit Profile</button>
+  </ion-content>
+</ion-view>
