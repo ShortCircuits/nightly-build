@@ -243,7 +243,7 @@ angular.module('starter.controllers', [])
                     //  </li>`
                 });
             } else {
-                info = "<li>No shifts available for this store</li>"
+                info = "<li>" + place.vicinity + "</li><br /><li>No shifts available for this store</li>"
             }
 
             // marker popup window
