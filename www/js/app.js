@@ -52,7 +52,7 @@ var datePickerObj = {
     }
     $authProvider.facebook(angular.extend({}, commonConfig, {
         clientId: '1169374106434305',
-        url: 'http://localhost:4000/auth/facebook'
+        url: 'https://shift-it.herokuapp.com/auth/facebook'
     }));	
 
 $stateProvider
