@@ -7,3 +7,6 @@ plugins/
 .DS_Store
 www/.DS_Store
 **/.DS_Store
+www/lib
+www/css/ionic.app.css
+www/css/ionic.app.min.css
