@@ -603,7 +603,7 @@ angular.module('starter.controllers', [])
 
       $http({
             method: 'PATCH',
-            url: 'http://localhost:4000/pickupreject',                  
+            url: 'https://shift-it.herokuapp.com/pickupreject',                  
             data: {shift_id: shiftId}
         }).then(function successCallback(response) {
             console.log("reject return: ", response.data);
