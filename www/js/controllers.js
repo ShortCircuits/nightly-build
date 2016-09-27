@@ -145,7 +145,7 @@ angular.module('starter.controllers', [])
             url: 'https://shift-it.herokuapp.com/shifts/lat/' + $scope.location.lat + '/lng/' + $scope.location.lng + '/rad/5000'
         }).then(function successCallback(response) {
             console.log("got response", response.data)
-            callback(response.data)
+            markerBuilder(response.data)
         $scope.hide($ionicLoading);
         }, function errorCallback(response) {
             alert("Could not get stores from the server, please try again later")
@@ -154,6 +154,20 @@ angular.module('starter.controllers', [])
 
     };
 
+  $scope.zipSearch = function(zipOrCity){
+    console.log("heellloooo")
+    $http({
+      method: 'GET',
+      url: 'http://localhost:4000/areaSearch/address/' + zipOrCity
+    }).then(function successCallback(response) {
+      console.log("got response", response.data)
+      // $scope.centerOnTarget(); BUILD THIS!
+      markerBuilder(response.data)
+      $scope.hide($ionicLoading);
+    }, function errorCallback(response) {
+      alert("Could not get stores from the server, please try again later")
+    });
+  }
 
   $scope.mapCreated = function(map) {
     $scope.map = map;
@@ -188,29 +202,29 @@ angular.module('starter.controllers', [])
 
   $scope.centerOnMe();
   //add meaningfuller name
-    function callback(results, status) {
-        // if (status === google.maps.places.PlacesServiceStatus.OK) { // TODO
-        for (var i = 0; i < results.results.length; i++) {
-            console.log(results.results[i])
-            createMarker(results.results[i]);
-        }
-        // }
-    }
+  function markerBuilder(results, status) {
+      // if (status === google.maps.places.PlacesServiceStatus.OK) { // TODO
+      for (var i = 0; i < results.results.length; i++) {
+          console.log(results.results[i])
+          createMarker(results.results[i]);
+      }
+      // }
+  }
 
-    function createMarker(place) {
-        var loc = place.geometry.location;
-        var icons = ''
-        if (!place.shifts) {
-            icons = 'img/marker-gray.png'
-        }
-        var marker = new google.maps.Marker({
-            position: {
-                lat: place.geometry.location.lat,
-                lng: place.geometry.location.lng
-            },
-            animation: google.maps.Animation.DROP,
-            icon: icons
-        });
+  function createMarker(place) {
+      var loc = place.geometry.location;
+      var icons = ''
+      if (!place.shifts) {
+          icons = 'img/marker-gray.png'
+      }
+      var marker = new google.maps.Marker({
+          position: {
+              lat: place.geometry.location.lat,
+              lng: place.geometry.location.lng
+          },
+          animation: google.maps.Animation.DROP,
+          icon: icons
+      });
 
         marker.setMap($scope.map);
         google.maps.event.addListener(marker, 'click', function() {
