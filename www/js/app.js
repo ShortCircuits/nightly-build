@@ -57,73 +57,79 @@ var datePickerObj = {
 
 $stateProvider
 
-.state('app', {
-    url: '/app',
-    abstract: true,
-    templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
-  })
+// .state('app', {
+//     url: '/app',
+//     abstract: true,
+//     templateUrl: 'templates/menu.html',
+//     controller: 'AppCtrl'
+//   })
 
-  .state('app.profile', {
-    url: '/profile',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/profile.html',
-        controller: 'ProfileCtrl'
-      }
-    }
-  })
+//   .state('app.profile', {
+//     url: '/profile',
+//     views: {
+//       'menuContent': {
+//         templateUrl: 'templates/profile.html',
+//         controller: 'ProfileCtrl'
+//       }
+//     }
+//   })
 
-  .state('app.cover', {
-    url: '/cover',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/cover.html',
-        controller: 'CoverCtrl'
-      }
-    }
-  })
+//   .state('app.cover', {
+//     url: '/cover',
+//     views: {
+//       'menuContent': {
+//         templateUrl: 'templates/cover.html',
+//         controller: 'CoverCtrl'
+//       }
+//     }
+//   })
 
-  .state('app.friends', {
-    url: '/friends',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/tab-friends.html',
-        controller: 'FriendsCtrl'
-      }
-    }
-  })
+//   .state('app.friends', {
+//     url: '/friends',
+//     views: {
+//       'menuContent': {
+//         templateUrl: 'templates/tab-friends.html',
+//         controller: 'FriendsCtrl'
+//       }
+//     }
+//   })
 
-  .state('app.friend-detail', {
-    url: '/friend/:friendId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/friend-detail.html',
-        controller: 'FriendDetailCtrl'
-      }
-    }
-  })
+//   .state('app.friend-detail', {
+//     url: '/friend/:friendId',
+//     views: {
+//       'menuContent': {
+//         templateUrl: 'templates/friend-detail.html',
+//         controller: 'FriendDetailCtrl'
+//       }
+//     }
+//   })
 
-  .state('app.partner', {
-    url: '/partner',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/partner.html',
-        controller: 'PartnerCtrl'
-      }
-    }
-  })
+//   .state('app.partner', {
+//     url: '/partner',
+//     views: {
+//       'menuContent': {
+//         templateUrl: 'templates/partner.html',
+//         controller: 'PartnerCtrl'
+//       }
+//     }
+//   })
 
-  .state('app.tab', {
-    url: "/tab",
-    views: {
-      'menuContent': {
-        templateUrl: "templates/tabs.html"
-      }
-    }
-  })
+.state('tab', {
+      url: "/tab",
+      abstract: true,
+      templateUrl: "templates/tabs.html"
+    })
 
-  .state('app.tab.pickup-list', {
+  // .state('app.tab', {
+  //   url: "/tab",
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: "templates/tabs.html"
+  //     }
+  //   }
+  // })
+
+  .state('tab.pickup-list', {
     url: '/pickup-list',
     views: {
       'tab-pickup-list': {
@@ -134,7 +140,7 @@ $stateProvider
   })
   // Each tab has its own nav history stack:
 
-  .state('app.tab.cover', {
+  .state('tab.cover', {
     url: '/cover2',
     views: {
       'tab-cover': {
@@ -144,7 +150,7 @@ $stateProvider
     }
   })
 
-  .state('app.tab.map', {
+  .state('tab.map', {
     url: '/map',
     views: {
       'tab-map': {
@@ -154,7 +160,7 @@ $stateProvider
     }
   })
 
-  .state('app.tab.account', {
+  .state('tab.account', {
     url: '/account',
     views: {
       'tab-account': {
@@ -164,7 +170,7 @@ $stateProvider
     }
   })
 
-  .state('app.tab.myshifts', {
+  .state('tab.myshifts', {
     url: '/myshifts',
     views: {
       'tab-myshifts': {
@@ -257,5 +263,5 @@ $stateProvider
 
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('app/tab/map');
+  $urlRouterProvider.otherwise('tab/map');
 })	
