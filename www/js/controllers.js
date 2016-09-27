@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
 .controller('MapCtrl', function($scope, $ionicLoading, $timeout, $http, Maps, AvailableShifts) {
     $scope.myStoreInfo = {};
     $scope.map;
-    $scope.infowindow;
+    $scope.infowindow = new google.maps.InfoWindow();
     $scope.location = Maps.getLocation();
     $scope.user = {
       message: "Your request for a shift has been approved!",
@@ -18,7 +18,8 @@ angular.module('starter.controllers', [])
     $scope.$on('$ionicView.enter', function() {
       $scope.notification();
       console.log('Opened!')
-  })
+      ionic.trigger('resize');
+    })
     $scope.show = function() {
       $ionicLoading.show({
         template: '<p>Loading please wait..</p><ion-spinner icon="lines"></ion-spinner>',
@@ -92,7 +93,7 @@ angular.module('starter.controllers', [])
             url: 'https://shift-it.herokuapp.com/whoami'
         }).then(function successCallback(response) {
             Maps.setUser(response.data);
-            console.log("this is me", response.data)
+            console.log("whoami endpoint returning: ", response.data)
         
         }, function errorCallback(response) {
             alert("Could not get user Id from server, suprise")
@@ -177,7 +178,7 @@ angular.module('starter.controllers', [])
         };
 
       $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-      $scope.infowindow = new google.maps.InfoWindow();
+
       $ionicLoading.hide();
 
     }, function (error) {
@@ -242,7 +243,7 @@ angular.module('starter.controllers', [])
                     //  </li>`
                 });
             } else {
-                info = "<li>No shifts available for this store</li>"
+                info = "<li>" + place.vicinity + "</li><br /><li>No shifts available for this store</li>"
             }
 
             // marker popup window

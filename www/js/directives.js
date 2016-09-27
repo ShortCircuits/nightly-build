@@ -15,7 +15,7 @@ angular.module('starter.directives', [])
           zoom: 14,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        var map = new google.maps.Map($element[0], mapOptions);
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
   
         $scope.onCreate({map: map});
 

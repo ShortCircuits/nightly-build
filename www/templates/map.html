@@ -6,7 +6,7 @@
     </ion-header-bar>
 
     <ion-content scroll="false" resize="true">
-      <map on-create="mapCreated(map)"></map>
+      <map id="map" on-create="mapCreated(map)" data-tap-disabled="true"></map>
       <div id="notification">
         <p id="noticeMsg">You have notification waiting</p>
         <button id="accepto" type="button"> Accepto! </button>
@@ -20,7 +20,7 @@
       <div class="floatingButton" id="searchMe">
         <label class="item item-input">
           <i class="icon ion-search placeholder-icon"></i>
-          <input type="number" pattern="[0-9]*" placeholder="Search by Zip code">
+          <input id="zipCode" type="number" pattern="[0-9]*" placeholder="Search by Zip code">
         </label>
       </div>
     </ion-content>
