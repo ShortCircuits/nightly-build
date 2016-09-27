@@ -597,6 +597,23 @@ angular.module('starter.controllers', [])
     var shiftId = data[0].shift_id;
     console.log("userId : ", userId);
     console.log("this is the shiftId: ", shiftId);
+    
+    $scope.reject = function() {
+      console.log("this is the shiftId inside: ", shiftId);
+
+      $http({
+            method: 'PATCH',
+            url: 'http://localhost:4000/pickupreject',                  
+            data: {shift_id: shiftId}
+        }).then(function successCallback(response) {
+            console.log("reject return: ", response.data);
+            alert("You have successfully rejected the shift.");
+
+        }, function errorCallback(response) {
+            alert("Could not reject the shift", response)
+        });
+    };
+
     $scope.approve = function() {
       console.log("this is the shiftId inside the approve: ", shiftId);
       document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
@@ -614,6 +631,7 @@ angular.module('starter.controllers', [])
             alert("Could not aprove the shift", response)
         });
     };
+
     $scope.partnerInfo = {
       name: "",
       email: "",
