@@ -29,7 +29,7 @@
       },
       successAuth: function() {
         userData = $auth.getPayload();
-
+        
         $rootScope.$emit('userLoggedIn', {data: userData});
       },
       failedAuth: function() {

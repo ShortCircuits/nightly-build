@@ -2790,6 +2790,18 @@ ionic.tap = {
     return false;
   },
 
+  // isElementTapDisabled: function(ele) {
+  //   if (ele && ele.nodeType === 1) {
+  //     var element = ele;
+  //     while (element) {
+  //       if ((element.dataset ? element.dataset.tapDisabled : element.getAttribute('data-tap-disabled')) == 'true') {
+  //         return true;
+  //       }
+  //       element = element.parentElement;
+  //     }
+  //   }
+  //   return false;
+  // },
   isElementTapDisabled: function(ele) {
     if(ele && ele.nodeType === 1) {
       var element = ele;
