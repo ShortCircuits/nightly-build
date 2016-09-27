@@ -160,15 +160,15 @@ $stateProvider
     }
   })
 
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/settings.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  })
+   //  .state('tab.cover', {
+ //    url: '/cover2',
+ //    views: {
+ //      'tab-cover': {
+ //        templateUrl: 'templates/cover.html',
+ //        controller: 'CoverCtrl'
+ //      }
+ //    }
+ //  })
 
   .state('tab.myshifts', {
     url: '/myshifts',
@@ -240,15 +240,7 @@ $stateProvider
  //  })
  //  // Each tab has its own nav history stack:
 
- //  .state('tab.cover', {
- //    url: '/cover2',
- //    views: {
- //      'tab-cover': {
- //        templateUrl: 'templates/cover.html',
- //        controller: 'CoverCtrl'
- //      }
- //    }
- //  })
+
 
  //  .state('tab.map', {
  //    url: '/map',

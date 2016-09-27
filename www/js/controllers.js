@@ -127,7 +127,7 @@ angular.module('starter.controllers', [])
     };
 
     window.approve = function() {
-      window.location = "#/app/partner";
+      window.location = "#/tab/myshifts";
     };
 
     $scope.pickupShiftPage = function() {
@@ -255,7 +255,7 @@ angular.module('starter.controllers', [])
                     shiftObj.id = shift._id;
                     AvailableShifts.addShift(shiftObj);
 
-                    info += "<li> " + place.name + " <br />  " + place.vicinity + " </li>\n<li> Shifts available: </li>\n<li id=\"listElement\"> <span style=\"font-size:9\"> " + shift.submitted_by + " needs someone to cover a shift</span> <br/>\n<strong> " + shift.shift_start + " to " + shift.shift_end + "</strong>\n<span style=\"color:green\">Prize: " + shift.prize + "</span>\n<button onclick=\"window.location = '#/app/tab/pickup-list'\"> Take shift</button>\n</li>"
+                    info += "<li> " + place.name + " <br />  " + place.vicinity + " </li>\n<li> Shifts available: </li>\n<li id=\"listElement\"> <span style=\"font-size:9\"> " + shift.submitted_by + " needs someone to cover a shift</span> <br/>\n<strong> " + shift.shift_start + " to " + shift.shift_end + "</strong>\n<span style=\"color:green\">Prize: " + shift.prize + "</span>\n<button onclick=\"window.location = '#/tab/pickup-list'\"> Take shift</button>\n</li>"
                     
                     // `<li> ${place.name} <br />  ${place.vicinity} </li>
                     //  <li> Shifts available: </li>
