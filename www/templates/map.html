@@ -1,32 +1,34 @@
- <ion-view title="Shift Ninja" >
+<ion-view title="Map" >
+  <ion-header-bar class="bar-stable">
+    <h1 class="title">Map</h1>
+  </ion-header-bar>
 
-
-    <ion-header-bar class="bar-stable">
-      <h1 class="title">Shift Ninja</h1>
-    </ion-header-bar>
-
-    <ion-content scroll="false" resize="true">
-      <map id="map" on-create="mapCreated(map)" data-tap-disabled="true"></map>
-      <div id="notification">
-        <p id="noticeMsg">You have notification waiting</p>
-        <button id="accepto" type="button"> Accepto! </button>
-        <button id="accepto2" type="button" onclick="approve()"> Aprove </button>
-      </div>
-      <div class="floatingButton">
-        <div id="loading">Please wait while we load your location...</div>
-        <button type="button" id="pickupshift" class="button button-large button-block button-positive" ng-click="pickup()">Pick up shift</button>
-        <button type="button" id="covermyshift" class="button button-large button-block button-positive" ui-sref="app.tab.cover">Cover My Shift</button>
-      </div>
-      <div class="floatingButton" id="searchMe">
-        <label class="item item-input">
-          <i class="icon ion-search placeholder-icon"></i>
-          <input id="zipCode" type="number" pattern="[0-9]*" placeholder="Search by Zip code">
-        </label>
-      </div>
-    </ion-content>
+  <ion-content scroll="false" resize="true">
+    <map id="map" on-create="mapCreated(map)" data-tap-disabled="true"></map>
+    <div id="notification">
+      <p id="noticeMsg">You have notification waiting</p>
+      <button id="accepto" type="button"> Accepto! </button>
+      <button id="accepto2" type="button" onclick="approve()"> Aprove </button>
+    </div>
+    <div class="floatingButton">
+      <div id="loading">Please wait while we load your location...</div>
+      <button type="button" id="pickupshift" class="button button-large button-block button-positive" ng-click="pickup()">Pick up shift</button>
+      <button type="button" id="covermyshift" class="button button-large button-block button-positive" ui-sref="app.tab.cover">Cover My Shift</button>
+    </div>
+    <div class="floatingButton" id="searchMe">
+      <form class="item item-input" ng-submit="zipSearch(zip)">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input name="zip" ng-model="zip" type="number" pattern="[0-9]*" placeholder="Search by Zip code">
+        <!-- <button type="submit" class="button" ng-click="zipSearch()">Login</button> -->
+      </form>
+      <!-- <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="number" pattern="[0-9]*" placeholder="Search by Zip code">
+      </label> -->
+    </div>
+  </ion-content>
 
 <!--     <ion-footer-bar class="bar-stable">
-      <a ng-click="centerOnMe()" class="button button-icon icon ion-navigate"></a>
-    </ion-footer-bar> -->
-
+     <a ng-click="centerOnMe()" class="button button-icon icon ion-navigate"></a>
+   </ion-footer-bar> -->
 </ion-view>
