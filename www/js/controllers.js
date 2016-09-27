@@ -164,30 +164,38 @@ angular.module('starter.controllers', [])
 
     };
 
-    $scope.zipSearch = function(zipOrCity) {
-      console.log("heellloooo")
-      $http({
-        method: 'GET',
-        url: 'https://shift-it.herokuapp.com/areaSearch/address/' + zipOrCity
-      }).then(function successCallback(response) {
-        console.log("got response", response.data)
-          // $scope.centerOnTarget(); BUILD THIS!
-        markerBuilder(response.data)
-        $scope.hide($ionicLoading);
-      }, function errorCallback(response) {
-        alert("Could not get stores from the server, please try again later")
-      });
-    }
+  $scope.zipSearch = function(zipOrCity){
+    console.log("heellloooo")
+    document.getElementById("pickupshift").style.display = 'none';
+    document.getElementById("covermyshift").style.display = 'none';
+    $http({
+      method: 'GET',
+      url: 'http://localhost:4000/areaSearch/address/' + zipOrCity
+    }).then(function successCallback(response) {
+      console.log("got response", response.data)
+      // $scope.centerOnTarget(); BUILD THIS!
+      centerOnSearch(response.data.location.lat, response.data.location.lng);
+      markerBuilder(response.data)
+      $scope.hide($ionicLoading);
+    }, function errorCallback(response) {
+      alert("Could not get stores from the server, please try again later")
+    });
+  }
 
     $scope.mapCreated = function(map) {
       $scope.map = map;
     };
 
-    $scope.centerOnMe = function() {
-      console.log("Centering");
-      // if (!$scope.map) {
-      //   return;
-      // }
+  function centerOnSearch(lat, lng){
+    console.log("the lat and long are: " + lat + lng);
+    $scope.map.setCenter(new google.maps.LatLng(lat, lng));
+  }
+
+  $scope.centerOnMe = function () {
+    console.log("Centering");
+    // if (!$scope.map) {
+    //   return;
+    // }
 
       $scope.loading = $ionicLoading.show({
         content: 'Getting current location...',
