@@ -137,6 +137,7 @@ angular.module('starter.controllers', [])
     // Pickup a shift page
     $scope.pickup = function() {
         // $location = "app.tab.pickup"
+        $scope.centerOnMe();
         document.getElementById("pickupshift").style.display = 'none';
         document.getElementById("covermyshift").style.display = 'none';
         $scope.show($ionicLoading);
