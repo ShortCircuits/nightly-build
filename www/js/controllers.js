@@ -158,7 +158,7 @@ angular.module('starter.controllers', [])
     console.log("heellloooo")
     $http({
       method: 'GET',
-      url: 'http://localhost:4000/areaSearch/address/' + zipOrCity
+      url: 'https://shift-it.herokuapp.com/areaSearch/address/' + zipOrCity
     }).then(function successCallback(response) {
       console.log("got response", response.data)
       // $scope.centerOnTarget(); BUILD THIS!
