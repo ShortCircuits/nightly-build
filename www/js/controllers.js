@@ -413,10 +413,23 @@ angular.module('starter.controllers', [])
 // This controller handles the functionality for creating and posting a new shift.
 .controller('CoverCtrl', function($scope, $ionicModal, ionicDatePicker, ionicTimePicker, $http){
   // change storeId and submitted_by to be dynamically loaded in when that is available.
-  $scope.shiftData = {storeId: "ChIJPXmIAnW1RIYRRwVbIcKT_Cw", covered: false};
+  $scope.shiftData = {covered: false};
+
+  $scope.setHomeLocForShift = function(){
+    $http({
+      method: 'GET',
+      url: 'https://shift-it.herokuapp.com/getProfileInfo'
+    }).then(function successCallback(response){
+      $scope.shiftData.storeId = response.data[0].home_store.storeId;
+    }, function errorCallback(response){
+      console.log("Failed to set home location in CoverCtrl");
+    });
+  }
+
   $scope.$on('$ionicView.enter', function() {
      // Code you want executed every time view is opened
      $scope.openDatePicker();
+     $scope.setHomeLocForShift();
      console.log('Opened!')
   })
   
