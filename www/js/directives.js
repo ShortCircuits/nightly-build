@@ -208,3 +208,32 @@ angular.module('starter.directives', [])
     }
   }
 })
+
+.factory('MyShift', function($http) {
+  var BASE_URL = 'https://shift-it.herokuapp.com/';
+  var mishifts = [];
+  var myRequests = [];
+
+  return {
+    GetRequests: function(){
+      return $http({
+          method: 'GET',
+          url: BASE_URL+'pickup'
+      }).then(function(response) {
+        myRequests = response.data;
+        return myRequests;
+      });
+    },
+    GetMyShifts: function(){
+      return $http({
+          method: 'GET',
+          url: BASE_URL+'myshifts'
+      }).then(function(response) {
+        something = response.data;
+        return something;
+      });
+    }
+  }
+
+})
+
