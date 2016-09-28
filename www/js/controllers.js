@@ -347,7 +347,7 @@ $scope.shiftData = {covered: false};
   $scope.setHomeLocForShift = function() {
     $http({
       method: 'GET',
-      url: 'https://localhost:4000.com/getProfileInfo'
+      url: 'https://shift-it.herokuapp.com/getProfileInfo'
     }).then(function successCallback(response) {
       $scope.shiftData.home_store = response.data[0].home_store;
       $scope.shiftData.submitted_by_name = response.data[0].firstName + " " + response.data[0].lastName;
