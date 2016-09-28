@@ -1,12 +1,5 @@
 angular.module('starter.controllers', [])
-  .controller('FriendsCtrl', function($scope, Friends) {
-    $scope.friends = Friends.all();
-    $scope.name = "jimmy";
 
-    $scope.obj1 = {
-      "name": "joe"
-    };
-  })
   .controller('MapCtrl', function($scope, $ionicLoading, $timeout, $http, Maps, AvailableShifts) {
     $scope.myStoreInfo = {};
     $scope.map;
@@ -160,7 +153,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.centerOnMe();
-    //add meaningfuller name
+    
     function markerBuilder(results, status) {
       for (var i = 0; i < results.results.length; i++) {
         createMarker(results.results[i]);
@@ -640,13 +633,15 @@ $scope.shiftData = {covered: false};
     $scope.shifts = data.data;
     console.log("Here are the shifts: ", $scope.shifts);
 
-    $scope.needApproval.forEach(function(pshift) {
-      $scope.shifts.forEach(function(shift) {
-        if (pshift.shift_id === shift._id) {
-          pshift.shift = shift;
-        }
+    if($scope.needApproval){
+      $scope.needApproval.forEach(function(pshift) {
+        $scope.shifts.forEach(function(shift) {
+          if (pshift.shift_id === shift._id) {
+            pshift.shift = shift;
+          }
+        })
       })
-    })
+    }
     console.log("this is our stuff, ", $scope.needApproval)
 
   }).catch(function(err) {
