@@ -168,7 +168,7 @@ $stateProvider
  //        controller: 'CoverCtrl'
  //      }
  //    }
- //  })
+ //  })s
 
   .state('tab.myshifts', {
     url: '/myshifts',
@@ -194,7 +194,8 @@ $stateProvider
     url: '/profile',
     views: {
       'tab-settings': {
-        templateUrl: 'templates/profile.html'
+        templateUrl: 'templates/profile.html',
+        controller: 'ProfileCtrl'
       }
     }
   })
