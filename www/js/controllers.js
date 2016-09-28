@@ -640,14 +640,17 @@ $scope.shiftData = {covered: false};
   // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
   MyShift.GetMyShifts()
     .then(function(myshifts) {
-      console.log('myshifts from MyShift.GetMyShifts: -=-=-=> ', myshifts);
+      // console.log('myshifts from MyShift.GetMyShifts: -=-=-=> ', myshifts);
       $scope.myshiftsArray = myshifts;
+    })
+    .catch(function(err){
+       alert("Could not fetch your shifts.", err);
     });
 
   // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
   MyShift.GetRequests()
     .then(function(pendings) {
-      console.log('requests pending from MyShift.GetRequests: -=-=-=> ', pendings);
+      // console.log('requests pending from MyShift.GetRequests: -=-=-=> ', pendings);
       $scope.requests = pendings;
 
       $scope.requests.forEach(function(pending){
@@ -658,7 +661,10 @@ $scope.shiftData = {covered: false};
           })
         })
       
-    })
+    });
+    // .catch(function(err){
+    //   alert("Could not fetch requests at this time.", err);
+    // });
 
 })
 
