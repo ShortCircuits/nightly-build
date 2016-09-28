@@ -350,9 +350,7 @@ angular.module('starter.controllers', [])
 // This controller handles the functionality for creating and posting a new shift.
 .controller('CoverCtrl', function($scope, $ionicModal, ionicDatePicker, ionicTimePicker, $http) {
   // change storeId and submitted_by to be dynamically loaded in when that is available.
-  $scope.shiftData = {
-    covered: false
-  };
+$scope.shiftData = {covered: false};
 
   $scope.setHomeLocForShift = function() {
     $http({
@@ -361,19 +359,19 @@ angular.module('starter.controllers', [])
     }).then(function successCallback(response) {
       $scope.shiftData.storeId = response.data[0].home_store.storeId;
       $scope.shiftData.submitted_by_name = response.data[0].firstName + " " + response.data[0].lastName;
-    }, function errorCallback(response) {
+    }, function errorCallback(response){
       console.log("Failed to set home location in CoverCtrl");
     });
   }
 
   $scope.$on('$ionicView.enter', function() {
-      // Code you want executed every time view is opened
-      $scope.openDatePicker();
-      $scope.setHomeLocForShift();
-      console.log('Opened!')
-    })
-    // This is the Date picker modal popout, that initializes the shift_start and shift_end keys in the shift object
-    // On a chosen date it sets both values to the chosen date with no time, and then it shows the first time picker
+     // Code you want executed every time view is opened
+     $scope.openDatePicker();
+     $scope.setHomeLocForShift();
+     console.log('Opened!')
+  })  
+  // This is the Date picker modal popout, that initializes the shift_start and shift_end keys in the shift object
+  // On a chosen date it sets both values to the chosen date with no time, and then it shows the first time picker
   var ipObj1 = {
     callback: function(val) { //Mandatory
       $scope.shiftData.shift_start = new Date(val);
@@ -431,10 +429,10 @@ angular.module('starter.controllers', [])
       $scope.prizePicker();
       $scope.endTime = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes());
     },
-    inputTime: 50400, //Optional
-    format: 12, //Optional
-    step: 15, //Optional
-    setLabel: 'Set2' //Optional
+    inputTime: 50400,   //Optional
+    format: 12,         //Optional
+    step: 15,           //Optional
+    setLabel: 'Set2'    //Optional
   };
 
   // This is the modal for the start shift time picker, it will update the shift object with the correct time in the
@@ -454,10 +452,10 @@ angular.module('starter.controllers', [])
       $scope.openTimePicker2();
       $scope.startTime = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes());
     },
-    inputTime: 50400, //Optional
-    format: 12, //Optional
-    step: 15, //Optional
-    setLabel: 'Set2' //Optional
+    inputTime: 50400,   //Optional
+    format: 12,         //Optional
+    step: 15,           //Optional
+    setLabel: 'Set2'    //Optional
   };
 
   // This shows the prize picker modal
@@ -503,17 +501,19 @@ angular.module('starter.controllers', [])
 
   // Server call to insert the shift data into the database.
   $scope.postShift = function() {
-      $http({
-        method: 'POST',
-        url: 'https://shift-it.herokuapp.com/shifts',
-        data: shift
-      }).then(function(response) {
-        console.log("shift submitted to database with shift data: ", shift);
-      }, function(error) {
-        console.log("error posting shift to db")
-      })
-    }
-    // if(shift.shift_start && shift.shift_end && shift.prize){}
+    $http({
+      method: 'POST',
+      url: 'https://shift-it.herokuapp.com/shifts',
+      data: shift
+    }).then(function(response){
+      console.log("shift submitted to database with shift data: ", shift);
+      alert("Your shift has been added!");
+      window.location = "#/tabs/map";
+    }, function(error){
+      console.log("error posting shift to db")
+    })
+  }
+  // if(shift.shift_start && shift.shift_end && shift.prize){}
 })
 
 .controller('PickupCtrl', function($scope, AvailableShifts, $location, $state, $http, Maps) {
