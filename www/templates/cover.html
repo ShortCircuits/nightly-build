@@ -4,68 +4,39 @@
   <div class="list card">
 
     <div class="item item-divider">
-     Shift Date
-   </div>
-   <div class="item item-text-wrap" ng-click="openDatePicker()">
-     <i class="icon ion-calendar"></i>
-      {{shiftDate}}
-   </div>
-
-   <div class="item item-divider">
-     Shift Start Time
-   </div>
-   <div class="item item-text-wrap" ng-click="openTimePicker1()">
-     <i class="icon ion-clock"></i>
-      {{startTime}}
-   </div>
-
-   <div class="item item-divider">
-     Shift End Time
-   </div>
-   <div class="item item-text-wrap" ng-click="openTimePicker2()">
-     <i class="icon ion-clock"></i>
-      {{endTime}}
-   </div>
-
-   <div class="item item-divider">
-     Prize
-   </div>
-   <div class="item item-text-wrap" ng-click="prizePicker()">
-     <i class="icon ion-cash"></i>
-      {{shiftData.prize}}
-   </div>
-    <!-- <a ng-click="openDatePicker()" class="item item-icon-left">
+      Shift Date
+    </div>
+    <div class="item item-text-wrap" ng-click="openDatePicker()">
       <i class="icon ion-calendar"></i>
-      {{shiftDate}}
-    </a>
+        {{shiftDate}}
+    </div>
 
-    <a ng-click="openTimePicker1()" class="item item-icon-left">
+    <div class="item item-divider">
+      Shift Start Time
+    </div>
+    <div class="item item-text-wrap" ng-click="openTimePicker1()">
       <i class="icon ion-clock"></i>
-      {{startTime}}
-    </a>
+        {{startTime}}
+    </div>
 
-    <a ng-click="openTimePicker2()" class="item item-icon-left">
+    <div class="item item-divider">
+      Shift End Time
+    </div>
+    <div class="item item-text-wrap" ng-click="openTimePicker2()">
       <i class="icon ion-clock"></i>
-      {{endTime}}
-    </a>
+        {{endTime}}
+    </div>
 
-    <a ng-click="prizePicker()" class="item item-icon-left">
+    <div class="item item-divider">
+      Prize
+    </div>
+    <div class="item item-text-wrap" ng-click="prizePicker()">
       <i class="icon ion-cash"></i>
-      {{shiftData.prize}}
-    </a> -->
-
+        {{shiftData.prize}}
+    </div>
   </div>
 
-    <!-- <p class="calendar-title coverStuff"> {{shiftDate}} </p>
-    <p class="time-title coverStuff"> {{startTime}} </p>
-    <p class="time-title coverStuff"> {{endTime}} </p>
-    <p class="time-title coverStuff"> {{shiftData.prize}} </p> -->
+  <button type="button" id="pickupshift" class="button button-large button-block button-positive" ng-click="postShift()">Confirm Shift</button>
 
-    <!-- <button class="button button-positive" ng-click="openDatePicker()">Edit Date</button>
-    <button class="button button-positive" ng-click="openTimePicker1()">Edit Start Time</button>
-    <button class="button button-positive" ng-click="openTimePicker2()">Edit End Time</button>
-    <button class="button button-positive" ng-click="prizePicker()">Edit Prize</button><br /><br /> -->
-    <!-- <button class="button button-positive confirm" ng-click="postShift()">Confirm Shift</button> -->
-    <button type="button" id="pickupshift" class="button button-large button-block button-positive" ng-click="postShift()">Confirm Shift</button>
   </ion-content>
 </ion-view>
