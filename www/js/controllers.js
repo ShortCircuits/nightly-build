@@ -581,6 +581,8 @@ $scope.shiftData = {covered: false};
       data: shift
     }).then(function(response){
       console.log("shift submitted to database with shift data: ", shift);
+      alert("Your shift has been added!");
+      window.location = "#/tabs/map";
     }, function(error){
       console.log("error posting shift to db")
     })
