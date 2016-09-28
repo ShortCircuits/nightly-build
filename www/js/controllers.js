@@ -409,8 +409,9 @@ $scope.shiftData = {covered: false};
   // current time zone for the user. On submit it opens the prize picker modal.
   var ipObj2 = {
     callback: function(val) { //Mandatory
-      if (typeof(val) === 'undefined') {
-        console.log('Time not selected');
+      if (typeof(val) === 'undefined' || $scope.shiftData.shift_start === undefined) {
+        alert('Please pick a shift date first!');
+        return;
       } else {
         var splitStart = $scope.shiftData.shift_start.toString().split(' ');
         var selectedTime = new Date(val * 1000);
@@ -432,8 +433,9 @@ $scope.shiftData = {covered: false};
   // current time zone for the user. On submit it opens the end shift time picker modal.
   var ipObj3 = {
     callback: function(val) { //Mandatory
-      if (typeof(val) === 'undefined') {
-        console.log('Time not selected');
+      if (typeof(val) === 'undefined' || $scope.shiftData.shift_start === undefined) {
+        alert('Please pick a shift date first!');
+        return;
       } else {
         var splitStart = $scope.shiftData.shift_start.toString().split(' ');
         var selectedTime = new Date(val * 1000);
@@ -494,19 +496,27 @@ $scope.shiftData = {covered: false};
 
   // Server call to insert the shift data into the database.
   $scope.postShift = function() {
-    $http({
-      method: 'POST',
-      url: 'https://shift-it.herokuapp.com/shifts',
-      data: shift
-    }).then(function(response){
-      console.log("shift submitted to database with shift data: ", shift);
-      alert("Your shift has been added!");
-      window.location = "#/tabs/map";
-    }, function(error){
-      console.log("error posting shift to db")
-    })
+    if($scope.shiftDate === undefined){
+      alert("Please enter a date for your shift!")
+    } else if($scope.startTime === undefined){
+      alert("Please enter a start time for your shift!")
+    } else if($scope.endTime === undefined){
+      alert("Please enter an end time for your shift!")
+    } else {
+      console.log("shift sent to db");
+      $http({
+        method: 'POST',
+        url: 'https://shift-it.herokuapp.com/shifts',
+        data: shift
+      }).then(function(response){
+        console.log("shift submitted to database with shift data: ", shift);
+        alert("Your shift has been added!");
+        window.location = "#/tabs/map";
+      }, function(error){
+        console.log("error posting shift to db")
+      })
+    }
   }
-  // if(shift.shift_start && shift.shift_end && shift.prize){}
 })
 
 .controller('PickupCtrl', function($scope, AvailableShifts, $location, $state, $http, Maps) {
@@ -632,14 +642,17 @@ $scope.shiftData = {covered: false};
   // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
   MyShift.GetMyShifts()
     .then(function(myshifts) {
-      console.log('myshifts from MyShift.GetMyShifts: -=-=-=> ', myshifts);
+      // console.log('myshifts from MyShift.GetMyShifts: -=-=-=> ', myshifts);
       $scope.myshiftsArray = myshifts;
+    })
+    .catch(function(err){
+       alert("Could not fetch your shifts.", err);
     });
 
   // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
   MyShift.GetRequests()
     .then(function(pendings) {
-      console.log('requests pending from MyShift.GetRequests: -=-=-=> ', pendings);
+      // console.log('requests pending from MyShift.GetRequests: -=-=-=> ', pendings);
       $scope.requests = pendings;
 
       $scope.requests.forEach(function(pending){
@@ -650,7 +663,10 @@ $scope.shiftData = {covered: false};
           })
         })
       
-    })
+    });
+    // .catch(function(err){
+    //   alert("Could not fetch requests at this time.", err);
+    // });
 
 })
 
