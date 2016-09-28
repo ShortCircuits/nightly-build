@@ -251,6 +251,7 @@ angular.module('starter.controllers', [])
                     shiftObj.start = shift.shift_start;
                     shiftObj.end = shift.shift_end;
                     shiftObj.postedby = shift.submitted_by;
+                    shiftObj.postedby_name = shift.submitted_by_name;
                     shiftObj.prize = shift.prize;
                     shiftObj.id = shift._id;
                     AvailableShifts.addShift(shiftObj);
