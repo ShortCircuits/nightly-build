@@ -121,7 +121,33 @@ angular.module('starter.directives', [])
       return $http.get('https://shift-it.herokuapp.com/shifts/lat/' + location.lat + '/lng/' + location.lng + '/rad/5000')
         .then(function(response) {
           stores = response.data;
-          // return stores;
+          return stores;
+        });
+    },
+
+    setMyStore: function(myStoreObj){
+      var myStore = new Promise(
+        function(resolve, reject) {
+          $http({
+              method: 'PATCH',
+              url: 'https://shift-it.herokuapp.com/users',
+              data: {
+                home_store: myStoreObj
+              }
+            }).then(function (response) {
+              console.log("response from fetching", response)
+              resolve(response.data);
+            }, function (response) {
+              reject("Please log in to set your home store.");
+            })
+        })
+      return myStore;
+    },
+
+    searchByZip: function(zipOrCity){
+      return $http.get('https://shift-it.herokuapp.com/areaSearch/address/' + zipOrCity)
+        .then(function(response) {
+          return response.data;
         });
     },
 

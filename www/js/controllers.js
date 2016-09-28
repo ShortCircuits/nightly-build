@@ -48,45 +48,19 @@ angular.module('starter.controllers', [])
       window.location = "#/app/tab/pickup-list"
     }
 
-    window.approve = function(shiftId) {
-      console.log("window.approve is running here!")
-      $http({
-        method: 'PATCH',
-        url: 'https://shift-it.herokuapp.com/pickup',
-        //TODO needs to pickup data from the service                
-        data: {
-          shift_id: "57e6b0ed1c3a043e94624a87"
-        }
-      }).then(function successCallback(response) {
-        console.log("aprove return: ", response.data)
-
-      }, function errorCallback(response) {
-        alert("Could not aprove the shift", response)
-      });
-    }
-
     // sets the store the user works at :: TODO
     window.setMyStore = function(storeId, address) {
       var myStoreObj = {
         storeId: storeId,
         address: address
       }
-      console.log(myStoreObj);
       var confirmation = confirm("Set your home store as " + address + "?");
       if (confirmation) {
-        $http({
-          method: 'PATCH',
-          url: 'https://shift-it.herokuapp.com/users',
-          data: {
-            home_store: myStoreObj
-          }
-        }).then(function successCallback(response) {
-          console.log("home store set as: ", response.data)
-        }, function errorCallback(response) {
-          alert("Please log in to set your home store.")
+        Maps.setMyStore(myStoreObj).then(function (response) {
+          console.log("home store set as: ", response)
+        }).catch(function(res){
+          alert(res)
         })
-      } else {
-        alert("this should be something other than an alert");
       }
     }
 
@@ -140,39 +114,26 @@ angular.module('starter.controllers', [])
       $scope.centerOnMe();
       document.getElementById("pickupshift").style.display = 'none';
       document.getElementById("covermyshift").style.display = 'none';
-      var stores = Maps.getStores();
-      markerBuilder(stores);
-      $scope.hide($ionicLoading);
-      // $http({
-      //   method: 'GET',
-      //   url: 'https://shift-it.herokuapp.com/shifts/lat/' + $scope.location.lat + '/lng/' + $scope.location.lng + '/rad/5000'
-      // }).then(function successCallback(response) {
-      //   console.log("got response", response.data)
-      //   markerBuilder(response.data)
-      //   $scope.hide($ionicLoading);
-      // }, function errorCallback(response) {
-      //   alert("Could not get stores from the server, please try again later")
-      // });
-      // $scope.show($ionicLoading);
-
+      // could be better needs to pickup data from controler 
+      // if exists otherwise do another request
+      Maps.fetchStores().then(function(stores){
+        markerBuilder(stores);
+        $scope.hide($ionicLoading);
+      })
+      
     };
 
     $scope.zipSearch = function(zipOrCity) {
-      console.log("heellloooo")
       document.getElementById("pickupshift").style.display = 'none';
       document.getElementById("covermyshift").style.display = 'none';
-      $http({
-        method: 'GET',
-        url: 'https://shift-it.herokuapp.com/areaSearch/address/' + zipOrCity
-      }).then(function successCallback(response) {
-        console.log("got response", response.data)
-          // $scope.centerOnTarget(); BUILD THIS!
-        centerOnSearch(response.data.location.lat, response.data.location.lng);
-        markerBuilder(response.data)
+      Maps.searchByZip(zipOrCity).then(function(response){
+        centerOnSearch(response.location.lat, response.location.lng);
+        markerBuilder(response)
         $scope.hide($ionicLoading);
-      }, function errorCallback(response) {
-        alert("Could not get stores from the server, please try again later")
-      });
+      }).catch(function(err){
+        alert("Could not get stores from the server, please try again later");
+        $scope.hide($ionicLoading);
+      })
     }
 
     $scope.mapCreated = function(map) {
@@ -180,7 +141,6 @@ angular.module('starter.controllers', [])
     };
 
     function centerOnSearch(lat, lng) {
-      console.log("the lat and long are: " + lat + lng);
       $scope.map.setCenter(new google.maps.LatLng(lat, lng));
     }
 
@@ -193,20 +153,18 @@ angular.module('starter.controllers', [])
       Maps.getMyPos().then(function(pos) {
         $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
         $scope.location = Maps.getLocation();
-        Maps.fetchStores();
-        $ionicLoading.hide();
+        Maps.fetchStores().then(function(res){
+          $ionicLoading.hide();
+        });
       })
     };
 
     $scope.centerOnMe();
     //add meaningfuller name
     function markerBuilder(results, status) {
-      // if (status === google.maps.places.PlacesServiceStatus.OK) { // TODO
       for (var i = 0; i < results.results.length; i++) {
-        console.log(results.results[i])
         createMarker(results.results[i]);
       }
-      // }
     }
 
     function createMarker(place) {
@@ -226,12 +184,6 @@ angular.module('starter.controllers', [])
 
       marker.setMap($scope.map);
       google.maps.event.addListener(marker, 'click', function() {
-        // if (marker.getAnimation() !== null) {
-        //    marker.setAnimation(null);
-        // } else {
-        //    marker.setAnimation(google.maps.Animation.BOUNCE);
-        // }
-
         var info = "";
         if (place.shifts) {
           place.shifts.forEach(function(shift) {
@@ -244,36 +196,14 @@ angular.module('starter.controllers', [])
             shiftObj.prize = shift.prize;
             shiftObj.id = shift._id;
             AvailableShifts.addShift(shiftObj);
-
-            info += "<li> " + place.name + " <br />  " + place.vicinity + " </li>\n<li> Shifts available: </li>\n<li id=\"listElement\"> <span style=\"font-size:9\"> " + shift.submitted_by_name + " needs someone to cover a shift</span> <br/>\n<strong> " + shift.shift_start + " to " + shift.shift_end + "</strong>\n <br /><span style=\"color:green\">Prize: " + shift.prize + "</span>\n <br /><button onclick=\"window.location = '#/tab/pickup-list'\"> Take shift</button>\n</li>"
-
-            // `<li> ${place.name} <br />  ${place.vicinity} </li>
-
-            // `<li> ${place.name} <br />  ${place.vicinity} </li>
-            //  <li> Shifts available: </li>
-            //  <li id="listElement"> <span style="font-size:9"> ${shift.submitted_by} needs someone to cover a shift</span> <br/>
-            //    <strong> ${shift.shift_start} to ${shift.shift_end}</strong>
-            //    <span style="color:green">Prize: ${shift.prize}</span>
-            //    <button onclick="window.location = '#/app/tab/pickup-list'"> Take shift</button>
-            //  </li>`
+            info += "<li> " + place.name + " <br />  " + place.vicinity + " </li>\n<li> Shifts available: </li>\n<li id=\"listElement\"> <span style=\"font-size:9\"> " + shift.submitted_by_name + " needs someone to cover a shift</span> <br/>\n<strong> " + shift.shift_start + " to " + shift.shift_end + "</strong>\n <br /><span style=\"color:green\">Prize: " + shift.prize + "</span>\n <br /><button onclick=\"window.location = '#/tab/pickup-list'\"> Take shift</button>\n</li>";
           });
         } else {
           info = "<li>" + place.vicinity + "</li><br /><li>No shifts available for this store</li>"
         }
-
-        // `<li> ${place.name} <br />  ${place.vicinity} </li>
-        //  <li> Shifts available: </li>
-        //  <li id="listElement"> <span style="font-size:9"> ${shift.submitted_by} needs someone to cover a shift</span> <br/>
-        //    <strong> ${shift.shift_start} to ${shift.shift_end}</strong>
-        //    <span style="color:green">Prize: ${shift.prize}</span>
-        //    <button onclick="window.location = '#/app/tab/pickup-list'"> Take shift</button>
-        //  </li>`
-
         // marker popup window
         $scope.infowindow.setContent(
           "<ul><li><button onclick=\"setMyStore('" + place.place_id + "', '" + place.vicinity + "')\">Set this store as my store</button></li>" + info + "</ul>"
-          //  `<ul><li><button onclick="setMyStore('${place.place_id}', '${place.vicinity}')">Set this store as my store</button></li>${info}</ul>`
-          //  `<ul>${info}</ul>`
         );
         $scope.infowindow.open($scope.map, this);
       });
