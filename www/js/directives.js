@@ -209,10 +209,10 @@ angular.module('starter.directives', [])
   }
 })
 
-.factory('Mishift', function($http) {
+.factory('MyShift', function($http) {
   var BASE_URL = 'https://shift-it.herokuapp.com/';
   var mishifts = [];
-  var mireqs = [];
+  var myRequests = [];
 
   return {
     GetRequests: function(){
@@ -220,8 +220,8 @@ angular.module('starter.directives', [])
           method: 'GET',
           url: BASE_URL+'pickup'
       }).then(function(response) {
-        mireqs = response.data;
-        return mireqs;
+        myRequests = response.data;
+        return myRequests;
       });
     },
     GetMyShifts: function(){
