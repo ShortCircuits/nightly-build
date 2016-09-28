@@ -8,7 +8,7 @@
 			  <ion-item ng-repeat="shift in availableShifts">
 			    <p>Where: {{shift.store}}<br/>
 			    When: {{shift.start}}-{{shift.end}}<br/>
-			    Posted by: {{shift.postedby}} (contact)<br/>
+			    Posted by: {{shift.postedby_name}} (contact)<br/>
 			    Prize: {{shift.prize}}</p>
 			    <button ng-click="callFriend(shift.postedby, shift.id)">Claim this shift</button>
 			  </ion-item>
