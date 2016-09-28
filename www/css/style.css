@@ -21,6 +21,9 @@ map {
     position: absolute;
     z-index: 9;
 }
+.infowindow {
+  padding-bottom: 40px;
+}
 
 #searchMe {
   top: 85%;

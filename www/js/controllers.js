@@ -196,7 +196,7 @@ angular.module('starter.controllers', [])
         }
         // marker popup window
         $scope.infowindow.setContent(
-          "<ul><li><button onclick=\"setMyStore('" + place.place_id + "', '" + place.vicinity + "')\">Set this store as my store</button></li>" + info + "</ul>"
+          "<ul class='infowindow'><li><button onclick=\"setMyStore('" + place.place_id + "', '" + place.vicinity + "')\">Set this store as my store</button></li>" + info + "</ul>"
         );
         $scope.infowindow.open($scope.map, this);
       });
