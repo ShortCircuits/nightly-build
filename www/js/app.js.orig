@@ -114,7 +114,11 @@ $stateProvider
 //     }
 //   })
 
+<<<<<<< HEAD
+.state('tab', {
+=======
   .state('tab', {
+>>>>>>> 127be6f088a60db7f431c2016d12297b49644c42
       url: "/tab",
       abstract: true,
       templateUrl: "templates/tabs.html"
@@ -160,6 +164,17 @@ $stateProvider
     }
   })
 
+<<<<<<< HEAD
+  .state('tab.account', {
+    url: '/account',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/settings.html',
+        controller: 'AccountCtrl'
+      }
+    }
+  })
+=======
    //  .state('tab.cover', {
  //    url: '/cover2',
  //    views: {
@@ -169,6 +184,7 @@ $stateProvider
  //      }
  //    }
  //  })
+>>>>>>> 127be6f088a60db7f431c2016d12297b49644c42
 
   .state('tab.myshifts', {
     url: '/myshifts',
