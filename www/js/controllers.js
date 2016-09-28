@@ -409,8 +409,9 @@ $scope.shiftData = {covered: false};
   // current time zone for the user. On submit it opens the prize picker modal.
   var ipObj2 = {
     callback: function(val) { //Mandatory
-      if (typeof(val) === 'undefined') {
-        console.log('Time not selected');
+      if (typeof(val) === 'undefined' || $scope.shiftData.shift_start === undefined) {
+        alert('Please pick a shift date first!');
+        return;
       } else {
         var splitStart = $scope.shiftData.shift_start.toString().split(' ');
         var selectedTime = new Date(val * 1000);
@@ -432,8 +433,9 @@ $scope.shiftData = {covered: false};
   // current time zone for the user. On submit it opens the end shift time picker modal.
   var ipObj3 = {
     callback: function(val) { //Mandatory
-      if (typeof(val) === 'undefined') {
-        console.log('Time not selected');
+      if (typeof(val) === 'undefined' || $scope.shiftData.shift_start === undefined) {
+        alert('Please pick a shift date first!');
+        return;
       } else {
         var splitStart = $scope.shiftData.shift_start.toString().split(' ');
         var selectedTime = new Date(val * 1000);
