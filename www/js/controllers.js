@@ -622,29 +622,36 @@ $scope.shiftData = {covered: false};
 
 })
 
-.controller('MyShiftsCtrl', function($scope, $http, Maps) {
-  $scope.shifts;
-  $scope.needApproval = Maps.getApprovals();
+.controller('MyShiftCtrl', function($scope, MyShift) {
+  
+  // variable to store response from /myshifts
+  $scope.myshiftsArray = [];
+  $scope.requests = [];
 
-  $http({
-    method: 'GET',
-    url: 'https://shift-it.herokuapp.com/myshifts'
-  }).then(function(data) {
-    $scope.shifts = data.data;
-    console.log("Here are the shifts: ", $scope.shifts);
 
-    if($scope.needApproval){
-      $scope.needApproval.forEach(function(pshift) {
-        $scope.shifts.forEach(function(shift) {
-          if (pshift.shift_id === shift._id) {
-            pshift.shift = shift;
-          }
+  // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
+  MyShift.GetMyShifts()
+    .then(function(myshifts) {
+      console.log('myshifts from MyShift.GetMyShifts: -=-=-=> ', myshifts);
+      $scope.myshiftsArray = myshifts;
+    });
+
+  // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
+  MyShift.GetRequests()
+    .then(function(pendings) {
+      console.log('requests pending from MyShift.GetRequests: -=-=-=> ', pendings);
+      $scope.requests = pendings;
+
+      $scope.requests.forEach(function(pending){
+          $scope.myshiftsArray.forEach(function(shift){
+            if(pending.shift_id === shift._id){
+              pending.shift = shift;
+            }
+          })
         })
-      })
-    }
-    console.log("this is our stuff, ", $scope.needApproval)
+      
+    })
 
-  }).catch(function(err) {
-    alert("Could not get your shifts from the server.")
-  })
-});
+})
+
+

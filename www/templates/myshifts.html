@@ -3,7 +3,7 @@
     <div id="neededApproval" >
         <ion-list>
         <h3>Shifts that need your approval:</h3>
-          <ion-item ng-repeat="shift in needApproval">
+          <ion-item ng-repeat="shift in requests">
             <p>Where: {{shift.shift.storeId}}<br/>
             When: {{shift.shift.shift_start}} to {{shift.shift.shift_end}}<br/>
             Requested by: {{shift.user_requested}}</p>
@@ -13,7 +13,7 @@
     <div id="postedShifts" >
        <ion-list>
        <h3>Shifts you posted:</h3>
-          <ion-item ng-repeat="shift in shifts">
+          <ion-item ng-repeat="shift in myshiftsArray">
             <p>Where: {{shift.storeId}}<br/>
             When: {{shift.shift_start}} to {{shift.shift_end}}<br/>
             Prize: {{shift.prize}}</p>
