@@ -6,7 +6,9 @@
           <ion-item ng-repeat="shift in requests">
             <p>Where: {{shift.shift.home_store.storeId}}<br/>
             When: {{shift.shift.shift_start}} to {{shift.shift.shift_end}}<br/>
-            Requested by: {{shift.user_requested}}</p>
+            Requested by: {{shift.user_requested}}<br/>
+            Prize: {{shift.shift.prize}}</p>
+
           </ion-item>
         </ion-list>
     </div>

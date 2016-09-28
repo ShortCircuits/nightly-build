@@ -631,12 +631,12 @@ $scope.shiftData = {covered: false};
 
 })
 
-.controller('MyShiftCtrl', function($scope, MyShift) {
+.controller('MyShiftCtrl', function($scope, Maps, MyShift) {
   
   // variable to store response from /myshifts
   $scope.myshiftsArray = [];
   $scope.requests = [];
-
+  $scope.myId = Maps.getUser();
 
   // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
   MyShift.GetMyShifts()
