@@ -1,12 +1,5 @@
 angular.module('starter.controllers', [])
-  .controller('FriendsCtrl', function($scope, Friends) {
-    $scope.friends = Friends.all();
-    $scope.name = "jimmy";
 
-    $scope.obj1 = {
-      "name": "joe"
-    };
-  })
   .controller('MapCtrl', function($scope, $ionicLoading, $timeout, $http, Maps, AvailableShifts) {
     $scope.myStoreInfo = {};
     $scope.map;
@@ -160,7 +153,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.centerOnMe();
-    //add meaningfuller name
+    
     function markerBuilder(results, status) {
       for (var i = 0; i < results.results.length; i++) {
         createMarker(results.results[i]);
