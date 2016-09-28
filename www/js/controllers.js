@@ -525,7 +525,7 @@ $scope.shiftData = {covered: false};
   $scope.myId = Maps.getUser();
   console.log("my ID:", $scope.myId);
 
-  $scope.callFriend = function(postedBy, shiftId) {
+  $scope.pickupShift = function(postedBy, shiftId) {
     var theData = {
       // needs to be user got from the Auth factory
       shift_id: shiftId,
