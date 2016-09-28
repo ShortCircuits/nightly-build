@@ -494,19 +494,27 @@ $scope.shiftData = {covered: false};
 
   // Server call to insert the shift data into the database.
   $scope.postShift = function() {
-    $http({
-      method: 'POST',
-      url: 'https://shift-it.herokuapp.com/shifts',
-      data: shift
-    }).then(function(response){
-      console.log("shift submitted to database with shift data: ", shift);
-      alert("Your shift has been added!");
-      window.location = "#/tabs/map";
-    }, function(error){
-      console.log("error posting shift to db")
-    })
+    if($scope.shiftDate === undefined){
+      alert("Please enter a date for your shift!")
+    } else if($scope.startTime === undefined){
+      alert("Please enter a start time for your shift!")
+    } else if($scope.endTime === undefined){
+      alert("Please enter an end time for your shift!")
+    } else {
+      console.log("shift sent to db");
+      $http({
+        method: 'POST',
+        url: 'https://shift-it.herokuapp.com/shifts',
+        data: shift
+      }).then(function(response){
+        console.log("shift submitted to database with shift data: ", shift);
+        alert("Your shift has been added!");
+        window.location = "#/tabs/map";
+      }, function(error){
+        console.log("error posting shift to db")
+      })
+    }
   }
-  // if(shift.shift_start && shift.shift_end && shift.prize){}
 })
 
 .controller('PickupCtrl', function($scope, AvailableShifts, $location, $state, $http, Maps) {
