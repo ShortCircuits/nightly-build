@@ -633,13 +633,15 @@ $scope.shiftData = {covered: false};
     $scope.shifts = data.data;
     console.log("Here are the shifts: ", $scope.shifts);
 
-    $scope.needApproval.forEach(function(pshift) {
-      $scope.shifts.forEach(function(shift) {
-        if (pshift.shift_id === shift._id) {
-          pshift.shift = shift;
-        }
+    if($scope.needApproval){
+      $scope.needApproval.forEach(function(pshift) {
+        $scope.shifts.forEach(function(shift) {
+          if (pshift.shift_id === shift._id) {
+            pshift.shift = shift;
+          }
+        })
       })
-    })
+    }
     console.log("this is our stuff, ", $scope.needApproval)
 
   }).catch(function(err) {
