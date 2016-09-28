@@ -114,7 +114,7 @@ $stateProvider
 //     }
 //   })
 
-.state('tab', {
+  .state('tab', {
       url: "/tab",
       abstract: true,
       templateUrl: "templates/tabs.html"
@@ -160,15 +160,15 @@ $stateProvider
     }
   })
 
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/settings.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  })
+   //  .state('tab.cover', {
+ //    url: '/cover2',
+ //    views: {
+ //      'tab-cover': {
+ //        templateUrl: 'templates/cover.html',
+ //        controller: 'CoverCtrl'
+ //      }
+ //    }
+ //  })
 
   .state('tab.myshifts', {
     url: '/myshifts',
@@ -180,7 +180,24 @@ $stateProvider
     }
   })
 
+  .state('tab.settings', {
+    url: '/settings',
+    views: {
+      'tab-settings': {
+        templateUrl: 'templates/settings.html',
+        controller: 'AppCtrl'
+      }
+    }
+  })
 
+  .state('tab.profile', {
+    url: '/profile',
+    views: {
+      'tab-settings': {
+        templateUrl: 'templates/profile.html'
+      }
+    }
+  })
 	// // .state('app', {
  // //    url: '/app',
  // //    abstract: true,
@@ -223,15 +240,7 @@ $stateProvider
  //  })
  //  // Each tab has its own nav history stack:
 
- //  .state('tab.cover', {
- //    url: '/cover2',
- //    views: {
- //      'tab-cover': {
- //        templateUrl: 'templates/cover.html',
- //        controller: 'CoverCtrl'
- //      }
- //    }
- //  })
+
 
  //  .state('tab.map', {
  //    url: '/map',
@@ -250,15 +259,7 @@ $stateProvider
  //    controller: 'AppCtrl'
  //  })
 
- //  .state('app.profile', {
- //    url: '/profile',
- //    views: {
- //      'menuContent': {
- //        templateUrl: 'templates/profile.html',
- //        controller: 'ProfileCtrl'
- //      }
- //    }
- //  })
+
 
 
 

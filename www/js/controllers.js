@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
     };
 
     window.approve = function() {
-      window.location = "#/app/partner";
+      window.location = "#/tab/myshifts";
     };
 
     $scope.pickupShiftPage = function() {
@@ -252,19 +252,34 @@ angular.module('starter.controllers', [])
         //    marker.setAnimation(google.maps.Animation.BOUNCE);
         // }
 
-        var info = "";
-        if (place.shifts) {
-          place.shifts.forEach(function(shift) {
-            var shiftObj = {};
-            shiftObj.store = place.vicinity;
-            shiftObj.start = shift.shift_start;
-            shiftObj.end = shift.shift_end;
-            shiftObj.postedby = shift.submitted_by;
-            shiftObj.prize = shift.prize;
-            shiftObj.id = shift._id;
-            AvailableShifts.addShift(shiftObj);
+            var info = "";
+            if (place.shifts) {
+                place.shifts.forEach(function(shift) {
+                    var shiftObj = {};
+                    shiftObj.store = place.vicinity;
+                    shiftObj.start = shift.shift_start;
+                    shiftObj.end = shift.shift_end;
+                    shiftObj.postedby = shift.submitted_by;
+                    shiftObj.postedby_name = shift.submitted_by_name;
+                    shiftObj.prize = shift.prize;
+                    shiftObj.id = shift._id;
+                    AvailableShifts.addShift(shiftObj);
 
-            info += "<li> " + place.name + " <br />  " + place.vicinity + " </li>\n<li> Shifts available: </li>\n<li id=\"listElement\"> <span style=\"font-size:9\"> " + shift.submitted_by + " needs someone to cover a shift</span> <br/>\n<strong> " + shift.shift_start + " to " + shift.shift_end + "</strong>\n<span style=\"color:green\">Prize: " + shift.prize + "</span>\n<button onclick=\"window.location = '#/app/tab/pickup-list'\"> Take shift</button>\n</li>"
+                    info += "<li> " + place.name + " <br />  " + place.vicinity + " </li>\n<li> Shifts available: </li>\n<li id=\"listElement\"> <span style=\"font-size:9\"> " + shift.submitted_by_name + " needs someone to cover a shift</span> <br/>\n<strong> " + shift.shift_start + " to " + shift.shift_end + "</strong>\n <br /><span style=\"color:green\">Prize: " + shift.prize + "</span>\n <br /><button onclick=\"window.location = '#/tab/pickup-list'\"> Take shift</button>\n</li>"
+                    
+                    // `<li> ${place.name} <br />  ${place.vicinity} </li>
+                   
+                    // `<li> ${place.name} <br />  ${place.vicinity} </li>
+                    //  <li> Shifts available: </li>
+                    //  <li id="listElement"> <span style="font-size:9"> ${shift.submitted_by} needs someone to cover a shift</span> <br/>
+                    //    <strong> ${shift.shift_start} to ${shift.shift_end}</strong>
+                    //    <span style="color:green">Prize: ${shift.prize}</span>
+                    //    <button onclick="window.location = '#/app/tab/pickup-list'"> Take shift</button>
+                    //  </li>`
+                });
+            } else {
+                info = "<li>" + place.vicinity + "</li><br /><li>No shifts available for this store</li>"
+            }
 
             // `<li> ${place.name} <br />  ${place.vicinity} </li>
             //  <li> Shifts available: </li>
@@ -273,10 +288,7 @@ angular.module('starter.controllers', [])
             //    <span style="color:green">Prize: ${shift.prize}</span>
             //    <button onclick="window.location = '#/app/tab/pickup-list'"> Take shift</button>
             //  </li>`
-          });
-        } else {
-          info = "<li>" + place.vicinity + "</li><br /><li>No shifts available for this store</li>"
-        }
+         
 
         // marker popup window
         $scope.infowindow.setContent(
@@ -429,7 +441,7 @@ angular.module('starter.controllers', [])
 // This controller handles the functionality for creating and posting a new shift.
 .controller('CoverCtrl', function($scope, $ionicModal, ionicDatePicker, ionicTimePicker, $http) {
   // change storeId and submitted_by to be dynamically loaded in when that is available.
-  $scope.shiftData = {covered: false};
+$scope.shiftData = {covered: false};
 
   $scope.setHomeLocForShift = function(){
     $http({
@@ -437,6 +449,7 @@ angular.module('starter.controllers', [])
       url: 'https://shift-it.herokuapp.com/getProfileInfo'
     }).then(function successCallback(response){
       $scope.shiftData.storeId = response.data[0].home_store.storeId;
+      $scope.shiftData.submitted_by_name = response.data[0].firstName + " " + response.data[0].lastName;
     }, function errorCallback(response){
       console.log("Failed to set home location in CoverCtrl");
     });
@@ -447,8 +460,7 @@ angular.module('starter.controllers', [])
      $scope.openDatePicker();
      $scope.setHomeLocForShift();
      console.log('Opened!')
-  })
-
+  })  
   // This is the Date picker modal popout, that initializes the shift_start and shift_end keys in the shift object
   // On a chosen date it sets both values to the chosen date with no time, and then it shows the first time picker
   var ipObj1 = {
