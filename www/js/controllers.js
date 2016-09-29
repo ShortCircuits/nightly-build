@@ -524,6 +524,17 @@ $scope.shiftData = {covered: false};
   $scope.myId = Maps.getUser();
   // assuming the stores are in place on the Maps factory
   $scope.availableShifts = Maps.getShifts();
+  // if there are no shifts available make another request;
+  if(!$scope.availableShifts){
+    Maps.getMyPos().then(function(pos){
+      Maps.fetchStores().then(function(res){
+        $scope.availableShifts = Maps.getShifts();
+      })
+    })
+
+  }
+
+  $scope.sortorder = 'shift.prize';
 
   $scope.pickupShift = function(postedBy, shiftId) {
     var theData = {
