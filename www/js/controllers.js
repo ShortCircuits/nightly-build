@@ -507,6 +507,18 @@ angular.module('starter.controllers', [])
     $scope.modal.hide();
   };
 
+  $scope.makeTextTime = function(data) {
+    var textStart = data.shift_start;
+    var textEnd = data.shift_end;
+    var p1 = textStart.toDateString();
+    var p2 = textStart.toLocaleTimeString();
+    p2 = p2.slice(0,-6) + p2.slice(-3);
+    var p3 = textEnd.toLocaleTimeString();
+    p3 = p3.slice(0,-6) + p3.slice(-3);
+    var p4 = textStart.toString().slice(-6);
+    return p1 + " from " + p2 + " to " + p3 + p4;
+  };
+
   // Setting a variable to the fully fleshed out shiftData
   var shift = $scope.shiftData;
 
@@ -520,6 +532,7 @@ angular.module('starter.controllers', [])
       alert("Please enter an end time for your shift!")
     } else {
       console.log("shift sent to db");
+      shift.shift_text_time = $scope.makeTextTime(shift);
       $http({
         method: 'POST',
         url: 'https://shift-it.herokuapp.com/shifts',
