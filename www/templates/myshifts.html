@@ -5,7 +5,7 @@
         <h3>Shifts that need your approval:</h3>
           <ion-item ng-repeat="shift in requests">
             <p>Where: {{shift.shift.home_store.address}}<br/>
-            When: {{shift.shift.shift_start}} to {{shift.shift.shift_end}}<br/>
+            When: {{shift.shift.shift_text_time}}<br/>
             Requested by: {{shift.user_requested}}<br/>
             Prize: {{shift.shift.prize}}</p>
             <button ng-click="connect(shift.user_requested, shift.shift._id)"> connect </button>
@@ -19,7 +19,7 @@
           <ion-item ng-repeat="shift in myshiftsArray">
             <span><a class="deleteShift" ng-click="delete(shift)" onmouseover="" style="cursor: pointer;"> delete </a>
             <p>Where: {{shift.home_store.address}}<br/>
-            When: {{shift.shift_start}} to {{shift.shift_end}}<br/>
+            When: {{shift.shift_text_time}}<br/>
             Prize: {{shift.prize}}</p></span>
           </ion-item>
         </ion-list>

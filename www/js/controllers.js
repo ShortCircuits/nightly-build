@@ -195,7 +195,7 @@ angular.module('starter.controllers', [])
             info += "<li><p class='marker1'>" + place.name + 
               "</p><p class='marker2'>" + place.vicinity + 
               "</p><p class='marker3'>" + shift.submitted_by_name + " needs someone to cover a shift" +
-              "</p><p class='marker4'>" + shift.shift_start + " to " + shift.shift_end + 
+              "</p><p class='marker4'>" + shift.shift_text_time + 
               "</p><p class='marker5'>Prize: " + shift.prize + 
               "</p><button class='marker6' onclick='window.location=\"#/tab/pickup-list\"'>Take shift</button></li>";
                       });
@@ -558,7 +558,13 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup) {
+.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup, UserService) {
+
+  $scope.$on('$ionicView.enter', function() {
+    if(!UserService.isAuthenticated()) {
+      window.location = '#/lobby'
+    }
+  });
 
   // $scope.availableShifts = AvailableShifts.getShifts();
   $scope.myId = Maps.getUser();
@@ -612,7 +618,13 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PartnerCtrl', function($scope, $http, MyShift) {
+.controller('PartnerCtrl', function($scope, $http, MyShift, UserService) {
+
+  $scope.$on('$ionicView.enter', function() {
+    if(!UserService.isAuthenticated()) {
+      window.location = '#/lobby'
+    }
+  });
   
   var ex = MyShift.getCode();
 
@@ -703,8 +715,13 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('MyShiftCtrl', function($scope, Maps, MyShift, $http, $state) {
+.controller('MyShiftCtrl', function($scope, Maps, MyShift, $http, $state, UserService) {
   
+  $scope.$on('$ionicView.enter', function() {
+    if(!UserService.isAuthenticated()) {
+      window.location = '#/lobby'
+    }
+  });
   // variable to store response from /myshifts
   $scope.myshiftsArray = [];
   $scope.myId = Maps.getUser();
