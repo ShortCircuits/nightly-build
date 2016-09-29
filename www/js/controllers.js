@@ -201,7 +201,7 @@ angular.module('starter.controllers', [])
         }
         // marker popup window
         $scope.infowindow.setContent(
-          "<ul><li><button onclick=\"setMyStore('" + place.place_id + "', '" + place.vicinity + "')\">Set this store as my store</button></li>" + info + "</ul>"
+          "<ul class='infowindow'><li><button onclick=\"setMyStore('" + place.place_id + "', '" + place.vicinity + "')\">Set this store as my store</button></li>" + info + "</ul>"
         );
         $scope.infowindow.open($scope.map, this);
       });
@@ -523,39 +523,42 @@ $scope.shiftData = {covered: false};
   }
 })
 
-.controller('PickupCtrl', function($scope, AvailableShifts, $location, $state, $http, Maps) {
+.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup) {
 
-  $scope.availableShifts = AvailableShifts.getShifts();
+  // $scope.availableShifts = AvailableShifts.getShifts();
   $scope.myId = Maps.getUser();
-  console.log("my ID:", $scope.myId);
+  // assuming the stores are in place on the Maps factory
+  $scope.availableShifts = Maps.getShifts();
+  // if there are no shifts available make another request;
+  if(!$scope.availableShifts){
+    Maps.getMyPos().then(function(pos){
+      Maps.fetchStores().then(function(res){
+        $scope.availableShifts = Maps.getShifts();
+      })
+    })
 
-  $scope.callFriend = function(postedBy, shiftId) {
+  }
+
+  $scope.sortorder = 'shift.prize';
+
+  $scope.pickupShift = function(postedBy, shiftId) {
     var theData = {
-      // needs to be user got from the Auth factory
       shift_id: shiftId,
-      shift_owner: postedBy,
-      // shift owner gets inserted into restricted array on server side
+      shift_owner: postedBy
     };
     var notifyUser = function() {
-
         //Needs to go to different page
-        window.location = "#/app/friends";
+        window.location = "#/tab/map";
         console.log("shift requested")
       }
       // test if shift owner is claiming their own shift
     if ($scope.myId != postedBy) {
 
-      $http({
-        method: 'POST',
-        url: 'https://shift-it.herokuapp.com/pickup',
-        data: theData
-      }).then(function successCallback(response) {
-        console.log("got response", response.data)
-        notifyUser();
-      }, function errorCallback(response) {
+      Pickup.pickUpShift(theData).then(function(response){
+        alert("successfully requested a shift")
+      }).catch(function(err){
         alert("Could not post shift to server, please try again later")
-      });
-
+      })
     } else {
       alert("Sorry, you cannot claim this shift.")
     }

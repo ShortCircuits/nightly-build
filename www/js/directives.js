@@ -46,6 +46,7 @@ angular.module('starter.directives', [])
   var approvedShift = false;
   var notificationMsg = "";
   var userApprovals;
+  var shifts;
   var stores;
 
   return {
@@ -88,6 +89,13 @@ angular.module('starter.directives', [])
       return $http.get('https://shift-it.herokuapp.com/shifts/lat/' + location.lat + '/lng/' + location.lng + '/rad/5000')
         .then(function(response) {
           stores = response.data;
+          shifts = stores.results.filter(function(store){
+            if (store.shifts) return true;
+          }).map(function(shift){
+            return shift.shifts;
+          }).reduce(function(a, b) {
+            return a.concat(b);
+          }, []);
           return stores;
         });
     },
@@ -116,6 +124,10 @@ angular.module('starter.directives', [])
         .then(function(response) {
           return response.data;
         });
+    },
+
+    getShifts: function(){
+      return shifts;
     },
 
     getStores: function(){
@@ -245,4 +257,29 @@ angular.module('starter.directives', [])
   }
 
 })
+
+.factory('Pickup', function($http) {
+  
+  return {
+
+    pickUpShift: function(theData){
+      var post = new Promise(
+        function(resolve, reject){
+          $http({
+            method: 'POST',
+            url: 'https://shift-it.herokuapp.com/pickup',
+            data: theData
+          }).then(function (response) {
+            console.log("got response", response.data)
+            resolve(response.data);
+          }, function (response) {
+            reject(response)
+        });
+      })
+      return post;
+    }
+  }
+})
+
+
 
