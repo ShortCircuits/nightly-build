@@ -559,13 +559,20 @@ $scope.shiftData = {covered: false};
 
 })
 
-.controller('PartnerCtrl', function($scope, $http, Maps) {
+.controller('PartnerCtrl', function($scope, $http, MyShift) {
   // possible get request to db to fetch facebook profile data
-  var data = Maps.getApprovals();
-  var userId = data[0].user_requested;
-  var shiftId = data[0].shift_id;
-  console.log("userId : ", userId);
-  console.log("this is the shiftId: ", shiftId);
+  var data; 
+
+  MyShift.GetRequests()
+  .then(function(reqs){
+    data = reqs;
+  // console.log("data : ", data);
+  })
+
+  var userId = MyShift.getPartnerId()[0];
+  var shiftId = MyShift.getPartnerId()[1];
+  // console.log("userId : ", userId);
+  // console.log("this is the shiftId: ", shiftId);
 
   $scope.reject = function() {
     console.log("this is the shiftId inside: ", shiftId);
@@ -613,59 +620,65 @@ $scope.shiftData = {covered: false};
     facebookPic: "",
     shiftId: shiftId
   };
+
   $http({
     method: 'GET',
     url: 'https://shift-it.herokuapp.com/user/id/' + userId,
   }).then(function(data) {
-    console.log("this is the data: ", data);
+    
     var data = data.data;
     $scope.partnerInfo.name = data.firstName + ' ' + data.lastName;
     $scope.partnerInfo.email = data.email;
     $scope.partnerInfo.facebookPic = data.profilePicture;
     $scope.partnerInfo.phone = "555-867-5309";
     $scope.partnerInfo.userRep = "Awesome!";
-    console.log("partner info : ", $scope.partnerInfo);
+    
   }).catch(function(err) {
     alert("Could not get partner profile.")
   });
 
 })
 
-.controller('MyShiftCtrl', function($scope, MyShift) {
+.controller('MyShiftCtrl', function($scope, Maps, MyShift) {
   
   // variable to store response from /myshifts
   $scope.myshiftsArray = [];
   $scope.requests = [];
-
-
+  $scope.myId = Maps.getUser();
+  
+  $scope.connect = function(userId){
+    // console.log(userId);
+    MyShift.setPartnerId(userId);
+    window.location = '#/tab/partner'
+  };
+  
   // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
   MyShift.GetMyShifts()
     .then(function(myshifts) {
-      // console.log('myshifts from MyShift.GetMyShifts: -=-=-=> ', myshifts);
+      console.log('myshifts from MyShift.GetMyShifts: -=-=-=> ', myshifts);
       $scope.myshiftsArray = myshifts;
+  // Function from MyShift factory which pulls requests the user has to approve - endpoint => /pickups
+      MyShift.GetRequests()
+        .then(function(pendings) {
+          console.log('requests pending from MyShift.GetRequests: -=-=-=> ', pendings);
+          $scope.requests = pendings;
+
+          $scope.requests.forEach(function(pending){
+              $scope.myshiftsArray.forEach(function(shift){
+                if(pending.shift_id === shift._id){
+                  pending.shift = shift;
+                }
+              })
+            })
+        })
+        .catch(function(err){
+          alert("Could not fetch requests at this time.", err);
+        });
     })
     .catch(function(err){
        alert("Could not fetch your shifts.", err);
     });
 
-  // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
-  MyShift.GetRequests()
-    .then(function(pendings) {
-      // console.log('requests pending from MyShift.GetRequests: -=-=-=> ', pendings);
-      $scope.requests = pendings;
-
-      $scope.requests.forEach(function(pending){
-          $scope.myshiftsArray.forEach(function(shift){
-            if(pending.shift_id === shift._id){
-              pending.shift = shift;
-            }
-          })
-        })
-      
-    });
-    // .catch(function(err){
-    //   alert("Could not fetch requests at this time.", err);
-    // });
 
 })
 
