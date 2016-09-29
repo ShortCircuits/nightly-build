@@ -103,6 +103,16 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
     }
   })
 
+  .state('tab.partner', {
+    url: '/partner',
+    views: {
+      'tab-myshifts': {
+        templateUrl: 'templates/partner.html',
+        controller: 'PartnerCtrl'
+      }
+    }
+  })
+
   .state('tab.settings', {
     url: '/settings',
     views: {

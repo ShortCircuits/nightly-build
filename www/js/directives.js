@@ -225,6 +225,8 @@ angular.module('starter.directives', [])
   var BASE_URL = 'https://shift-it.herokuapp.com/';
   var mishifts = [];
   var myRequests = [];
+  var partnerId;
+  var shiftId;
 
   return {
     GetRequests: function(){
@@ -244,6 +246,13 @@ angular.module('starter.directives', [])
         something = response.data;
         return something;
       });
+    },
+    setPartnerId: function(id, shift){
+      partnerId = id;
+      shiftId = shift;
+    },
+    getPartnerId: function(){
+      return [partnerId, shiftId]
     }
   }
 
