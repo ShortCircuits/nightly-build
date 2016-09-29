@@ -17,9 +17,10 @@
        <h3>Shifts you posted:</h3>
 
           <ion-item ng-repeat="shift in myshiftsArray">
+            <span><a class="deleteShift" ng-click="delete(shift)" onmouseover="" style="cursor: pointer;"> delete </a>
             <p>Where: {{shift.home_store.address}}<br/>
             When: {{shift.shift_start}} to {{shift.shift_end}}<br/>
-            Prize: {{shift.prize}}</p>
+            Prize: {{shift.prize}}</p></span>
           </ion-item>
         </ion-list>
     </div>

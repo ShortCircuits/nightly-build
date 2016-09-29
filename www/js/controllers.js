@@ -669,7 +669,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MyShiftCtrl', function($scope, Maps, MyShift) {
+.controller('MyShiftCtrl', function($scope, Maps, MyShift, $http) {
   
   // variable to store response from /myshifts
   $scope.myshiftsArray = [];
@@ -680,6 +680,27 @@ angular.module('starter.controllers', [])
     MyShift.setPartnerId(userId);
     window.location = '#/tab/partner'
   };
+
+  $scope.delete = function(shift){
+    console.log("the shift I want to delete is: ", shift);
+    var deleteMe = confirm("Are you sure you wish to delete this shift?")
+    console.log(deleteMe);
+    if(deleteMe){
+      $http({
+        method: 'DELETE',
+        url: 'https://shift-it.herokuapp.com/shifts',
+        data: {_id: shift._id},
+        headers: {"Content-Type": "application/json"}
+      }).then(function successCallback(response) {
+        console.log("approve return: ", response.data);
+        alert("You have successfully deleted the shift.");
+
+      }, function errorCallback(response) {
+        alert("Could not delete the shift", response)
+      });
+
+    }
+  }
   
   // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
   MyShift.GetMyShifts()
