@@ -227,6 +227,7 @@ angular.module('starter.directives', [])
   var myRequests = [];
   var partnerId;
   var shiftId;
+  var codea = null;
 
   return {
     GetRequests: function(){
@@ -247,12 +248,18 @@ angular.module('starter.directives', [])
         return something;
       });
     },
-    setPartnerId: function(id, shift){
+    setPartnerId: function(id, shift, code){
       partnerId = id;
       shiftId = shift;
+      codea = code;
     },
     getPartnerId: function(){
       return [partnerId, shiftId]
+    },
+    getCode: function(){
+      var something = codea;
+      codea = null;
+      return something;
     }
   }
 
