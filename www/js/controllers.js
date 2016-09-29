@@ -601,12 +601,14 @@ angular.module('starter.controllers', [])
 
   var userId = MyShift.getPartnerId()[0];
   var shiftId = MyShift.getPartnerId()[1];
-  // console.log("userId : ", userId);
-  // console.log("this is the shiftId: ", shiftId);
+  console.log("userId : ", userId);
+  console.log("this is the shiftId: ", shiftId);
 
   $scope.reject = function() {
-    console.log("this is the shiftId inside: ", shiftId);
-
+    // console.log("this is the shiftId inside: ", shiftId);
+    document.getElementById("approveShift").style.display = "none";
+    document.getElementById("rejectShift").style.display = "none";
+    
     $http({
       method: 'PATCH',
       url: 'https://shift-it.herokuapp.com/pickupreject',
@@ -623,9 +625,10 @@ angular.module('starter.controllers', [])
   };
 
   $scope.approve = function() {
-    console.log("this is the shiftId inside the approve: ", shiftId);
+    // console.log("this is the shiftId inside the approve: ", shiftId);
     document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
     document.getElementById("approveShift").style.display = "none";
+    document.getElementById("rejectShift").style.display = "none";
 
     $http({
       method: 'PATCH',
@@ -676,8 +679,8 @@ angular.module('starter.controllers', [])
   $scope.myId = Maps.getUser();
   $scope.requests = Maps.getApprovals();
   
-  $scope.connect = function(userId){
-    MyShift.setPartnerId(userId);
+  $scope.connect = function(userId, shiftid){
+    MyShift.setPartnerId(userId, shiftid);
     window.location = '#/tab/partner'
   };
 
