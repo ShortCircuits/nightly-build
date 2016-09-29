@@ -673,11 +673,10 @@ angular.module('starter.controllers', [])
   
   // variable to store response from /myshifts
   $scope.myshiftsArray = [];
-  $scope.requests = [];
   $scope.myId = Maps.getUser();
+  $scope.requests = Maps.getApprovals();
   
   $scope.connect = function(userId){
-    // console.log(userId);
     MyShift.setPartnerId(userId);
     window.location = '#/tab/partner'
   };
@@ -685,31 +684,17 @@ angular.module('starter.controllers', [])
   // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
   MyShift.GetMyShifts()
     .then(function(myshifts) {
-      console.log('myshifts from MyShift.GetMyShifts: -=-=-=> ', myshifts);
       $scope.myshiftsArray = myshifts;
-  // Function from MyShift factory which pulls requests the user has to approve - endpoint => /pickups
-      MyShift.GetRequests()
-        .then(function(pendings) {
-          console.log('requests pending from MyShift.GetRequests: -=-=-=> ', pendings);
-          $scope.requests = pendings;
-
-          $scope.requests.forEach(function(pending){
-              $scope.myshiftsArray.forEach(function(shift){
-                if(pending.shift_id === shift._id){
-                  pending.shift = shift;
-                }
-              })
-            })
+      $scope.requests.forEach(function(pending){
+        $scope.myshiftsArray.forEach(function(shift){
+          if(pending.shift_id === shift._id){
+            pending.shift = shift;
+          }
         })
-        .catch(function(err){
-          alert("Could not fetch requests at this time.", err);
-        });
-    })
-    .catch(function(err){
+      })
+    }).catch(function(err){
        alert("Could not fetch your shifts.", err);
-    });
-
-
+     });
 })
 
 
