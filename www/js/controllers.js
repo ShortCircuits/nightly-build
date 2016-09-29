@@ -195,7 +195,7 @@ angular.module('starter.controllers', [])
             info += "<li><p class='marker1'>" + place.name + 
               "</p><p class='marker2'>" + place.vicinity + 
               "</p><p class='marker3'>" + shift.submitted_by_name + " needs someone to cover a shift" +
-              "</p><p class='marker4'>" + shift.shift_start + " to " + shift.shift_end + 
+              "</p><p class='marker4'>" + shift.shift_text_time + 
               "</p><p class='marker5'>Prize: " + shift.prize + 
               "</p><button class='marker6' onclick='window.location=\"#/tab/pickup-list\"'>Take shift</button></li>";
                       });
