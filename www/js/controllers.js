@@ -600,89 +600,97 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PartnerCtrl', function($scope, $http, MyShift) {
-  // possible get request to db to fetch facebook profile data
-  var data; 
+  
+  var ex = MyShift.getCode();
 
-  MyShift.GetRequests()
-  .then(function(reqs){
-    data = reqs;
-  // console.log("data : ", data);
-  })
+  if (ex === 'abc' ) {
 
-  var userId = MyShift.getPartnerId()[0];
-  var shiftId = MyShift.getPartnerId()[1];
-  console.log("userId : ", userId);
-  console.log("this is the shiftId: ", shiftId);
+    // possible get request to db to fetch facebook profile data
+    var data; 
 
-  $scope.reject = function() {
-    // console.log("this is the shiftId inside: ", shiftId);
-    document.getElementById("approveShift").style.display = "none";
-    document.getElementById("rejectShift").style.display = "none";
-    
+    MyShift.GetRequests()
+    .then(function(reqs){
+      data = reqs;
+    // console.log("data : ", data);
+    })
+
+    var userId = MyShift.getPartnerId()[0];
+    var shiftId = MyShift.getPartnerId()[1];
+    console.log("userId : ", userId);
+    console.log("this is the shiftId: ", shiftId);
+
+    $scope.reject = function() {
+      // console.log("this is the shiftId inside: ", shiftId);
+      document.getElementById("approveShift").style.display = "none";
+      document.getElementById("rejectShift").style.display = "none";
+      
+      $http({
+        method: 'PATCH',
+        url: 'https://shift-it.herokuapp.com/pickupreject',
+        data: {
+          shift_id: shiftId
+        }
+      }).then(function successCallback(response) {
+        console.log("reject return: ", response.data);
+        alert("You have successfully rejected the shift.");
+
+      }, function errorCallback(response) {
+        alert("Could not reject the shift", response)
+      });
+    };
+
+    $scope.approve = function() {
+      // console.log("this is the shiftId inside the approve: ", shiftId);
+      document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
+      document.getElementById("approveShift").style.display = "none";
+      document.getElementById("rejectShift").style.display = "none";
+
+      $http({
+        method: 'PATCH',
+        url: 'https://shift-it.herokuapp.com/pickup',
+        data: {
+          shift_id: shiftId
+        }
+      }).then(function successCallback(response) {
+        console.log("aprove return: ", response.data);
+        alert("You have successfully approved the shift.");
+
+      }, function errorCallback(response) {
+        alert("Could not aprove the shift", response)
+      });
+    };
+
+    $scope.partnerInfo = {
+      name: "",
+      email: "",
+      phone: "",
+      userRep: "",
+      facebookPic: "",
+      shiftId: shiftId
+    };
+
     $http({
-      method: 'PATCH',
-      url: 'https://shift-it.herokuapp.com/pickupreject',
-      data: {
-        shift_id: shiftId
-      }
-    }).then(function successCallback(response) {
-      console.log("reject return: ", response.data);
-      alert("You have successfully rejected the shift.");
-
-    }, function errorCallback(response) {
-      alert("Could not reject the shift", response)
+      method: 'GET',
+      url: 'https://shift-it.herokuapp.com/user/id/' + userId,
+    }).then(function(data) {
+      
+      var data = data.data;
+      $scope.partnerInfo.name = data.firstName + ' ' + data.lastName;
+      $scope.partnerInfo.email = data.email;
+      $scope.partnerInfo.facebookPic = data.profilePicture;
+      $scope.partnerInfo.phone = "555-867-5309";
+      $scope.partnerInfo.userRep = "Awesome!";
+      
+    }).catch(function(err) {
+      alert("Could not get partner profile.")
     });
-  };
 
-  $scope.approve = function() {
-    // console.log("this is the shiftId inside the approve: ", shiftId);
-    document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
-    document.getElementById("approveShift").style.display = "none";
-    document.getElementById("rejectShift").style.display = "none";
-
-    $http({
-      method: 'PATCH',
-      url: 'https://shift-it.herokuapp.com/pickup',
-      data: {
-        shift_id: shiftId
-      }
-    }).then(function successCallback(response) {
-      console.log("aprove return: ", response.data);
-      alert("You have successfully approved the shift.");
-
-    }, function errorCallback(response) {
-      alert("Could not aprove the shift", response)
-    });
-  };
-
-  $scope.partnerInfo = {
-    name: "",
-    email: "",
-    phone: "",
-    userRep: "",
-    facebookPic: "",
-    shiftId: shiftId
-  };
-
-  $http({
-    method: 'GET',
-    url: 'https://shift-it.herokuapp.com/user/id/' + userId,
-  }).then(function(data) {
-    
-    var data = data.data;
-    $scope.partnerInfo.name = data.firstName + ' ' + data.lastName;
-    $scope.partnerInfo.email = data.email;
-    $scope.partnerInfo.facebookPic = data.profilePicture;
-    $scope.partnerInfo.phone = "555-867-5309";
-    $scope.partnerInfo.userRep = "Awesome!";
-    
-  }).catch(function(err) {
-    alert("Could not get partner profile.")
-  });
-
+  } else {
+    console.log("gtfo");
+  }
 })
 
-.controller('MyShiftCtrl', function($scope, Maps, MyShift, $http) {
+.controller('MyShiftCtrl', function($scope, Maps, MyShift, $http, $state) {
   
   // variable to store response from /myshifts
   $scope.myshiftsArray = [];
@@ -690,7 +698,8 @@ angular.module('starter.controllers', [])
   $scope.requests = Maps.getApprovals();
   
   $scope.connect = function(userId, shiftid){
-    MyShift.setPartnerId(userId, shiftid);
+    MyShift.setPartnerId(userId, shiftid, 'abc');
+    // $state.go('tab.myshifts');
     window.location = '#/tab/partner'
   };
 
