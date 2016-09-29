@@ -347,7 +347,8 @@ angular.module('starter.controllers', [])
 
 // This controller handles the functionality for creating and posting a new shift.
 .controller('CoverCtrl', function($scope, $ionicModal, ionicDatePicker, ionicTimePicker, $http) {
-$scope.shiftData = {covered: false};
+  $scope.shiftData = {covered: false};
+  $scope.prize = 0;
 
   $scope.setHomeLocForShift = function() {
     $http({
@@ -479,13 +480,24 @@ $scope.shiftData = {covered: false};
     ionicDatePicker.openDatePicker(ipObj1);
   };
 
+  $scope.increment = function(){
+    $scope.prize += 5;
+  }
+
+  $scope.decrement = function(){
+    if($scope.prize > 0){
+      $scope.prize -= 5;
+    }
+  }
+
   // Function to show the prize picker
   $scope.prizePicker = function() {
     $scope.modal.show();
   }
 
   // Function to submit the prize to the shift object
-  $scope.addPrize = function() {
+  $scope.addPrize = function(prize) {
+    $scope.shiftData.prize = "$" + prize + ".00";
     console.log($scope.shiftData);
     $scope.closePrize();
   };

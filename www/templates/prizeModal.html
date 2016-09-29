@@ -6,16 +6,20 @@
     </div>
   </ion-header-bar>
   <ion-content>
-    <form class="prize" ng-submit="addPrize()">
+  <!-- <span> -->
+    <!-- <form class="prize" ng-submit="addPrize()">
       <div class="list">
         <label class="item item-input">
-          <span class="input-label">Prize Amount</span>
           <input type="text" ng-model="shiftData.prize">
         </label>
         <label class="item">
           <button class="button button-block button-positive" type="submit">Add Prize</button>
         </label>
       </div>
-    </form>
+    </form> -->
+    <span class="input-label" >Prize Amount: <br />${{prize}}.00<button class="increment" ng-click="increment()">+</button><button class="decrement" ng-click="decrement()">-</button></span>
+    <!-- </span> -->
+
+    <button class="button button-block button-positive" type="submit" ng-click="addPrize(prize)">Add Prize</button>
   </ion-content>
 </ion-modal-view>
