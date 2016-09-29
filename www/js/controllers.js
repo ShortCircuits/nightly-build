@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-  .controller('MapCtrl', function($scope, $ionicLoading, $timeout, $http, Maps, AvailableShifts) {
+  .controller('MapCtrl', function($scope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService) {
     $scope.myStoreInfo = {};
     $scope.map;
     $scope.infowindow = new google.maps.InfoWindow();
@@ -8,6 +8,9 @@ angular.module('starter.controllers', [])
     $scope.user;
 
     $scope.$on('$ionicView.enter', function() {
+      if(!UserService.isAuthenticated()) {
+        window.location = '#/lobby'
+      }
       $scope.notification();
       console.log('Opened!')
       ionic.trigger('resize');
@@ -243,13 +246,14 @@ angular.module('starter.controllers', [])
 
     $scope.logout = function() {
       UserService.logOut();
+      $window.location = '#/lobby'
     };
 
     $rootScope.$on('userLoggedIn', function(data) {
       // here we will recieve the logged in user
       console.log(data);
       $scope.closeLogin();
-      $window.location.reload(true)
+      $window.location = "#/tab/map"
     });
 
     // will fire in case authentication failed
@@ -266,11 +270,14 @@ angular.module('starter.controllers', [])
     }
 
   })
-  .controller('ProfileCtrl', function($scope, $http, $ionicModal, Profile, Maps) {
+  .controller('ProfileCtrl', function($scope, $http, $ionicModal, Profile, Maps, UserService) {
 
     $scope.profileData = {};
 
     $scope.$on('$ionicView.enter', function() {
+      if(!UserService.isAuthenticated()) {
+        window.location = '#/lobby'
+      }
 
       if (!Maps.getUser()) {
         // Need to decide -- how to handle not-logged-in
@@ -346,7 +353,7 @@ angular.module('starter.controllers', [])
   })
 
 // This controller handles the functionality for creating and posting a new shift.
-.controller('CoverCtrl', function($scope, $ionicModal, ionicDatePicker, ionicTimePicker, $http) {
+.controller('CoverCtrl', function($scope, $ionicModal, ionicDatePicker, ionicTimePicker, $http, UserService) {
   $scope.shiftData = {covered: false};
   $scope.prize = 0;
 
@@ -364,6 +371,9 @@ angular.module('starter.controllers', [])
 
   $scope.$on('$ionicView.enter', function() {
      // Code you want executed every time view is opened
+      if(!UserService.isAuthenticated()) {
+        window.location = '#/lobby'
+      }
      $scope.openDatePicker();
      $scope.setHomeLocForShift();
      console.log('Opened!')
