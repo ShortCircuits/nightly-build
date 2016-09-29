@@ -558,7 +558,13 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup) {
+.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup, UserService) {
+
+  $scope.$on('$ionicView.enter', function() {
+    if(!UserService.isAuthenticated()) {
+      window.location = '#/lobby'
+    }
+  });
 
   // $scope.availableShifts = AvailableShifts.getShifts();
   $scope.myId = Maps.getUser();
@@ -612,7 +618,13 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PartnerCtrl', function($scope, $http, MyShift) {
+.controller('PartnerCtrl', function($scope, $http, MyShift, UserService) {
+
+  $scope.$on('$ionicView.enter', function() {
+    if(!UserService.isAuthenticated()) {
+      window.location = '#/lobby'
+    }
+  });
   
   var ex = MyShift.getCode();
 
@@ -703,8 +715,13 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('MyShiftCtrl', function($scope, Maps, MyShift, $http, $state) {
+.controller('MyShiftCtrl', function($scope, Maps, MyShift, $http, $state, UserService) {
   
+  $scope.$on('$ionicView.enter', function() {
+    if(!UserService.isAuthenticated()) {
+      window.location = '#/lobby'
+    }
+  });
   // variable to store response from /myshifts
   $scope.myshiftsArray = [];
   $scope.myId = Maps.getUser();
