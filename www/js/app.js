@@ -57,6 +57,12 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
 
   $stateProvider
 
+  .state('lobby', {
+    url: '/lobby',
+    templateUrl: 'templates/lobby.html',
+    controller: 'AppCtrl'
+  })
+
     .state('tab', {
     url: "/tab",
     abstract: true,
