@@ -124,5 +124,5 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
   })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('tab/map');
+  $urlRouterProvider.otherwise('tab/settings');
 })
