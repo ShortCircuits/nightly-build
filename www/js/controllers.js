@@ -189,8 +189,13 @@ angular.module('starter.controllers', [])
             shiftObj.prize = shift.prize;
             shiftObj.id = shift._id;
             AvailableShifts.addShift(shiftObj);
-            info += "<li> " + place.name + " <br />  " + place.vicinity + " </li>\n<li> Shifts available: </li>\n<li id=\"listElement\"> <span style=\"font-size:9\"> " + shift.submitted_by_name + " needs someone to cover a shift</span> <br/>\n<strong> " + shift.shift_start + " to " + shift.shift_end + "</strong>\n <br /><span style=\"color:green\">Prize: " + shift.prize + "</span>\n <br /><button onclick=\"window.location = '#/tab/pickup-list'\"> Take shift</button>\n</li>";
-          });
+            info += "<li><p class='marker1'>" + place.name + 
+              "</p><p class='marker2'>" + place.vicinity + 
+              "</p><p class='marker3'>" + shift.submitted_by_name + " needs someone to cover a shift" +
+              "</p><p class='marker4'>" + shift.shift_start + " to " + shift.shift_end + 
+              "</p><p class='marker5'>Prize: " + shift.prize + 
+              "</p><button class='marker6' onclick='window.location=\"#/tab/pickup-list\"'>Take shift</button></li>";
+                      });
         } else {
           info = "<li>" + place.vicinity + "</li><br /><li>No shifts available for this store</li>"
         }
