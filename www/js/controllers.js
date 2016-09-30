@@ -735,8 +735,7 @@ angular.module('starter.controllers', [])
 
   $scope.delete = function(shift){
     console.log("the shift I want to delete is: ", shift);
-    var deleteMe = confirm("Are you sure you wish to delete this shift?")
-    console.log(deleteMe);
+    var deleteMe = confirm("Are you sure you wish to delete this shift?");
     if(deleteMe){
       $http({
         method: 'DELETE',
@@ -744,15 +743,15 @@ angular.module('starter.controllers', [])
         data: {_id: shift._id},
         headers: {"Content-Type": "application/json"}
       }).then(function successCallback(response) {
-        console.log("approve return: ", response.data);
+        $scope.myshiftsArray = $scope.myshiftsArray.filter(function(sheeft){
+          return sheeft._id !== response.config.data._id;
+        });
         alert("You have successfully deleted the shift.");
-
       }, function errorCallback(response) {
         alert("Could not delete the shift", response)
       });
-
     }
-  }
+  };
   
   // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
   MyShift.GetMyShifts()
