@@ -46,10 +46,15 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
       height: window.screen.height
     }
   };
-
+///////////////////////////////////////////////////
+// Remove this if statement for deployed version //
+///////////////////////////////////////////////////
   if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
     commonConfig.redirectUri = 'http://localhost:8100/';
   }
+///////////////////////////////////////////////////
+//    Must be there for the app build though     //
+///////////////////////////////////////////////////
   $authProvider.facebook(angular.extend({}, commonConfig, {
     clientId: '1169374106434305',
     url: 'https://shift-it.herokuapp.com/auth/facebook'
