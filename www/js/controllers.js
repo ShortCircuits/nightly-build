@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-  .controller('MapCtrl', function($scope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService, $location) {
+  .controller('MapCtrl', function($scope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService) {
     $scope.myStoreInfo = {};
     $scope.map;
     $scope.infowindow = new google.maps.InfoWindow();
@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
     $scope.user;
 
     $scope.$on('$ionicView.enter', function() {
-      if(!UserService.isAuthenticated() || $location.url().length < 50) {
+      if(!UserService.isAuthenticated() ) {
         window.location = '#/lobby'
       }
       $scope.notification();
