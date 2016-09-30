@@ -651,6 +651,19 @@ angular.module('starter.controllers', [])
       
       $http({
         method: 'PATCH',
+        url: 'https://shift-it.herokuapp.com/shiftsreject',
+        data: {
+          shift_id: shiftId,
+          requester: userId
+        }
+      }).then(function(response){
+        console.log("successfully added user to restricted.", response);
+      }).catch(function(err){
+        console.log("Error adding to restricted: ", err);
+      });
+
+      $http({
+        method: 'PATCH',
         url: 'https://shift-it.herokuapp.com/pickupreject',
         data: {
           shift_id: shiftId
