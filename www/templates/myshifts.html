@@ -8,7 +8,7 @@
             When: {{shift.shift.shift_text_time}}<br/>
             Requested by: {{shift.user_requested}}<br/>
             Prize: {{shift.shift.prize}}</p>
-            <button ng-click="connect(shift.user_requested, shift.shift._id)"> connect </button>
+            <button ng-click="connect(shift.user_requested, shift.shift._id, shift._id)"> connect </button>
           </ion-item>
         </ion-list>
     </div>
