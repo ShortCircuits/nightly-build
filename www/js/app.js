@@ -48,7 +48,7 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
   };
 
   if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
-    commonConfig.redirectUri = 'http://shift-ninja.herokuapp.com/';
+    commonConfig.redirectUri = 'http://shift-ninja.herokuapp.com/#/tab/map';
   }
   $authProvider.facebook(angular.extend({}, commonConfig, {
     clientId: '1169374106434305',
