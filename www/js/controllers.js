@@ -651,7 +651,7 @@ angular.module('starter.controllers', [])
       
       $http({
         method: 'PATCH',
-        url: 'http://localhost:4000/shiftsreject',
+        url: 'https://shift-it.herokuapp.com/shiftsreject',
         data: {
           shift_id: shiftId,
           requester: userId
