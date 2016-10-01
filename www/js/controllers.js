@@ -267,6 +267,11 @@ angular.module('starter.controllers', [])
   .controller('ProfileCtrl', function($scope, $http, $ionicModal, Profile, Maps, UserService) {
 
     $scope.profileData = {};
+    $scope.formatPhoneNumber = function(phone) {
+            var s2 = (""+phone).replace(/\D/g, '');
+            var m = s2.match(/^(\d{3})(\d{3})(\d{4})$/);
+            return (!m) ? null : "(" + m[1] + ") " + m[2] + "-" + m[3];
+            };
 
     $scope.$on('$ionicView.enter', function() {
       if(!UserService.isAuthenticated()) {
@@ -311,17 +316,24 @@ angular.module('starter.controllers', [])
 
       // Functionality for editProfile modal
       $scope.submitProfile = function() {
-        $http({
-          method: 'PATCH',
-          url: 'https://shift-it.herokuapp.com/users',
-          data: $scope.editProfileTempData,
-        }).then(function successCallback(response) {
-          $scope.profileData = response.data;
-          $scope.closeEditProfile();
-        }, function errorCallback(response) {
-          alert("Failure to update profile");
-          $scope.closeEditProfile();
-        })
+        $scope.editProfileTempData.phone = $scope.formatPhoneNumber($scope.editProfileTempData.phone);
+        if (!$scope.editProfileTempData.phone) {
+            // Match fail
+            alert("Please check your phone number and try again.");
+        } else {
+            // Match pass
+          $http({
+            method: 'PATCH',
+            url: 'https://shift-it.herokuapp.com/users',
+            data: $scope.editProfileTempData,
+          }).then(function successCallback(response) {
+            $scope.profileData = response.data;
+            $scope.closeEditProfile();
+          }, function errorCallback(response) {
+            alert("Failure to update profile");
+            $scope.closeEditProfile();
+          })
+        }
       }
 
       // Open and close the modal to edit Profile
