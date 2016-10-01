@@ -250,6 +250,15 @@ angular.module('starter.directives', [])
         return something;
       });
     },
+    GetShiftsIPickedUp: function(){
+      return $http({
+          method: 'GET',
+          url: BASE_URL+'shiftsIPickedUp'
+      }).then(function(response) {
+        iamworking = response.data;
+        return iamworking;
+      });
+    },
     setPartnerId: function(id, shift, code, pickShift){
       partnerId = id;
       shiftId = shift;
