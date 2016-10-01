@@ -1,21 +1,16 @@
 angular.module('starter.controllers', [])
-.controller('FriendsCtrl', function($scope, Friends) {
-    $scope.friends = Friends.all();
-    $scope.name = "jimmy";
 
-    $scope.obj1 = {"name": "joe"};
-})
-.controller('MapCtrl', function($scope, $ionicLoading, $timeout, $http, Maps, AvailableShifts) {
+  .controller('MapCtrl', function($scope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService) {
     $scope.myStoreInfo = {};
     $scope.map;
     $scope.infowindow = new google.maps.InfoWindow();
     $scope.location = Maps.getLocation();
-    $scope.user = {
-      message: "Your request for a shift has been approved!",
-      link: "#/app/tab/firends"
-    };
+    $scope.user;
 
     $scope.$on('$ionicView.enter', function() {
+      if(!UserService.isAuthenticated() ) {
+        window.location = '#/lobby'
+      }
       $scope.notification();
       console.log('Opened!')
       ionic.trigger('resize');
@@ -27,9 +22,9 @@ angular.module('starter.controllers', [])
       });
     };
 
-  $scope.hide = function(){
+    $scope.hide = function() {
       $ionicLoading.hide();
-  };
+    };
 
     $scope.show($ionicLoading);
 
@@ -38,238 +33,183 @@ angular.module('starter.controllers', [])
     document.getElementById("loading").style.display = 'none';
 
     $timeout(function() {
-        document.getElementById("pickupshift").style.display = 'block';
-        document.getElementById("covermyshift").style.display = 'block';
-        $scope.hide($ionicLoading);
-        //document.getElementById("loading").style.display = 'none';
+      document.getElementById("pickupshift").style.display = 'block';
+      document.getElementById("covermyshift").style.display = 'block';
+      $scope.hide($ionicLoading);
+      //document.getElementById("loading").style.display = 'none';
 
     }, 4000);
 
-  window.cover = function(){
+    window.cover = function() {
       window.location = "#/app/tab/pickup-list"
     }
 
-    window.approve = function(shiftId){
-      console.log("window.approve is running here!")
-      $http({
-            method: 'PATCH',
-            url: 'https://shift-it.herokuapp.com/pickup',
-            //TODO needs to pickup data from the service                
-            data: {shift_id: "57e6b0ed1c3a043e94624a87"}
-        }).then(function successCallback(response) {
-            console.log("aprove return: ", response.data)
-
-        }, function errorCallback(response) {
-            alert("Could not aprove the shift", response)
-        });
-    }
-
     // sets the store the user works at :: TODO
-    window.setMyStore = function(storeId, address){
-      var myStoreObj = {storeId: storeId, address: address}
-      console.log(myStoreObj);
+    window.setMyStore = function(storeId, address) {
+      var myStoreObj = {
+        storeId: storeId,
+        address: address
+      }
       var confirmation = confirm("Set your home store as " + address + "?");
-      if (confirmation){
-        $http({
-          method: 'PATCH',
-          url: 'https://shift-it.herokuapp.com/users',
-          data: {home_store: myStoreObj}
-        }).then(function successCallback(response){
-          console.log("home store set as: ", response.data)
-        }, function errorCallback(response) {
-          alert("Please log in to set your home store.")
+      if (confirmation) {
+        Maps.setMyStore(myStoreObj).then(function (response) {
+          console.log("home store set as: ", response)
+        }).catch(function(res){
+          alert(res)
         })
-      } else {
-        alert("this should be something other than an alert");
       }
     }
 
     // Notifications
     $scope.notification = function() {
+      document.getElementById("notification").style.display = 'none';
+
       // Get user Id from server
-      
-      $http({
-            method: 'GET',
-            url: 'https://shift-it.herokuapp.com/whoami'
-        }).then(function successCallback(response) {
-            Maps.setUser(response.data);
-            console.log("whoami endpoint returning: ", response.data)
-        
-        }, function errorCallback(response) {
-            alert("Could not get user Id from server, suprise")
-        });
+      Maps.whoAmI()
+        .then(function(user) {
+          $scope.user = user;
+          console.log("whoami endpoint returning: ", user)
+        })
+        .catch(function(err) {
+          console.log("Could not get user id")
+        })
 
-      // make request to the server too see if there shotul be notification for the user
-      $http({
-            method: 'GET',
-            url: 'https://shift-it.herokuapp.com/pickup'
-        }).then(function successCallback(response) {
-            console.log("got response", response)
-            Maps.setApprovals(response.data);
-            // TODO
-            // wishfull programing
-            if(response.data[0] && response.data[0].approved === true){
-              document.getElementById("noticeMsg").innerHTML = 'You have a shift approved';
-              document.getElementById("accepto").setAttribute("onclick", "cover()")
-            }else if(response.data[0] && response.data[0].approved === false){
-              document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
-              document.getElementById("accepto").setAttribute("onclick", "approve()")
-            }
-            if(response.data.length > 0){
-              // user has notification
-              document.getElementById("notification").style.display = 'block';
-
-            }
-        }, function errorCallback(response) {
-            alert("Could not get notifications from server, suprise")
-        });
-        document.getElementById("notification").style.display = 'none';
+      // Make request to the server too see if 
+      // there are any notification for the user
+      Maps.getPickupNotifications()
+        .then(function(response) {
+          if (response[0] && response[0].approved === true) {
+            document.getElementById("noticeMsg").innerHTML = 'You have a shift approved';
+            document.getElementById("accepto").setAttribute("onclick", "cover()")
+          } else if (response[0] && response[0].approved === false) {
+            document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
+            document.getElementById("accepto").setAttribute("onclick", "approve()")
+          }
+          if (response.length > 0) {
+            // user has notification
+            document.getElementById("notification").style.display = 'block';
+          }
+        })
+        .catch(function(err) {
+          console.log("Could not get user notifications")
+        })
     };
 
     window.approve = function() {
-      window.location = "#/app/partner";
+      window.location = "#/tab/myshifts";
     };
 
     $scope.pickupShiftPage = function() {
-        $location = "app.pickup-list"
+      $location = "app.pickup-list"
     };
 
     // Pickup a shift page
     $scope.pickup = function() {
-        // $location = "app.tab.pickup"
-        document.getElementById("pickupshift").style.display = 'none';
-        document.getElementById("covermyshift").style.display = 'none';
-        $scope.show($ionicLoading);
-        $http({
-            method: 'GET',
-            url: 'https://shift-it.herokuapp.com/shifts/lat/' + $scope.location.lat + '/lng/' + $scope.location.lng + '/rad/5000'
-        }).then(function successCallback(response) {
-            console.log("got response", response.data)
-            markerBuilder(response.data)
+      
+      $scope.show($ionicLoading);
+      $scope.centerOnMe();
+      document.getElementById("pickupshift").style.display = 'none';
+      document.getElementById("covermyshift").style.display = 'none';
+      // could be better needs to pickup data from controler 
+      // if exists otherwise do another request
+      Maps.fetchStores().then(function(stores){
+        markerBuilder(stores);
         $scope.hide($ionicLoading);
-        }, function errorCallback(response) {
-            alert("Could not get stores from the server, please try again later")
-        });
-        $scope.show($ionicLoading);
-
+      })
+      
     };
 
-  $scope.zipSearch = function(zipOrCity){
-    console.log("heellloooo")
-    $http({
-      method: 'GET',
-      url: 'https://shift-it.herokuapp.com/areaSearch/address/' + zipOrCity
-    }).then(function successCallback(response) {
-      console.log("got response", response.data)
-      // $scope.centerOnTarget(); BUILD THIS!
-      markerBuilder(response.data)
-      $scope.hide($ionicLoading);
-    }, function errorCallback(response) {
-      alert("Could not get stores from the server, please try again later")
-    });
-  }
+    $scope.zipSearch = function(zipOrCity) {
+      document.getElementById("pickupshift").style.display = 'none';
+      document.getElementById("covermyshift").style.display = 'none';
+      Maps.searchByZip(zipOrCity).then(function(response){
+        centerOnSearch(response.location.lat, response.location.lng);
+        markerBuilder(response)
+        $scope.hide($ionicLoading);
+      }).catch(function(err){
+        alert("Could not get stores from the server, please try again later");
+        $scope.hide($ionicLoading);
+      })
+    }
 
-  $scope.mapCreated = function(map) {
-    $scope.map = map;
-  };
+    $scope.mapCreated = function(map) {
+      $scope.map = map;
+    };
 
-  $scope.centerOnMe = function () {
-    console.log("Centering");
-    // if (!$scope.map) {
-    //   return;
-    // }
+    function centerOnSearch(lat, lng) {
+      $scope.map.setCenter(new google.maps.LatLng(lat, lng));
+    }
 
-    $scope.loading = $ionicLoading.show({
-      content: 'Getting current location...',
-      showBackdrop: false
-    });
+    $scope.centerOnMe = function() {
+      $scope.loading = $ionicLoading.show({
+        content: 'Getting current location...',
+        showBackdrop: false
+      });
 
-    navigator.geolocation.getCurrentPosition(function (pos) {
-      console.log('Got pos', pos);
-      $scope.location = {
-            lat: pos.coords.latitude,
-            lng: pos.coords.longitude
-        };
+      Maps.getMyPos().then(function(pos) {
+        $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
+        $scope.location = Maps.getLocation();
+        Maps.fetchStores().then(function(res){
+          $ionicLoading.hide();
+        });
+      })
+    };
 
-      $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-
-      $ionicLoading.hide();
-
-    }, function (error) {
-      alert('Unable to get location: ' + error.message);
-    });
-  };
-
-  $scope.centerOnMe();
-  //add meaningfuller name
-  function markerBuilder(results, status) {
-      // if (status === google.maps.places.PlacesServiceStatus.OK) { // TODO
+    $scope.centerOnMe();
+    
+    function markerBuilder(results, status) {
       for (var i = 0; i < results.results.length; i++) {
-          console.log(results.results[i])
-          createMarker(results.results[i]);
+        createMarker(results.results[i]);
       }
-      // }
-  }
+    }
 
-  function createMarker(place) {
+    function createMarker(place) {
       var loc = place.geometry.location;
       var icons = ''
       if (!place.shifts) {
-          icons = 'img/marker-gray.png'
+        icons = 'img/marker-gray.png'
       }
       var marker = new google.maps.Marker({
-          position: {
-              lat: place.geometry.location.lat,
-              lng: place.geometry.location.lng
-          },
-          animation: google.maps.Animation.DROP,
-          icon: icons
+        position: {
+          lat: place.geometry.location.lat,
+          lng: place.geometry.location.lng
+        },
+        animation: google.maps.Animation.DROP,
+        icon: icons
       });
 
-        marker.setMap($scope.map);
-        google.maps.event.addListener(marker, 'click', function() {
-            // if (marker.getAnimation() !== null) {
-            //    marker.setAnimation(null);
-            // } else {
-            //    marker.setAnimation(google.maps.Animation.BOUNCE);
-            // }
-
-            var info = "";
-            if (place.shifts) {
-                place.shifts.forEach(function(shift) {
-                    var shiftObj = {};
-                    shiftObj.store = place.vicinity;
-                    shiftObj.start = shift.shift_start;
-                    shiftObj.end = shift.shift_end;
-                    shiftObj.postedby = shift.submitted_by;
-                    shiftObj.prize = shift.prize;
-                    shiftObj.id = shift._id;
-                    AvailableShifts.addShift(shiftObj);
-
-                    info += "<li> " + place.name + " <br />  " + place.vicinity + " </li>\n<li> Shifts available: </li>\n<li id=\"listElement\"> <span style=\"font-size:9\"> " + shift.submitted_by + " needs someone to cover a shift</span> <br/>\n<strong> " + shift.shift_start + " to " + shift.shift_end + "</strong>\n<span style=\"color:green\">Prize: " + shift.prize + "</span>\n<button onclick=\"window.location = '#/app/tab/pickup-list'\"> Take shift</button>\n</li>"
-                    
-                    // `<li> ${place.name} <br />  ${place.vicinity} </li>
-                    //  <li> Shifts available: </li>
-                    //  <li id="listElement"> <span style="font-size:9"> ${shift.submitted_by} needs someone to cover a shift</span> <br/>
-                    //    <strong> ${shift.shift_start} to ${shift.shift_end}</strong>
-                    //    <span style="color:green">Prize: ${shift.prize}</span>
-                    //    <button onclick="window.location = '#/app/tab/pickup-list'"> Take shift</button>
-                    //  </li>`
-                });
-            } else {
-                info = "<li>" + place.vicinity + "</li><br /><li>No shifts available for this store</li>"
-            }
-
-            // marker popup window
-            $scope.infowindow.setContent(
-              "<ul><li><button onclick=\"setMyStore('" + place.place_id + "', '" + place.vicinity + "')\">Set this store as my store</button></li>" + info + "</ul>"
-              //  `<ul><li><button onclick="setMyStore('${place.place_id}', '${place.vicinity}')">Set this store as my store</button></li>${info}</ul>`
-              //  `<ul>${info}</ul>`
-            );
-            $scope.infowindow.open($scope.map, this);
-        });
+      marker.setMap($scope.map);
+      google.maps.event.addListener(marker, 'click', function() {
+        var info = "";
+        if (place.shifts) {
+          place.shifts.forEach(function(shift) {
+            var shiftObj = {};
+            shiftObj.store = place.vicinity;
+            shiftObj.start = shift.shift_start;
+            shiftObj.end = shift.shift_end;
+            shiftObj.postedby = shift.submitted_by;
+            shiftObj.postedby_name = shift.submitted_by_name;
+            shiftObj.prize = shift.prize;
+            shiftObj.id = shift._id;
+            AvailableShifts.addShift(shiftObj);
+            info += "<li><p class='marker1'>" + place.name + 
+              "</p><p class='marker2'>" + place.vicinity + 
+              "</p><p class='marker3'>" + shift.submitted_by_name + " needs someone to cover a shift" +
+              "</p><p class='marker4'>" + shift.shift_text_time + 
+              "</p><p class='marker5'>Prize: " + shift.prize + 
+              "</p><button class='marker6' onclick='window.location=\"#/tab/pickup-list\"'>Take shift</button></li>";
+                      });
+        } else {
+          info = "<li>" + place.vicinity + "</li><br /><li>No shifts available for this store</li>"
+        }
+        // marker popup window
+        $scope.infowindow.setContent(
+          "<ul class='infowindow'><li><button onclick=\"setMyStore('" + place.place_id + "', '" + place.vicinity + "')\">Set this store as my store</button></li>" + info + "</ul>"
+        );
+        $scope.infowindow.open($scope.map, this);
+      });
     }
-})
+  })
 
 .controller('AppCtrl', function($scope, $rootScope, $ionicModal, $timeout, UserService, $window) {
 
@@ -285,34 +225,35 @@ angular.module('starter.controllers', [])
 
     // Create the login modal that we will use later
     $ionicModal.fromTemplateUrl('templates/login.html', {
-        scope: $scope
+      scope: $scope
     }).then(function(modal) {
-        $scope.modal = modal;
+      $scope.modal = modal;
     });
 
     // Triggered in the login modal to close it
     $scope.closeLogin = function() {
-        $scope.modal.hide();
+      $scope.modal.hide();
     };
 
     // Open the login modal
     $scope.login = function() {
-        $scope.modal.show();
+      $scope.modal.show();
     };
 
     $scope.authenticate = function(provider) {
-        UserService.authenticate(provider);
+      UserService.authenticate(provider);
     };
 
     $scope.logout = function() {
-        UserService.logOut();
+      UserService.logOut();
+      $window.location = '#/lobby'
     };
 
     $rootScope.$on('userLoggedIn', function(data) {
-        // here we will recieve the logged in user
-        console.log(data);
-        $scope.closeLogin();
-        $window.location.reload(true)
+      // here we will recieve the logged in user
+      console.log(data);
+      $scope.closeLogin();
+      $window.location = "#/tab/map"
     });
 
     // will fire in case authentication failed
@@ -325,137 +266,155 @@ angular.module('starter.controllers', [])
     // the menu gets closed but the class doesnt toggle
     $scope.isActive = false;
     $scope.activeButton = function() {
-        $scope.isActive = !$scope.isActive;
+      $scope.isActive = !$scope.isActive;
     }
-
-})
-.controller('ProfileCtrl', function($scope, $http, $ionicModal, Profile, Maps) {
-
-  $scope.profileData = {};
-
-  $scope.$on('$ionicView.enter', function() {
-
-    if (!Maps.getUser()) {
-      // Need to decide -- how to handle not-logged-in
-      alert("Not logged in, friend!");
-    } else {
-      // Code you want executed every time view is opened
-      $http({
-        method: 'GET',
-        url: 'https://shift-it.herokuapp.com/getProfileInfo'
-      }).then(function successCallback(response){
-        $scope.profileData = response.data[0];
-      }, function errorCallback(response){
-        // redirect to login page if user tries to reach profile page when not logged in
-      });
-    }
-
-
-    $scope.editProfileTempData = {
-      firstName:'',
-      lastName: '',
-      email: '',
-      phone: ''
-    };
-
-    $scope.fillEditTemp = function(){
-      $scope.editProfileTempData.firstName = $scope.profileData.firstName;
-      $scope.editProfileTempData.lastName = $scope.profileData.lastName;
-      $scope.editProfileTempData.email = $scope.profileData.email;
-      $scope.editProfileTempData.phone = $scope.profileData.phone || '';
-    };
-
-    $scope.clearEditTemp = function(){
-      $scope.editProfileTempData.firstName = '';
-      $scope.editProfileTempData.lastName = '';
-      $scope.editProfileTempData.email = '';
-      $scope.editProfileTempData.phone = '';
-    };
-
-    // Functionality for editProfile modal
-    $scope.submitProfile = function(){
-      $http({
-        method: 'PATCH',
-        url: 'https://shift-it.herokuapp.com/users',
-        data: $scope.editProfileTempData,
-      }).then(function successCallback(response){
-        $scope.profileData = response.data;
-        $scope.closeEditProfile();
-      }, function errorCallback(response) {
-        alert("Failure to update profile");
-        $scope.closeEditProfile();
-      })
-    }
-
-    // Open and close the modal to edit Profile
-    $ionicModal.fromTemplateUrl('templates/editProfile.html', {
-        scope: $scope
-    }).then(function(modal) {
-        $scope.modal = modal;
-    });
-
-    // Triggered in the edit profile modal to close it
-    $scope.closeEditProfile = function() {
-      $scope.modal.hide();
-      $scope.clearEditTemp();
-    };
-
-    // Open the edit profile modal
-    $scope.openEditProfile = function() {
-      $scope.fillEditTemp();
-      $scope.modal.show();
-    };
 
   })
-})
+  .controller('ProfileCtrl', function($scope, $http, $ionicModal, Profile, Maps, UserService) {
+
+    $scope.profileData = {};
+
+    $scope.$on('$ionicView.enter', function() {
+      if(!UserService.isAuthenticated()) {
+        window.location = '#/lobby'
+      }
+
+      if (!Maps.getUser()) {
+        // Need to decide -- how to handle not-logged-in
+        alert("Not logged in, friend!");
+      } else {
+        // Code you want executed every time view is opened
+        $http({
+          method: 'GET',
+          url: 'https://shift-it.herokuapp.com/getProfileInfo'
+        }).then(function successCallback(response) {
+          $scope.profileData = response.data[0];
+        }, function errorCallback(response) {
+          // redirect to login page if user tries to reach profile page when not logged in
+        });
+      }
+
+      $scope.editProfileTempData = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: ''
+      };
+
+      $scope.fillEditTemp = function() {
+        $scope.editProfileTempData.firstName = $scope.profileData.firstName;
+        $scope.editProfileTempData.lastName = $scope.profileData.lastName;
+        $scope.editProfileTempData.email = $scope.profileData.email;
+        $scope.editProfileTempData.phone = $scope.profileData.phone || '';
+      };
+
+      $scope.clearEditTemp = function() {
+        $scope.editProfileTempData.firstName = '';
+        $scope.editProfileTempData.lastName = '';
+        $scope.editProfileTempData.email = '';
+        $scope.editProfileTempData.phone = '';
+      };
+
+      // Functionality for editProfile modal
+      $scope.submitProfile = function() {
+        $http({
+          method: 'PATCH',
+          url: 'https://shift-it.herokuapp.com/users',
+          data: $scope.editProfileTempData,
+        }).then(function successCallback(response) {
+          $scope.profileData = response.data;
+          $scope.closeEditProfile();
+        }, function errorCallback(response) {
+          alert("Failure to update profile");
+          $scope.closeEditProfile();
+        })
+      }
+
+      // Open and close the modal to edit Profile
+      $ionicModal.fromTemplateUrl('templates/editProfile.html', {
+        scope: $scope
+      }).then(function(modal) {
+        $scope.modal = modal;
+      });
+
+      // Triggered in the edit profile modal to close it
+      $scope.closeEditProfile = function() {
+        $scope.modal.hide();
+        $scope.clearEditTemp();
+      };
+
+      // Open the edit profile modal
+      $scope.openEditProfile = function() {
+        $scope.fillEditTemp();
+        $scope.modal.show();
+      };
+
+    })
+  })
 
 // This controller handles the functionality for creating and posting a new shift.
-.controller('CoverCtrl', function($scope, $ionicModal, ionicDatePicker, ionicTimePicker, $http){
-  // change storeId and submitted_by to be dynamically loaded in when that is available.
-  $scope.shiftData = {storeId: "ChIJPXmIAnW1RIYRRwVbIcKT_Cw", covered: false};
+.controller('CoverCtrl', function($scope, $ionicModal, ionicDatePicker, ionicTimePicker, $http, UserService) {
+  $scope.shiftData = {covered: false};
+  $scope.prize = 0;
+
+  $scope.setHomeLocForShift = function() {
+    $http({
+      method: 'GET',
+      url: 'https://shift-it.herokuapp.com/getProfileInfo'
+    }).then(function successCallback(response) {
+      $scope.shiftData.home_store = response.data[0].home_store;
+      $scope.shiftData.submitted_by_name = response.data[0].firstName + " " + response.data[0].lastName;
+    }, function errorCallback(response){
+      console.log("Failed to set home location in CoverCtrl");
+    });
+  }
+
   $scope.$on('$ionicView.enter', function() {
      // Code you want executed every time view is opened
+      if(!UserService.isAuthenticated()) {
+        window.location = '#/lobby'
+      }
      $scope.openDatePicker();
+     $scope.setHomeLocForShift();
      console.log('Opened!')
-  })
-  
+  })  
   // This is the Date picker modal popout, that initializes the shift_start and shift_end keys in the shift object
   // On a chosen date it sets both values to the chosen date with no time, and then it shows the first time picker
   var ipObj1 = {
-      callback: function (val) {  //Mandatory
-        $scope.shiftData.shift_start = new Date(val);
-        $scope.shiftData.shift_end = new Date(val);
-        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        console.log("shiftData is: ", $scope.shiftData);
-        console.log('Return value from the datepicker popup is : ' + val, new Date(val));
-        $scope.openTimePicker1();
-        $scope.shiftDate = $scope.shiftData.shift_start.getUTCDate() + " " + monthNames[$scope.shiftData.shift_start.getUTCMonth()] + " " + $scope.shiftData.shift_start.getUTCFullYear()
+    callback: function(val) { //Mandatory
+      $scope.shiftData.shift_start = new Date(val);
+      $scope.shiftData.shift_end = new Date(val);
+      var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      console.log("shiftData is: ", $scope.shiftData);
+      console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+      $scope.openTimePicker1();
+      $scope.shiftDate = $scope.shiftData.shift_start.getUTCDate() + " " + monthNames[$scope.shiftData.shift_start.getUTCMonth()] + " " + $scope.shiftData.shift_start.getUTCFullYear()
 
-        // var month = dateObj.getUTCMonth() + 1; //months from 1-12
-        // var day = dateObj.getUTCDate();
-        // var year = dateObj.getUTCFullYear();
-      },
-      disabledDates: [            //Optional
-        new Date(2016, 2, 16),
-        new Date(2015, 3, 16),
-        new Date(2015, 4, 16),
-        new Date(2015, 5, 16),
-        new Date('Wednesday, August 12, 2015'),
-        new Date("08-16-2016"),
-        new Date(1439676000000)
-      ],
-      from: new Date(2012, 1, 1), //Optional
-      to: new Date(2016, 10, 30), //Optional
-      inputDate: new Date(),      //Optional
-      mondayFirst: true,          //Optional
-      // disableWeekdays: [0],       //Optional
-      closeOnSelect: false,       //Optional
-      templateType: 'popup'       //Optional
-    };
+      // var month = dateObj.getUTCMonth() + 1; //months from 1-12
+      // var day = dateObj.getUTCDate();
+      // var year = dateObj.getUTCFullYear();
+    },
+    disabledDates: [ //Optional
+      new Date(2016, 2, 16),
+      new Date(2015, 3, 16),
+      new Date(2015, 4, 16),
+      new Date(2015, 5, 16),
+      new Date('Wednesday, August 12, 2015'),
+      new Date("08-16-2016"),
+      new Date(1439676000000)
+    ],
+    from: new Date(2012, 1, 1), //Optional
+    to: new Date(2016, 10, 30), //Optional
+    inputDate: new Date(), //Optional
+    mondayFirst: true, //Optional
+    // disableWeekdays: [0],       //Optional
+    closeOnSelect: false, //Optional
+    templateType: 'popup' //Optional
+  };
 
   // This function converts the minutes into a 2 digit number if 0 is chosen
-  function convertMinutes(minutes){
-    if (minutes === 0){
+  function convertMinutes(minutes) {
+    if (minutes === 0) {
       return "00"
     }
     return minutes;
@@ -464,9 +423,10 @@ angular.module('starter.controllers', [])
   // This is the modal for the end shift time picker, it will update the shift object with the correct time in the
   // current time zone for the user. On submit it opens the prize picker modal.
   var ipObj2 = {
-    callback: function (val) {      //Mandatory
-      if (typeof (val) === 'undefined') {
-        console.log('Time not selected');
+    callback: function(val) { //Mandatory
+      if (typeof(val) === 'undefined' || $scope.shiftData.shift_start === undefined) {
+        alert('Please pick a shift date first!');
+        return;
       } else {
         var splitStart = $scope.shiftData.shift_start.toString().split(' ');
         var selectedTime = new Date(val * 1000);
@@ -487,9 +447,10 @@ angular.module('starter.controllers', [])
   // This is the modal for the start shift time picker, it will update the shift object with the correct time in the
   // current time zone for the user. On submit it opens the end shift time picker modal.
   var ipObj3 = {
-    callback: function (val) {      //Mandatory
-      if (typeof (val) === 'undefined') {
-        console.log('Time not selected');
+    callback: function(val) { //Mandatory
+      if (typeof(val) === 'undefined' || $scope.shiftData.shift_start === undefined) {
+        alert('Please pick a shift date first!');
+        return;
       } else {
         var splitStart = $scope.shiftData.shift_start.toString().split(' ');
         var selectedTime = new Date(val * 1000);
@@ -509,33 +470,44 @@ angular.module('starter.controllers', [])
 
   // This shows the prize picker modal
   $ionicModal.fromTemplateUrl('templates/prizeModal.html', {
-        scope: $scope
-    }).then(function(modal) {
-        $scope.modal = modal;
-    });
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
 
   // Function for the end shift time picker
-  $scope.openTimePicker1 = function(){
+  $scope.openTimePicker1 = function() {
     ionicTimePicker.openTimePicker(ipObj3);
   };
 
   // Function for the start shift time picker
-  $scope.openTimePicker2 = function(){
+  $scope.openTimePicker2 = function() {
     ionicTimePicker.openTimePicker(ipObj2);
   };
 
   // Function for the date picker
-  $scope.openDatePicker = function(){
+  $scope.openDatePicker = function() {
     ionicDatePicker.openDatePicker(ipObj1);
   };
 
+  $scope.increment = function(){
+    $scope.prize += 5;
+  }
+
+  $scope.decrement = function(){
+    if($scope.prize > 0){
+      $scope.prize -= 5;
+    }
+  }
+
   // Function to show the prize picker
-  $scope.prizePicker = function(){
+  $scope.prizePicker = function() {
     $scope.modal.show();
   }
 
   // Function to submit the prize to the shift object
-  $scope.addPrize = function() {
+  $scope.addPrize = function(prize) {
+    $scope.shiftData.prize = "$" + prize + ".00";
     console.log($scope.shiftData);
     $scope.closePrize();
   };
@@ -545,105 +517,194 @@ angular.module('starter.controllers', [])
     $scope.modal.hide();
   };
 
+  $scope.makeTextTime = function(data) {
+    var textStart = data.shift_start;
+    var textEnd = data.shift_end;
+    var p1 = textStart.toDateString();
+    var p2 = textStart.toLocaleTimeString();
+    p2 = p2.slice(0,-6) + p2.slice(-3);
+    var p3 = textEnd.toLocaleTimeString();
+    p3 = p3.slice(0,-6) + p3.slice(-3);
+    var p4 = textStart.toString().slice(-6);
+    return p1 + " from " + p2 + " to " + p3 + p4;
+  };
+
   // Setting a variable to the fully fleshed out shiftData
   var shift = $scope.shiftData;
 
   // Server call to insert the shift data into the database.
   $scope.postShift = function() {
-    $http({
-      method: 'POST',
-      url: 'https://shift-it.herokuapp.com/shifts',
-      data: shift
-    }).then(function(response){
-      console.log("shift submitted to database with shift data: ", shift);
-    }, function(error){
-      console.log("error posting shift to db")
-    })
+    if($scope.shiftDate === undefined){
+      alert("Please enter a date for your shift!")
+    } else if($scope.startTime === undefined){
+      alert("Please enter a start time for your shift!")
+    } else if($scope.endTime === undefined){
+      alert("Please enter an end time for your shift!")
+    } else {
+      console.log("shift sent to db");
+      shift.shift_text_time = $scope.makeTextTime(shift);
+      $http({
+        method: 'POST',
+        url: 'https://shift-it.herokuapp.com/shifts',
+        data: shift
+      }).then(function(response){
+        console.log("shift submitted to database with shift data: ", shift);
+        alert("Your shift has been added!");
+        window.location = "#/tabs/map";
+      }, function(error){
+        console.log("error posting shift to db")
+      })
+    }
   }
-  // if(shift.shift_start && shift.shift_end && shift.prize){}
 })
 
-.controller('PickupCtrl', function($scope, AvailableShifts, $location, $state, $http, Maps) {
+.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup, UserService) {
 
-    $scope.availableShifts = AvailableShifts.getShifts();
-    $scope.myId =  Maps.getUser();
-    console.log("my ID:", $scope.myId);
+  $scope.$on('$ionicView.enter', function() {
+    if(!UserService.isAuthenticated()) {
+      window.location = '#/lobby'
+    }
+  });
 
-    $scope.callFriend = function(postedBy, shiftId) {
-      var theData = { 
-        // needs to be user got from the Auth factory
-        shift_id: shiftId,
-        shift_owner: postedBy,
-        // shift owner gets inserted into restricted array on server side
-      };
-      var notifyUser = function(){
+  // $scope.availableShifts = AvailableShifts.getShifts();
+  $scope.myId = Maps.getUser();
+  // assuming the stores are in place on the Maps factory
+  $scope.availableShifts = Maps.getShifts();
 
+  // if there are no shifts available make another request;
+  if(!$scope.availableShifts){
+    Maps.getMyPos().then(function(pos){
+      Maps.fetchStores().then(function(res){
+        $scope.availableShifts = Maps.getShifts();
+        addPrizeNum()
+      })
+    })
+  }
+  addPrizeNum()
+  function addPrizeNum(){
+    if($scope.availableShifts){
+      $scope.availableShifts.map(function(shift){
+        shift.prizeNum = parseInt(shift.prize.slice(1));
+      })
+      console.log($scope.availableShifts)
+    }
+  }
+
+  $scope.sortorder = 'shift.prize';
+
+  $scope.pickupShift = function(postedBy, shiftId) {
+    var theData = {
+      shift_id: shiftId,
+      shift_owner: postedBy
+    };
+    var notifyUser = function() {
         //Needs to go to different page
-        window.location = "#/app/friends";
+        window.location = "#/tab/map";
         console.log("shift requested")
       }
       // test if shift owner is claiming their own shift
-      if($scope.myId != postedBy) {
+    if ($scope.myId != postedBy) {
 
-        $http({
-              method: 'POST',
-              url: 'https://shift-it.herokuapp.com/pickup',
-              data: theData
-          }).then(function successCallback(response) {
-              console.log("got response", response.data)
-              notifyUser();
-          }, function errorCallback(response) {
-              alert("Could not post shift to server, please try again later")
-          });
+      Pickup.pickUpShift(theData).then(function(response){
+        alert("successfully requested a shift")
+      }).catch(function(err){
+        alert("Could not post shift to server, please try again later")
+      })
+    } else {
+      alert("Sorry, you cannot claim this shift.")
+    }
 
-      } else {
-        alert("Sorry, you cannot claim this shift.")
-      }
-
-    };
+  };
 
 })
 
-.controller('PartnerCtrl', function($scope, $http, Maps) {
-  // possible get request to db to fetch facebook profile data
-    var data = Maps.getApprovals();
-    var userId = data[0].user_requested;
-    var shiftId = data[0].shift_id;
+.controller('PartnerCtrl', function($scope, $http, MyShift, UserService, Partner) {
+
+  $scope.$on('$ionicView.enter', function() {
+    if(!UserService.isAuthenticated()) {
+      window.location = '#/lobby'
+    }
+  });
+  
+  var ex = MyShift.getCode();
+
+  if (ex === 'abc' ) {
+
+    // possible get request to db to fetch facebook profile data
+    var data; 
+
+    MyShift.GetRequests()
+    .then(function(reqs){
+      data = reqs;
+    // console.log("data : ", data);
+    })
+
+    //this needs better namings
+    var userId = MyShift.getPartnerId()[0];
+    var shiftId = MyShift.getPartnerId()[1];
+    var pickupShiftId = MyShift.getPartnerId()[2]
     console.log("userId : ", userId);
     console.log("this is the shiftId: ", shiftId);
+
+    $scope.upVote = function(){
+      Partner.vote(pickupShiftId, 'positive')
+      .then(function(res){
+        alert("successfully upvoted this partner")
+      })
+      .catch(function(err){
+        alert("could not upvote this partner")
+      })
+    }
     
+    $scope.downVote = function(){
+      Partner.vote(pickupShiftId, 'negative')
+      .then(function(res){
+        alert("successfully downvoted this partner")
+      })
+      .catch(function(err){
+        alert("could not downvote this partner")
+      })
+    }
+
     $scope.reject = function() {
-      console.log("this is the shiftId inside: ", shiftId);
-
+      // console.log("this is the shiftId inside: ", shiftId);
+      document.getElementById("approveShift").style.display = "none";
+      document.getElementById("rejectShift").style.display = "none";
+      
       $http({
-            method: 'PATCH',
-            url: 'https://shift-it.herokuapp.com/pickupreject',                  
-            data: {shift_id: shiftId}
-        }).then(function successCallback(response) {
-            console.log("reject return: ", response.data);
-            alert("You have successfully rejected the shift.");
+        method: 'PATCH',
+        url: 'https://shift-it.herokuapp.com/pickupreject',
+        data: {
+          shift_id: shiftId
+        }
+      }).then(function successCallback(response) {
+        console.log("reject return: ", response.data);
+        alert("You have successfully rejected the shift.");
 
-        }, function errorCallback(response) {
-            alert("Could not reject the shift", response)
-        });
+      }, function errorCallback(response) {
+        alert("Could not reject the shift", response)
+      });
     };
 
     $scope.approve = function() {
-      console.log("this is the shiftId inside the approve: ", shiftId);
+      // console.log("this is the shiftId inside the approve: ", shiftId);
       document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
       document.getElementById("approveShift").style.display = "none";
+      document.getElementById("rejectShift").style.display = "none";
 
       $http({
-            method: 'PATCH',
-            url: 'https://shift-it.herokuapp.com/pickup',                  
-            data: {shift_id: shiftId}
-        }).then(function successCallback(response) {
-            console.log("aprove return: ", response.data);
-            alert("You have successfully approved the shift.");
+        method: 'PATCH',
+        url: 'https://shift-it.herokuapp.com/pickup',
+        data: {
+          shift_id: shiftId
+        }
+      }).then(function successCallback(response) {
+        console.log("aprove return: ", response.data);
+        alert("You have successfully approved the shift.");
 
-        }, function errorCallback(response) {
-            alert("Could not aprove the shift", response)
-        });
+      }, function errorCallback(response) {
+        alert("Could not aprove the shift", response)
+      });
     };
 
     $scope.partnerInfo = {
@@ -654,46 +715,80 @@ angular.module('starter.controllers', [])
       facebookPic: "",
       shiftId: shiftId
     };
+
     $http({
-          method: 'GET',
-          url: 'https://shift-it.herokuapp.com/user/id/' + userId,
-    }).then(function (data) {
-      console.log("this is the data: ", data);
+      method: 'GET',
+      url: 'https://shift-it.herokuapp.com/user/id/' + userId,
+    }).then(function(data) {
+      
       var data = data.data;
       $scope.partnerInfo.name = data.firstName + ' ' + data.lastName;
       $scope.partnerInfo.email = data.email;
       $scope.partnerInfo.facebookPic = data.profilePicture;
       $scope.partnerInfo.phone = "555-867-5309";
       $scope.partnerInfo.userRep = "Awesome!";
-      console.log("partner info : ", $scope.partnerInfo);
+      
     }).catch(function(err) {
       alert("Could not get partner profile.")
     });
-    
+
+  } else {
+    console.log("gtfo");
+  }
 })
 
-.controller('MyShiftsCtrl', function($scope, $http, Maps) {
-  $scope.shifts;
-  $scope.needApproval = Maps.getApprovals();
+.controller('MyShiftCtrl', function($scope, Maps, MyShift, $http, $state, UserService) {
+  
+  $scope.$on('$ionicView.enter', function() {
+    if(!UserService.isAuthenticated()) {
+      window.location = '#/lobby'
+    }
+  });
+  // variable to store response from /myshifts
+  $scope.myshiftsArray = [];
+  $scope.myId = Maps.getUser();
+  $scope.requests = Maps.getApprovals();
+  
+  $scope.connect = function(userId, shiftid, pickshift){
+    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift);
+    // $state.go('tab.myshifts');
+    window.location = '#/tab/partner'
+  };
 
-  $http({
-    method: 'GET',
-    url: 'https://shift-it.herokuapp.com/myshifts'
-  }).then(function(data) {
-    $scope.shifts = data.data;
-    console.log("Here are the shifts: ", $scope.shifts);
-
-    $scope.needApproval.forEach(function(pshift){
-      $scope.shifts.forEach(function(shift){
-        if(pshift.shift_id===shift._id){
-          pshift.shift = shift;
-        }
+  $scope.delete = function(shift){
+    console.log("the shift I want to delete is: ", shift);
+    var deleteMe = confirm("Are you sure you wish to delete this shift?");
+    if(deleteMe){
+      $http({
+        method: 'DELETE',
+        url: 'https://shift-it.herokuapp.com/shifts',
+        data: {_id: shift._id},
+        headers: {"Content-Type": "application/json"}
+      }).then(function successCallback(response) {
+        $scope.myshiftsArray = $scope.myshiftsArray.filter(function(sheeft){
+          return sheeft._id !== response.config.data._id;
+        });
+        alert("You have successfully deleted the shift.");
+      }, function errorCallback(response) {
+        alert("Could not delete the shift", response)
+      });
+    }
+  };
+  
+  // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
+  MyShift.GetMyShifts()
+    .then(function(myshifts) {
+      $scope.myshiftsArray = myshifts;
+      $scope.requests.forEach(function(pending){
+        $scope.myshiftsArray.forEach(function(shift){
+          if(pending.shift_id === shift._id){
+            pending.shift = shift;
+          }
+        })
       })
-    })
-    console.log("this is our stuff, ", $scope.needApproval)
+    }).catch(function(err){
+       alert("Could not fetch your shifts.", err);
+     });
+})
 
-  }).catch(function(err) {
-    alert("Could not get your shifts from the server.")
-  })
-});
 

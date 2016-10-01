@@ -1,4 +1,4 @@
-<ion-view title="Map" >
+<ion-view title="Shift Ninja">
   <ion-header-bar class="bar-stable">
     <h1 class="title">Map</h1>
   </ion-header-bar>
@@ -13,12 +13,12 @@
     <div class="floatingButton">
       <div id="loading">Please wait while we load your location...</div>
       <button type="button" id="pickupshift" class="button button-large button-block button-positive" ng-click="pickup()">Pick up shift</button>
-      <button type="button" id="covermyshift" class="button button-large button-block button-positive" ui-sref="app.tab.cover">Cover My Shift</button>
+      <button type="button" id="covermyshift" class="button button-large button-block button-positive" ui-sref="tab.cover">Cover My Shift</button>
     </div>
     <div class="floatingButton" id="searchMe">
       <form class="item item-input" ng-submit="zipSearch(zip)">
         <i class="icon ion-search placeholder-icon"></i>
-        <input name="zip" ng-model="zip" type="number" pattern="[0-9]*" placeholder="Search by Zip code">
+        <input name="zip" ng-model="zip" type="text" placeholder="Search by City or Zip code">
         <!-- <button type="submit" class="button" ng-click="zipSearch()">Login</button> -->
       </form>
       <!-- <label class="item item-input">

@@ -6,23 +6,28 @@
 <ion-tabs class="tabs-icon-top">
 
   <!-- Map Tab -->
-  <ion-tab title="Home" icon="icon ion-home" ui-sref="app.tab.map">
+  <ion-tab title="Home" icon="icon ion-map" ui-sref="tab.map">
     <ion-nav-view name="tab-map"></ion-nav-view>
   </ion-tab>
 
   <!-- Friends Tab -->
-  <ion-tab title="Pickup Shift" icon="icon ion-android-sync" ui-sref="app.tab.pickup-list">
+  <ion-tab title="Pickup Shift" icon="icon ion-search" ui-sref="tab.pickup-list">
     <ion-nav-view name="tab-pickup-list"></ion-nav-view>
   </ion-tab>
 
   <!-- Account Tab -->
-  <ion-tab title="Post a shift" icon="icon ion-gear-b" ui-sref="app.tab.cover">
+  <ion-tab title="Post a shift" icon="icon ion-compose" ui-sref="tab.cover">
     <ion-nav-view name="tab-cover"></ion-nav-view>
   </ion-tab>
 
   <!-- My Shifts Tab -->
-  <ion-tab title="My Shifty" ng-if="true" icon="icon ion-gear-b" ui-sref="app.tab.myshifts">
+  <ion-tab title="My Shifts" ng-if="true" icon="icon ion-clipboard" ui-sref="tab.myshifts">
     <ion-nav-view name="tab-myshifts"></ion-nav-view>
+  </ion-tab>
+
+    <!-- Options Tab -->
+  <ion-tab title="Settings" ng-if="true" icon="icon ion-ios-settings-strong" ui-sref="tab.settings">
+    <ion-nav-view name="tab-settings"></ion-nav-view>
   </ion-tab>
 
 </ion-tabs>
