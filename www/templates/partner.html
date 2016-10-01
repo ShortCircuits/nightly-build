@@ -20,8 +20,8 @@
     <button type="button" id="rejectShift" class="button button-positive" ng-click="reject()">Reject</button>
     </li>
     <li>
-    <button type="button" id="repUpVote" class="button button-positive" ng-if="true" ng-click="upVote()">Upvote this user</button>
-    <button type="button" id="repDownVote" class="button button-positive" ng-if="true" ng-click="downVote()">Downvote this user</button>
+    <button type="button" id="repUpVote" class="button button-positive" ng-if="canVote" ng-click="upVote()">Upvote this user</button>
+    <button type="button" id="repDownVote" class="button button-positive" ng-if="canVote" ng-click="downVote()">Downvote this user</button>
     </li>
     </ul>
 
