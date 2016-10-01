@@ -138,6 +138,9 @@ div.buttons.buttons-right.header-item > span > button {
 .profile-info {
 	font-size: 150%;
 }
+.tabs .tab-item .badge {
+    background-color: #e42012;
+}
 
 /* styling for location tags on map view */
 .marker1 {margin: 1em 0 0;}
