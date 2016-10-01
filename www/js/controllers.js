@@ -78,11 +78,11 @@ angular.module('starter.controllers', [])
       // there are any notification for the user
       Maps.getPickupNotifications()
         .then(function(response) {
+          $rootScope.badgeCount = response.length;
           if (response[0] && response[0].approved === true) {
             document.getElementById("noticeMsg").innerHTML = 'You have a shift approved';
             document.getElementById("accepto").setAttribute("onclick", "cover()")
           } else if (response[0] && response[0].approved === false) {
-            $rootScope.badgeCount = response.length;
             document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
             document.getElementById("accepto").setAttribute("onclick", "approve()")
           }
