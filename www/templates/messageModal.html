@@ -1,0 +1,26 @@
+<ion-modal-view style="width: 90%; top: 5%; left: 5%; right: 5%;">
+  <ion-header-bar>
+    <h1 class="title">Send a message</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeMessage()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+  <span>
+    <form class="prize" ng-submit="sendMessage()">
+      <div class="list">
+        <label class="item item-input">
+        <textarea ng-model='doc.description' rows='{{doc.description.length/50 + 1}}' cols='10'></textarea>
+          <input type="text" ng-model="message.text">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Send Message</button>
+        </label>
+      </div>
+    </form>
+    <!-- <span class="input-label" >Prize Amount: <br />${{prize}}.00<button class="increment" ng-click="increment()">+</button><button class="decrement" ng-click="decrement()">-</button></span> -->
+    </span>
+
+    <!-- <button class="button button-block button-positive" type="submit" ng-click="addPrize(prize)">Add Prize</button> -->
+  </ion-content>
+</ion-modal-view>
