@@ -780,7 +780,8 @@ angular.module('starter.controllers', [])
       $scope.partnerInfo.email = data.email;
       $scope.partnerInfo.facebookPic = data.profilePicture;
       $scope.partnerInfo.phone = data.phone;
-      $scope.partnerInfo.userRep = "Awesome!";
+      $scope.partnerInfo.userRepPos = data.rating.positive;
+      $scope.partnerInfo.userRepNeg = data.rating.negative;
       
     }).catch(function(err) {
       alert("Could not get partner profile.")
