@@ -123,7 +123,15 @@ angular.module('starter.directives', [])
     searchByZip: function(zipOrCity){
       return $http.get('https://shift-it.herokuapp.com/areaSearch/address/' + zipOrCity)
         .then(function(response) {
-          return response.data;
+          stores = response.data;
+          shifts = stores.results.filter(function(store){
+            if (store.shifts) return true;
+          }).map(function(shift){
+            return shift.shifts;
+          }).reduce(function(a, b) {
+            return a.concat(b);
+          }, []);
+          return stores;
         });
     },
 
