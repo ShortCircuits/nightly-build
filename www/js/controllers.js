@@ -598,7 +598,8 @@ angular.module('starter.controllers', [])
       shift_owner: shift.submitted_by,
       shift_owner_name: shift.submitted_by_name,
       shift_where: shift.home_store.address,
-      shift_when: shift.shift_text_time
+      shift_when: shift.shift_text_time,
+      shift_prize: shift.prize
     };
     var notifyUser = function() {
         //Needs to go to different page
@@ -606,7 +607,7 @@ angular.module('starter.controllers', [])
         console.log("shift requested")
       }
       // test if shift owner is claiming their own shift
-    if ($scope.myId != postedBy) {
+    if ($scope.myId != shift._id) {
 
       Pickup.pickUpShift(theData).then(function(response){
         alert("successfully requested a shift")
