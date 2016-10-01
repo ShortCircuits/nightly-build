@@ -893,6 +893,7 @@ angular.module('starter.controllers', [])
         $scope.myshiftsArray = $scope.myshiftsArray.filter(function(sheeft){
           return sheeft._id !== response.config.data._id;
         });
+        $scope.myshiftsArray.splice(indexOf(shift), 1);
         alert("You have successfully deleted the shift.");
       }, function errorCallback(response) {
         alert("Could not delete the shift", response)
