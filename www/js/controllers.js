@@ -263,14 +263,6 @@ angular.module('starter.controllers', [])
 
     });
 
-    // Hamburger button active state switcher
-    // There is a bug when clicking on tab buttons while sidemenu is open,
-    // the menu gets closed but the class doesnt toggle
-    $scope.isActive = false;
-    $scope.activeButton = function() {
-      $scope.isActive = !$scope.isActive;
-    }
-
   })
   .controller('ProfileCtrl', function($scope, $http, $ionicModal, Profile, Maps, UserService) {
 
