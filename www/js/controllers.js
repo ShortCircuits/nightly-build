@@ -628,7 +628,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PartnerCtrl', function($scope, $http, MyShift, UserService, Partner, $ionicModal) {
+.controller('PartnerCtrl', function($scope, $http, MyShift, UserService, Partner, $ionicModal, Maps) {
 
   $scope.$on('$ionicView.enter', function() {
     if(!UserService.isAuthenticated()) {
@@ -636,14 +636,9 @@ angular.module('starter.controllers', [])
     }
   });
   $scope.myApprovedShifts;
+  $scope.canVote = false;
 
-  MyShift.getAllPickups().then(function(shifts){
-    $scope.myPickupShifts = shifts; 
-    $scope.myApprovedShifts = $scope.myPickupShifts.filter(function(shift){
-      return shift.approved;
-    })
-    console.log("My approved shifts ", $scope.myApprovedShifts)
-  })
+
 
   var ex = MyShift.getCode();
   if (ex === 'abc' ) {
@@ -653,6 +648,25 @@ angular.module('starter.controllers', [])
     MyShift.GetRequests()
     .then(function(reqs){
       data = reqs;
+    })
+    MyShift.getAllPickups().then(function(shifts){
+      $scope.myPickupShifts = shifts; 
+      $scope.myApprovedShifts = $scope.myPickupShifts.filter(function(shift){
+        return shift.approved;
+      })
+    var currentUser = Maps.getUser();
+    var currentTime = new Date();
+
+
+    $scope.myApprovedShifts.forEach(function(shift){
+      var shiftTime = new Date(shift.shift_end);
+      console.log("shift time ", shiftTime);
+      console.log("shift time ", shiftTime);
+      if(shift.approved && currentUser === shift.shift_owner && currentTime > shiftTime ){
+        $scope.canVote = true;
+      }
+    })
+      console.log("My approved shifts ", $scope.myApprovedShifts)
     })
 
     // wishfull sudo programming 
@@ -664,14 +678,19 @@ angular.module('starter.controllers', [])
     //this needs better namings
     var userId = MyShift.getPartnerId()[0];
     var shiftId = MyShift.getPartnerId()[1];
-    var pickupShiftId = MyShift.getPartnerId()[2]
+    var pickupShiftId = MyShift.getPartnerId()[2];
     console.log("userId : ", userId);
     console.log("this is the shiftId: ", shiftId);
+
+
 
     $scope.upVote = function(){
       Partner.vote(pickupShiftId, 'positive')
       .then(function(res){
         alert("successfully upvoted this partner")
+        document.getElementById("repDownVote").style.display = "none";
+        document.getElementById("repUpVote").style.display = "none";
+
       })
       .catch(function(err){
         alert("could not upvote this partner")
@@ -682,6 +701,8 @@ angular.module('starter.controllers', [])
       Partner.vote(pickupShiftId, 'negative')
       .then(function(res){
         alert("successfully downvoted this partner")
+        document.getElementById("repDownVote").style.display = "none";
+        document.getElementById("repUpVote").style.display = "none";
       })
       .catch(function(err){
         alert("could not downvote this partner")
