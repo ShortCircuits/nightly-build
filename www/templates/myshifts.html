@@ -24,5 +24,17 @@
           </ion-item>
         </ion-list>
     </div>
+    <div id="postedShifts" >
+      <ion-list>
+        <h3>Shifts you picked up:</h3>
+        <ion-item ng-repeat="shift in iamWorking">
+          <span><a class="deleteShift" ng-click="delete(shift)" onmouseover="" style="cursor: pointer;"> delete </a>
+          <p>Where: {{shift.shift_where}}<br/>
+          When: {{shift.shift_when}}<br/>
+          Picked up from: shift.shift_owner_name
+          Prize: {{shift.shift_prize}}</p></span>
+        </ion-item>
+      </ion-list>
+  </div>
   </ion-content>
 </ion-view>
