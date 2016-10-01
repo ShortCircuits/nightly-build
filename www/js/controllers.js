@@ -592,10 +592,13 @@ angular.module('starter.controllers', [])
 
   $scope.sortorder = 'shift.prize';
 
-  $scope.pickupShift = function(postedBy, shiftId) {
+  $scope.pickupShift = function(shift) {
     var theData = {
-      shift_id: shiftId,
-      shift_owner: postedBy
+      shift_id: shift._id,
+      shift_owner: shift.submitted_by,
+      shift_owner_name: shift.submitted_by_name,
+      shift_where: shift.home_store.address,
+      shift_when: shift.shift_text_time
     };
     var notifyUser = function() {
         //Needs to go to different page
@@ -737,6 +740,7 @@ angular.module('starter.controllers', [])
   });
   // variable to store response from /myshifts
   $scope.myshiftsArray = [];
+  $scope.iamWorking = [];
   $scope.myId = Maps.getUser();
   $scope.requests = Maps.getApprovals();
   
@@ -779,7 +783,15 @@ angular.module('starter.controllers', [])
       })
     }).catch(function(err){
        alert("Could not fetch your shifts.", err);
-     });
+    });
+
+  MyShift.GetShiftsIPickedUp()
+    .then(function(shiftsToWork) {
+      $scope.iamWorking = shiftsToWork;
+    }).catch(function(err){
+       alert("Could not fetch shifts you have picked up", err);
+    });
+
 })
 
 
