@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-  .controller('MapCtrl', function($scope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService) {
+  .controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService) {
     $scope.myStoreInfo = {};
     $scope.map;
     $scope.infowindow = new google.maps.InfoWindow();
@@ -82,6 +82,7 @@ angular.module('starter.controllers', [])
             document.getElementById("noticeMsg").innerHTML = 'You have a shift approved';
             document.getElementById("accepto").setAttribute("onclick", "cover()")
           } else if (response[0] && response[0].approved === false) {
+            $rootScope.badgeCount = response.length;
             document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
             document.getElementById("accepto").setAttribute("onclick", "approve()")
           }
@@ -211,7 +212,7 @@ angular.module('starter.controllers', [])
     }
   })
 
-.controller('AppCtrl', function($scope, $rootScope, $ionicModal, $timeout, UserService, $window) {
+.controller('AppCtrl', function($scope, $rootScope, $ionicModal, $interval, $timeout, UserService, $window) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -222,14 +223,15 @@ angular.module('starter.controllers', [])
 
     // Form data for the login modal
     $scope.loginData = {};
-
     // Create the login modal that we will use later
     $ionicModal.fromTemplateUrl('templates/login.html', {
       scope: $scope
     }).then(function(modal) {
       $scope.modal = modal;
     });
-
+    $interval(function(){
+       $scope.badgeCount = $rootScope.badgeCount;
+    },2000);
     // Triggered in the login modal to close it
     $scope.closeLogin = function() {
       $scope.modal.hide();
