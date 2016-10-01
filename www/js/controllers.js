@@ -613,9 +613,7 @@ angular.module('starter.controllers', [])
     } else {
       alert("Sorry, you cannot claim this shift.")
     }
-
   };
-
 })
 
 .controller('PartnerCtrl', function($scope, $http, MyShift, UserService, Partner, $ionicModal) {
@@ -700,7 +698,7 @@ angular.module('starter.controllers', [])
         method: 'PATCH',
         url: 'https://shift-it.herokuapp.com/pickupreject',
         data: {
-          shift_id: shiftId
+          pickup_shift_id: pickupShiftId
         }
       }).then(function successCallback(response) {
         console.log("reject return: ", response.data);
@@ -721,7 +719,7 @@ angular.module('starter.controllers', [])
         method: 'PATCH',
         url: 'https://shift-it.herokuapp.com/pickup',
         data: {
-          shift_id: shiftId
+          pickup_shift_id: pickupShiftId
         }
       }).then(function successCallback(response) {
         console.log("aprove return: ", response.data);
