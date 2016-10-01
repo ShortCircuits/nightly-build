@@ -238,6 +238,7 @@ angular.module('starter.directives', [])
   var shiftId;
   var pickShiftId;
   var codea = null;
+  var allPickups;
 
   return {
     GetRequests: function(){
@@ -280,7 +281,16 @@ angular.module('starter.directives', [])
       var something = codea;
       codea = null;
       return something;
-    }
+    },
+    getAllPickups: function(){
+      return $http({
+          method: 'GET',
+          url: BASE_URL+'allpickups'
+      }).then(function(response) {
+        allPickups = response.data;
+        return allPickups;
+      });
+    },
   }
 
 })

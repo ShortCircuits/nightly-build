@@ -263,14 +263,6 @@ angular.module('starter.controllers', [])
 
     });
 
-    // Hamburger button active state switcher
-    // There is a bug when clicking on tab buttons while sidemenu is open,
-    // the menu gets closed but the class doesnt toggle
-    $scope.isActive = false;
-    $scope.activeButton = function() {
-      $scope.isActive = !$scope.isActive;
-    }
-
   })
   .controller('ProfileCtrl', function($scope, $http, $ionicModal, Profile, Maps, UserService) {
 
@@ -633,17 +625,20 @@ angular.module('starter.controllers', [])
   });
 
   var ex = MyShift.getCode();
-
   if (ex === 'abc' ) {
-
     // possible get request to db to fetch facebook profile data
     var data; 
 
     MyShift.GetRequests()
     .then(function(reqs){
       data = reqs;
-    // console.log("data : ", data);
     })
+
+    // wishfull sudo programming 
+    // if the shift has been approved, 
+    // if the shift end time is in the past
+    // if the current logged in user is the user who owns the pickuped the shift
+    // set the $scope or $rootscope to true for the voting buttons
 
     //this needs better namings
     var userId = MyShift.getPartnerId()[0];
@@ -787,10 +782,18 @@ angular.module('starter.controllers', [])
   $scope.iamWorking = [];
   $scope.myId = Maps.getUser();
   $scope.requests = Maps.getApprovals();
+  $scope.myPickupShifts; 
+  $scope.myApprovedShifts;
+  MyShift.getAllPickups().then(function(shifts){
+    $scope.myPickupShifts = shifts; 
+    $scope.myApprovedShifts = $scope.myPickupShifts.filter(function(shift){
+      return shift.approved;
+    })
+          console.log("My approved shifts ", $scope.myApprovedShifts)
+  })
   
   $scope.connect = function(userId, shiftid, pickshift){
     MyShift.setPartnerId(userId, shiftid, 'abc', pickshift);
-    // $state.go('tab.myshifts');
     window.location = '#/tab/partner'
   };
 
