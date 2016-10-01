@@ -593,7 +593,9 @@ angular.module('starter.controllers', [])
       shift_owner_name: shift.submitted_by_name,
       shift_where: shift.home_store.address,
       shift_when: shift.shift_text_time,
-      shift_prize: shift.prize
+      shift_prize: shift.prize,
+      shift_start: shift.shift_start,
+      shift_end: shift.shift_end
     };
     var notifyUser = function() {
         //Needs to go to different page
@@ -623,6 +625,15 @@ angular.module('starter.controllers', [])
       window.location = '#/lobby'
     }
   });
+  $scope.myApprovedShifts;
+
+  MyShift.getAllPickups().then(function(shifts){
+    $scope.myPickupShifts = shifts; 
+    $scope.myApprovedShifts = $scope.myPickupShifts.filter(function(shift){
+      return shift.approved;
+    })
+    console.log("My approved shifts ", $scope.myApprovedShifts)
+  })
 
   var ex = MyShift.getCode();
   if (ex === 'abc' ) {
@@ -789,7 +800,7 @@ angular.module('starter.controllers', [])
     $scope.myApprovedShifts = $scope.myPickupShifts.filter(function(shift){
       return shift.approved;
     })
-          console.log("My approved shifts ", $scope.myApprovedShifts)
+    console.log("My approved shifts ", $scope.myApprovedShifts)
   })
   
   $scope.connect = function(userId, shiftid, pickshift){
