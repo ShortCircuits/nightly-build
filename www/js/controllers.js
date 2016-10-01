@@ -639,6 +639,7 @@ angular.module('starter.controllers', [])
     // console.log("data : ", data);
     })
 
+    //this needs better namings
     var userId = MyShift.getPartnerId()[0];
     var shiftId = MyShift.getPartnerId()[1];
     var pickupShiftId = MyShift.getPartnerId()[2]
