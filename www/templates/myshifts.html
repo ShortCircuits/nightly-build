@@ -6,7 +6,7 @@
           <ion-item ng-repeat="shift in requests">
             <p>Where: {{shift.shift.home_store.address}}<br/>
             When: {{shift.shift.shift_text_time}}<br/>
-            Requested by: {{shift.user_requested}}<br/>
+            Requested by: {{shift.user_requested_name}}<br/>
             Prize: {{shift.shift.prize}}</p>
             <button ng-click="connect(shift.user_requested, shift.shift._id, shift._id)"> connect </button>
           </ion-item>
@@ -42,7 +42,7 @@
       <ion-item ng-repeat="shift in myApprovedShifts">
         <p>Where: {{shift.shift_where}}<br/>
         When: {{shift.shift_when}}<br/>
-        Picked up requested by: {{shift.user_requested}}<br/>
+        Picked up requested by: {{shift.user_requested_name}}<br/>
         Prize: {{shift.shift_prize}}</p></span>
         <button ng-click="connect(shift.user_requested, shift.shift._id, shift._id)"> Go to this users page </button><br/><br/>
       </ion-item>
