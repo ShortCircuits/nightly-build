@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
     $scope.user;
 
     $scope.$on('$ionicView.enter', function() {
-      if(!UserService.isAuthenticated()) {
+      if(!UserService.isAuthenticated() ) {
         window.location = '#/lobby'
       }
       $scope.notification();
@@ -622,7 +622,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PartnerCtrl', function($scope, $http, MyShift, UserService) {
+.controller('PartnerCtrl', function($scope, $http, MyShift, UserService, Partner) {
 
   $scope.$on('$ionicView.enter', function() {
     if(!UserService.isAuthenticated()) {
@@ -643,10 +643,32 @@ angular.module('starter.controllers', [])
     // console.log("data : ", data);
     })
 
+    //this needs better namings
     var userId = MyShift.getPartnerId()[0];
     var shiftId = MyShift.getPartnerId()[1];
+    var pickupShiftId = MyShift.getPartnerId()[2]
     console.log("userId : ", userId);
     console.log("this is the shiftId: ", shiftId);
+
+    $scope.upVote = function(){
+      Partner.vote(pickupShiftId, 'positive')
+      .then(function(res){
+        alert("successfully upvoted this partner")
+      })
+      .catch(function(err){
+        alert("could not upvote this partner")
+      })
+    }
+    
+    $scope.downVote = function(){
+      Partner.vote(pickupShiftId, 'negative')
+      .then(function(res){
+        alert("successfully downvoted this partner")
+      })
+      .catch(function(err){
+        alert("could not downvote this partner")
+      })
+    }
 
     $scope.reject = function() {
       // console.log("this is the shiftId inside: ", shiftId);
@@ -745,8 +767,8 @@ angular.module('starter.controllers', [])
   $scope.myId = Maps.getUser();
   $scope.requests = Maps.getApprovals();
   
-  $scope.connect = function(userId, shiftid){
-    MyShift.setPartnerId(userId, shiftid, 'abc');
+  $scope.connect = function(userId, shiftid, pickshift){
+    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift);
     // $state.go('tab.myshifts');
     window.location = '#/tab/partner'
   };

@@ -14,7 +14,16 @@
   	<p class="contact-info">{{partnerInfo.userRep}}</p>
 
   	<button class="button button-positive">Contact</button>
+    <ul>
+    <li>
     <button type="button" id="approveShift" class="button button-positive" ng-click="approve()">Accept</button>
     <button type="button" id="rejectShift" class="button button-positive" ng-click="reject()">Reject</button>
+    </li>
+    <li>
+    <button type="button" id="repUpVote" class="button button-positive" ng-if="true" ng-click="upVote()">Upvote this user</button>
+    <button type="button" id="repDownVote" class="button button-positive" ng-if="true" ng-click="downVote()">Downvote this user</button>
+    </li>
+    </ul>
+
   </ion-content>
 </ion-view>

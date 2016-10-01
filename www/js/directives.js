@@ -45,7 +45,8 @@ angular.module('starter.directives', [])
   var user = undefined;
   var approvedShift = false;
   var notificationMsg = "";
-  var userApprovals;
+
+  var userApprovals; //all the pickup shifts
   var shifts;
   var stores;
 
@@ -227,6 +228,7 @@ angular.module('starter.directives', [])
   var myRequests = [];
   var partnerId;
   var shiftId;
+  var pickShiftId;
   var codea = null;
 
   return {
@@ -257,13 +259,14 @@ angular.module('starter.directives', [])
         return iamworking;
       });
     },
-    setPartnerId: function(id, shift, code){
+    setPartnerId: function(id, shift, code, pickShift){
       partnerId = id;
       shiftId = shift;
       codea = code;
+      pickShiftId = pickShift;
     },
     getPartnerId: function(){
-      return [partnerId, shiftId]
+      return [partnerId, shiftId, pickShiftId]
     },
     getCode: function(){
       var something = codea;
@@ -296,6 +299,38 @@ angular.module('starter.directives', [])
     }
   }
 })
+
+.factory('Partner', function($http) {
+  
+  return {
+    vote: function(shift, rep){
+      var voteRep = new Promise(
+        function(resolve, reject){
+          $http({
+            method: 'PATCH',
+            url: 'https://shift-it.herokuapp.com/rateuser',
+            data: {
+              'pickup_shift_id': shift,
+              'rep': rep
+            }
+          }).then(function (response) {
+             console.log("got response", response.data)
+             resolve(response);
+          }, function (response) {
+            console.log(response)
+            reject(response)
+          }) 
+      })
+    return voteRep;
+    }
+  }
+})
+
+
+
+
+
+
 
 
 
