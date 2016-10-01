@@ -771,6 +771,21 @@ angular.module('starter.controllers', [])
 
   $scope.message = function() {
     $scope.modal.show();
+    $http({
+      method: 'GET',
+      url: 'https://shift-it.herokuapp.com/messages/id/' + userId + '/partner/' + Maps.getUser(),
+    }).then(function(data) {
+      console.log("data here is: ", data)
+      // var data = data.data;
+      // $scope.partnerInfo.name = data.firstName + ' ' + data.lastName;
+      // $scope.partnerInfo.email = data.email;
+      // $scope.partnerInfo.facebookPic = data.profilePicture;
+      // $scope.partnerInfo.phone = data.phone;
+      // $scope.partnerInfo.userRep = "Awesome!";
+
+    }).catch(function(err) {
+      alert("Could not get partner profile.")
+    });
   }
 
   $scope.closeMessage = function() {
@@ -792,11 +807,12 @@ angular.module('starter.controllers', [])
 
     $http({
       method: 'POST',
-      url: 'http://localhost:4000/messages',
-      data: message
+      url: 'https://shift-it.herokuapp.com/messages',
+      data: messageBody
     }).then(function(response){
       console.log("message submitted to database with shift data: ", messageBody);
       alert("Your message has been sent!");
+      $scope.closeMessage();
     }, function(error){
       console.log("error posting message to db")
     })
