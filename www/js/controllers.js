@@ -862,11 +862,13 @@ angular.module('starter.controllers', [])
   $scope.myshiftsArray = [];
   $scope.iamWorking = [];
   $scope.myId = Maps.getUser();
-  $scope.requests = Maps.getApprovals().filter(function(shift){
-    if(shift.shift_owner === $scope.myId){
-      return shift.approved;
-    }
-  });
+  $scope.requests = Maps.getApprovals();
+
+  // .filter(function(shift){
+  //   if(shift.shift_owner === $scope.myId){
+  //     return shift.approved;
+  //   }
+  // });
   $scope.myPickupShifts; 
   $scope.myApprovedShifts;
   MyShift.getAllPickups().then(function(shifts){
