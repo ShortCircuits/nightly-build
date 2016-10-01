@@ -688,8 +688,7 @@ angular.module('starter.controllers', [])
       Partner.vote(pickupShiftId, 'positive')
       .then(function(res){
         alert("successfully upvoted this partner")
-        document.getElementById("repDownVote").style.display = "none";
-        document.getElementById("repUpVote").style.display = "none";
+        $scope.canVote = false;
 
       })
       .catch(function(err){
@@ -701,8 +700,7 @@ angular.module('starter.controllers', [])
       Partner.vote(pickupShiftId, 'negative')
       .then(function(res){
         alert("successfully downvoted this partner")
-        document.getElementById("repDownVote").style.display = "none";
-        document.getElementById("repUpVote").style.display = "none";
+        $scope.canVote = false;
       })
       .catch(function(err){
         alert("could not downvote this partner")
@@ -863,13 +861,19 @@ angular.module('starter.controllers', [])
   $scope.myshiftsArray = [];
   $scope.iamWorking = [];
   $scope.myId = Maps.getUser();
-  $scope.requests = Maps.getApprovals();
+  $scope.requests = Maps.getApprovals().filter(function(shift){
+    if(shift.shift_owner === $scope.myId){
+      return shift.approved;
+    }
+  });
   $scope.myPickupShifts; 
   $scope.myApprovedShifts;
   MyShift.getAllPickups().then(function(shifts){
     $scope.myPickupShifts = shifts; 
     $scope.myApprovedShifts = $scope.myPickupShifts.filter(function(shift){
-      return shift.approved;
+      if(shift.shift_owner === $scope.myId){
+        return shift.approved;
+      }
     })
     console.log("My approved shifts ", $scope.myApprovedShifts)
   })
