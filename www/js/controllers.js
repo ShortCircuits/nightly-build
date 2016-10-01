@@ -624,14 +624,14 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PartnerCtrl', function($scope, $http, MyShift, UserService, Partner) {
+.controller('PartnerCtrl', function($scope, $http, MyShift, UserService, Partner, $ionicModal) {
 
   $scope.$on('$ionicView.enter', function() {
     if(!UserService.isAuthenticated()) {
       window.location = '#/lobby'
     }
   });
-  
+
   var ex = MyShift.getCode();
 
   if (ex === 'abc' ) {
@@ -754,6 +754,25 @@ angular.module('starter.controllers', [])
   } else {
     console.log("gtfo");
   }
+
+  // The following code is for the messenger service!!!!!!!!!!!!!!!!!!!!!
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+  $ionicModal.fromTemplateUrl('templates/messageModal.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.message = function() {
+    $scope.modal.show();
+  }
+
+  $scope.closeMessage = function() {
+    $scope.modal.hide();
+  };
+
 })
 
 .controller('MyShiftCtrl', function($scope, Maps, MyShift, $http, $state, UserService) {
