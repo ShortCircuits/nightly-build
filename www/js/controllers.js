@@ -411,7 +411,7 @@ angular.module('starter.controllers', [])
       new Date("08-16-2016"),
       new Date(1439676000000)
     ],
-    from: new Date(), //Optional
+    from: new Date(2016, 1, 1), //Optional
     to: new Date(2016, 10, 30), //Optional
     inputDate: new Date(), //Optional
     mondayFirst: true, //Optional
@@ -611,7 +611,8 @@ angular.module('starter.controllers', [])
       shift_when: shift.shift_text_time,
       shift_prize: shift.prize,
       shift_start: shift.shift_start,
-      shift_end: shift.shift_end
+      shift_end: shift.shift_end,
+      voted: false
     };
     var notifyUser = function() {
         //Needs to go to different page
@@ -640,6 +641,8 @@ angular.module('starter.controllers', [])
   });
   $scope.myApprovedShifts;
   $scope.canVote = false;
+  $scope.canApprove = false;
+  $scope.myPickupShifts;
 
   // only go in here if the user has reached this page through our connect function
   var ex = MyShift.getCode();
@@ -668,6 +671,12 @@ angular.module('starter.controllers', [])
         }
       })
       console.log("My approved shifts ", $scope.myApprovedShifts)
+      $scope.myPickupShifts.forEach(function(shift) {
+        // and not in the id of user is not in voted array :: TODO
+        if (!shift.approved && currentUser === shift.shift_owner) {
+          $scope.canApprove = true;
+        }
+      })
     })
 
     //this needs better namings
@@ -702,9 +711,9 @@ angular.module('starter.controllers', [])
 
     $scope.reject = function() {
       // console.log("this is the shiftId inside: ", shiftId);
-      document.getElementById("approveShift").style.display = "none";
-      document.getElementById("rejectShift").style.display = "none";
-
+      // document.getElementById("approveShift").style.display = "none";
+      // document.getElementById("rejectShift").style.display = "none";
+      $scope.canApprove = false;
       $http({
         method: 'PATCH',
         url: 'https://shift-it.herokuapp.com/shiftsreject',
@@ -736,9 +745,9 @@ angular.module('starter.controllers', [])
     $scope.approve = function() {
       // console.log("this is the shiftId inside the approve: ", shiftId);
       document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
-      document.getElementById("approveShift").style.display = "none";
-      document.getElementById("rejectShift").style.display = "none";
-
+      // document.getElementById("approveShift").style.display = "none";
+      // document.getElementById("rejectShift").style.display = "none";
+      $scope.canApprove = false;
       $http({
         method: 'PATCH',
         url: 'https://shift-it.herokuapp.com/pickup',
@@ -781,7 +790,7 @@ angular.module('starter.controllers', [])
     });
 
   } else {
-    console.log("gtfo");
+    console.log("Thy should not be here at this point of time and space");
   }
 
   // The following code is for the messenger service!!!!!!!!!!!!!!!!!!!!!
