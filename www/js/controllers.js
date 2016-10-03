@@ -409,7 +409,7 @@ angular.module('starter.controllers', [])
       new Date("08-16-2016"),
       new Date(1439676000000)
     ],
-    from: new Date(2012, 1, 1), //Optional
+    from: new Date(), //Optional
     to: new Date(2016, 10, 30), //Optional
     inputDate: new Date(), //Optional
     mondayFirst: true, //Optional
