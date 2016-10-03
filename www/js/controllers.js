@@ -876,7 +876,10 @@ angular.module('starter.controllers', [])
   $scope.myshiftsArray = [];
   $scope.iamWorking = [];
   $scope.myId = Maps.getUser();
-  $scope.requests = Maps.getApprovals();
+  $scope.myRequests = Maps.getApprovals();
+  $scope.requests = $scope.myRequests.filter(function(shft) {
+    return shft.shift_owner === $scope.myId;
+  });
 
   // .filter(function(shift){
   //   if(shift.shift_owner === $scope.myId){
@@ -914,10 +917,13 @@ angular.module('starter.controllers', [])
         }
       }).then(function successCallback(response) {
         $scope.myshiftsArray.splice($scope.myshiftsArray.indexOf(shift), 1);
+        $scope.myRequests = $scope.myRequests.filter(function(sheeft) {
+          return sheeft.shift_id !== response.config.data._id;
+        });
         $scope.requests = $scope.requests.filter(function(sheeft) {
           return sheeft.shift_id !== response.config.data._id;
-        })
-        $rootScope.badgeCount = $scope.requests.length;
+        });
+        $rootScope.badgeCount = $scope.myRequests.length;
         alert("You have successfully deleted the shift.");
       }, function errorCallback(response) {
         alert("Could not delete the shift", response)
