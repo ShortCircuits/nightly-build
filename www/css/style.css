@@ -149,3 +149,7 @@ div.buttons.buttons-right.header-item > span > button {
 .marker4 {margin: 0;}
 .marker5 {margin: 0;}
 .marker6 {margin: 0;}
+
+.date_cell {
+  cursor: pointer;
+}
