@@ -16,6 +16,10 @@
    	<p class="profile-header"> Home Store</p>
     <p class="profile-info">{{ profileData.home_store.address }}</p>
 
+    <p class="profile-header"> My Reputation</p>
+    <p class="profile-info"> Positive reps: {{ profileData.rating.positive }}</p>
+    <p class="profile-info"> Negative reps: {{ profileData.rating.negative }}</p>
+
 
   	<button class="button button-positive" ng-click="openEditProfile()">Edit Profile</button>
   </ion-content>
