@@ -414,7 +414,7 @@ angular.module('starter.controllers', [])
     from: new Date(), //Optional
     to: new Date(2016, 10, 30), //Optional
     inputDate: new Date(), //Optional
-    mondayFirst: true, //Optional
+    mondayFirst: false, //Optional
     // disableWeekdays: [0],       //Optional
     closeOnSelect: false, //Optional
     templateType: 'popup' //Optional
