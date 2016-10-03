@@ -853,7 +853,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('MyShiftCtrl', function($scope, Maps, MyShift, $http, $state, UserService) {
+.controller('MyShiftCtrl', function($scope, $rootScope, Maps, MyShift, $http, $state, UserService) {
 
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
@@ -871,7 +871,7 @@ angular.module('starter.controllers', [])
   //     return shift.approved;
   //   }
   // });
-  $scope.myPickupShifts;
+  $scope.myPickupShifts = [];
   $scope.myApprovedShifts;
   MyShift.getAllPickups().then(function(shifts) {
     $scope.myPickupShifts = shifts;
@@ -889,7 +889,6 @@ angular.module('starter.controllers', [])
   };
 
   $scope.delete = function(shift) {
-    console.log("the shift I want to delete is: ", shift);
     var deleteMe = confirm("Are you sure you wish to delete this shift?");
     if (deleteMe) {
       $http({
@@ -902,10 +901,11 @@ angular.module('starter.controllers', [])
           "Content-Type": "application/json"
         }
       }).then(function successCallback(response) {
-        $scope.myshiftsArray = $scope.myshiftsArray.filter(function(sheeft) {
-          return sheeft._id !== response.config.data._id;
-        });
-        $scope.myshiftsArray.splice(indexOf(shift), 1);
+        $scope.myshiftsArray.splice($scope.myshiftsArray.indexOf(shift), 1);
+        $scope.requests = $scope.requests.filter(function(sheeft) {
+          return sheeft.shift_id !== response.config.data._id;
+        })
+        $rootScope.badgeCount = $scope.requests.length;
         alert("You have successfully deleted the shift.");
       }, function errorCallback(response) {
         alert("Could not delete the shift", response)
