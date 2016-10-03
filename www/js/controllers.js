@@ -666,8 +666,10 @@ angular.module('starter.controllers', [])
       $scope.myApprovedShifts.forEach(function(shift) {
         var shiftTime = new Date(shift.shift_end);
         // and not in the id of user is not in voted array :: TODO
-        if (shift.approved && currentUser === shift.shift_owner && currentTime > shiftTime) {
+        if (!shift.voted && shift.approved && currentUser === shift.shift_owner && currentTime > shiftTime) {
           $scope.canVote = true;
+        }else{
+          $scope.canVote = false;
         }
       })
       console.log("My approved shifts ", $scope.myApprovedShifts)
