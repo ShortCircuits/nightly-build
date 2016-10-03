@@ -18,8 +18,8 @@
   	<button class="button button-positive" ng-click="message()">Contact</button>
     <ul>
     <li>
-    <button type="button" id="approveShift" class="button button-positive" ng-click="approve()">Accept</button>
-    <button type="button" id="rejectShift" class="button button-positive" ng-click="reject()">Reject</button>
+    <button type="button" id="approveShift" class="button button-positive" ng-if="canApprove" ng-click="approve()">Accept</button>
+    <button type="button" id="rejectShift" class="button button-positive" ng-if="canApprove" ng-click="reject()">Reject</button>
     </li>
     <li>
     <button type="button" id="repUpVote" class="button button-positive" ng-if="canVote" ng-click="upVote()">Upvote this user</button>
