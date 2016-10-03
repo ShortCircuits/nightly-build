@@ -28,6 +28,7 @@
       <ion-list>
         <h3>Shifts you picked up:</h3>
         <ion-item ng-repeat="shift in iamWorking">
+          <a class="deleteShift" ng-show="!shift.approved">Pending</a>
           <p>Where: {{shift.shift_where}}<br/>
           When: {{shift.shift_when}}<br/>
           Picked up from: {{shift.shift_owner_name}}<br/>
