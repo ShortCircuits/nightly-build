@@ -566,7 +566,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup, UserService) {
+.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup, UserService, AvailableShifts) {
 
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
@@ -623,6 +623,7 @@ angular.module('starter.controllers', [])
     if ($scope.myId != shift._id) {
       Pickup.pickUpShift(theData).then(function(response) {
         alert("successfully requested a shift")
+        $scope.availableShifts.splice($scope.availableShifts.indexOf(shift), 1);
       }).catch(function(err) {
         alert("Could not request to pickup this shift, try refreshing the app")
       })

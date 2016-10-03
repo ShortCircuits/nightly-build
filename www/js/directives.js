@@ -216,16 +216,17 @@ angular.module('starter.directives', [])
 .factory('AvailableShifts', function() {
 
   //simplified version of the factory / currently all shifts cramed into one array
-  var availableShifts = [];
+  // var availableShifts = [];
 
   return {
+    availableShifts: [],
     // no select by store for now :: TODO
     getShifts: function(store) {
-      return availableShifts;
+      return this.availableShifts;
     },
     addShift: function(shift) {
       // each shift should have UUID so we can eliminate duplicates from the list
-      availableShifts.push(shift)
+      this.availableShifts.push(shift)
     }
   }
 })
