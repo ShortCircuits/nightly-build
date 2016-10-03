@@ -667,8 +667,10 @@ angular.module('starter.controllers', [])
       $scope.myApprovedShifts.forEach(function(shift) {
         var shiftTime = new Date(shift.shift_end);
         // and not in the id of user is not in voted array :: TODO
-        if (shift.approved && currentUser === shift.shift_owner && currentTime > shiftTime) {
+        if (!shift.voted && shift.approved && currentUser === shift.shift_owner && currentTime > shiftTime) {
           $scope.canVote = true;
+        }else{
+          $scope.canVote = false;
         }
       })
       console.log("My approved shifts ", $scope.myApprovedShifts)
@@ -686,13 +688,17 @@ angular.module('starter.controllers', [])
     var pickupShiftId = MyShift.getPartnerId()[2];
     console.log("userId : ", userId);
     console.log("this is the shiftId: ", shiftId);
-
+    var currShift;
     $scope.upVote = function() {
       Partner.vote(pickupShiftId, 'positive')
         .then(function(res) {
           alert("successfully upvoted this partner")
           $scope.canVote = false;
-
+          //update the status of the local shitf so it cant be voted on again
+          currShift = $scope.myPickupShifts.filter(function(shift){
+            return shift._id === pickupShiftId
+          })
+          currShift.voted = false;
         })
         .catch(function(err) {
           alert("could not upvote this partner")
@@ -704,6 +710,11 @@ angular.module('starter.controllers', [])
         .then(function(res) {
           alert("successfully downvoted this partner")
           $scope.canVote = false;
+          //update the status of the local shitf so it cant be voted on again
+          currShift = $scope.myPickupShifts.filter(function(shift){
+            return shift._id === pickupShiftId
+          })
+          currShift.voted = false;
         })
         .catch(function(err) {
           alert("could not downvote this partner")
