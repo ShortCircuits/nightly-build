@@ -530,11 +530,12 @@ angular.module('starter.controllers', [])
     var textEnd = data.shift_end;
     var p1 = textStart.toDateString();
     var p2 = textStart.toLocaleTimeString();
+    p1 = p1.slice(0, -5);
     p2 = p2.slice(0, -6) + p2.slice(-3);
     var p3 = textEnd.toLocaleTimeString();
     p3 = p3.slice(0, -6) + p3.slice(-3);
-    var p4 = textStart.toString().slice(-6);
-    return p1 + " from " + p2 + " to " + p3 + p4;
+    console.log("times: ", p1, " | ", p2, " | ", p3);
+    return p1 + " from " + p2 + " to " + p3;
   };
 
   // Setting a variable to the fully fleshed out shiftData
