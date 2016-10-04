@@ -1,17 +1,18 @@
 angular.module('starter.controllers', [])
 
 .controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService) {
-  // $scope.myStoreInfo = {};
   $scope.map;
   $scope.infowindow = new google.maps.InfoWindow();
   $scope.location = Maps.getLocation();
   $scope.user;
+  $scope.homeStore;
 
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
     }
     $scope.notification();
+    // Maps.getMyStore();
     console.log('Opened!')
     ionic.trigger('resize');
   })
@@ -72,6 +73,15 @@ angular.module('starter.controllers', [])
       })
       .catch(function(err) {
         console.log("Could not get user id")
+      })
+
+    Maps.getMyStore()
+      .then(function(storeId) {
+        $scope.homeStore = storeId;
+        console.log("my store id is: ", storeId);
+      })
+      .catch(function(err) {
+        console.log("Could not get home store")
       })
 
     // Make request to the server too see if 
@@ -180,6 +190,9 @@ angular.module('starter.controllers', [])
     });
     // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
     marker.setMap($scope.map);
+    if (place.place_id === $scope.homeStore){
+      marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+    }
     google.maps.event.addListener(marker, 'click', function() {
       var info = "";
       if (place.shifts) {
