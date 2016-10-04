@@ -591,17 +591,19 @@ angular.module('starter.controllers', [])
   // $scope.availableShifts = AvailableShifts.getShifts();
   $scope.myId = Maps.getUser();
   // assuming the stores are in place on the Maps factory
-  $scope.availableShifts = Maps.getShifts();
-
+  $scope.availableShifts;
   // if there are no shifts available make another request;
-  if (!$scope.availableShifts) {
+
     Maps.getMyPos().then(function(pos) {
       Maps.fetchStores().then(function(res) {
         $scope.availableShifts = Maps.getShifts();
+        $scope.availableShifts = $scope.availableShifts.filter(function(shift){
+          return !shift.requested.includes($scope.myId)
+        });
         addPrizeNum();
       })
     })
-  }
+
   addPrizeNum()
   // make prize a number so it can be used to sortBy
   function addPrizeNum() {
