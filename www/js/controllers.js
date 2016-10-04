@@ -589,20 +589,15 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup, UserService, AvailableShifts) {
+  $scope.availableShifts;
+  $scope.myId;
 
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
     }
-  });
-
-  // $scope.availableShifts = AvailableShifts.getShifts();
-  $scope.myId = Maps.getUser();
-  // assuming the stores are in place on the Maps factory
-  $scope.availableShifts;
-  // if there are no shifts available make another request;
-
-    Maps.getMyPos().then(function(pos) {
+    $scope.myId = Maps.getUser();
+        Maps.getMyPos().then(function(pos) {
       Maps.fetchStores().then(function(res) {
         $scope.availableShifts = Maps.getShifts();
         $scope.availableShifts = $scope.availableShifts.filter(function(shift){
@@ -611,6 +606,15 @@ angular.module('starter.controllers', [])
         addPrizeNum();
       })
     })
+  });
+
+  // $scope.availableShifts = AvailableShifts.getShifts();
+
+  // assuming the stores are in place on the Maps factory
+
+  // if there are no shifts available make another request;
+
+
 
   addPrizeNum()
   // make prize a number so it can be used to sortBy
