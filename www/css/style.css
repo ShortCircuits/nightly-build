@@ -8,6 +8,15 @@ map {
   z-index: 200;
 }
 
+.splashHead {
+  font-size: 48px;
+  text-align: center;
+}
+
+.splashPage {
+  background-color: ;
+}
+
 .scroll {
   height: 100%;
 }
