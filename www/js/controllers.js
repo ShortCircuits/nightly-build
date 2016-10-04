@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService) {
-  $scope.myStoreInfo = {};
+  // $scope.myStoreInfo = {};
   $scope.map;
   $scope.infowindow = new google.maps.InfoWindow();
   $scope.location = Maps.getLocation();
@@ -166,7 +166,7 @@ angular.module('starter.controllers', [])
 
   function createMarker(place) {
     var loc = place.geometry.location;
-    var icons = ''
+    var icons = '';
     if (!place.shifts) {
       icons = 'img/marker-gray.png'
     }
@@ -178,7 +178,7 @@ angular.module('starter.controllers', [])
       animation: google.maps.Animation.DROP,
       icon: icons
     });
-
+    // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
     marker.setMap($scope.map);
     google.maps.event.addListener(marker, 'click', function() {
       var info = "";
