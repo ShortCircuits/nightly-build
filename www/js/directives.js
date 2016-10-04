@@ -286,8 +286,7 @@ angular.module('starter.directives', [])
           method: 'GET',
           url: BASE_URL+'myshifts'
       }).then(function(response) {
-        something = response.data;
-        return something;
+        return response.data;
       });
     },
     GetShiftsIPickedUp: function(){
@@ -375,6 +374,29 @@ angular.module('starter.directives', [])
 })
 
 
+.factory('ShiftFactory', ['$http', function($http) {
+  
+  var urlbase = 'https://shift-it.herokuapp.com/';
+  
+  var sf = {};
+
+  sf.getShiftsPosted = function(){
+    return $http.get(urlbase + 'myshifts')
+    .then(function(response) {
+      return response.data;
+    });
+  };
+
+  sf.getShiftsPicked = function(){
+    return $http.get(urlbase + 'shiftsIPickedUp')
+    .then(function(response) {
+      return response.data;
+    });
+  };
+
+  return sf;
+
+}])
 
 
 
