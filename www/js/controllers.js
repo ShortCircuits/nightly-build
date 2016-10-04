@@ -920,6 +920,7 @@ angular.module('starter.controllers', [])
   // });
   $scope.myPickupShifts = [];
   $scope.myApprovedShifts;
+  
   MyShift.getAllPickups().then(function(shifts) {
     $scope.myPickupShifts = shifts;
     $scope.myApprovedShifts = $scope.myPickupShifts.filter(function(shift) {
@@ -982,6 +983,7 @@ angular.module('starter.controllers', [])
 
   MyShift.GetShiftsIPickedUp()
     .then(function(shiftsToWork) {
+      console.log("shiftsToWork: ", shiftsToWork);
       $scope.iamWorking = shiftsToWork.filter(function(xyz){
         xyz.approved===true;
       });

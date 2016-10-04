@@ -295,8 +295,7 @@ angular.module('starter.directives', [])
           method: 'GET',
           url: BASE_URL+'shiftsIPickedUp'
       }).then(function(response) {
-        iamworking = response.data;
-        return iamworking;
+        return response.data;
       });
     },
     setPartnerId: function(id, shift, code, pickShift){
