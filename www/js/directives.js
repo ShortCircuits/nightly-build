@@ -49,8 +49,16 @@ angular.module('starter.directives', [])
   var userApprovals; //all the pickup shifts
   var shifts;
   var stores;
+  var myStore;
 
   return {
+    getMyStore: function(){
+      return $http.get('https://shift-it.herokuapp.com/getProfileInfo')
+        .then(function(response) {
+          myStore = response.data[0].home_store.storeId;
+          return myStore;
+        });
+    },
 
     whoAmI: function() {
       return $http.get('https://shift-it.herokuapp.com/whoami')
@@ -166,6 +174,9 @@ angular.module('starter.directives', [])
     },
     getLocation: function() {
       return location;
+    },
+    getHomeStore: function() {
+      return myStore;
     },
     getMap: function() {
       return map;
