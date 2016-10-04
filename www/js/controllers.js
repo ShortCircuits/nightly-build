@@ -599,17 +599,19 @@ angular.module('starter.controllers', [])
   // $scope.availableShifts = AvailableShifts.getShifts();
   $scope.myId = Maps.getUser();
   // assuming the stores are in place on the Maps factory
-  $scope.availableShifts = Maps.getShifts();
-
+  $scope.availableShifts;
   // if there are no shifts available make another request;
-  if (!$scope.availableShifts) {
+
     Maps.getMyPos().then(function(pos) {
       Maps.fetchStores().then(function(res) {
         $scope.availableShifts = Maps.getShifts();
-        addPrizeNum()
+        $scope.availableShifts = $scope.availableShifts.filter(function(shift){
+          return !shift.requested.includes($scope.myId)
+        });
+        addPrizeNum();
       })
     })
-  }
+
   addPrizeNum()
   // make prize a number so it can be used to sortBy
   function addPrizeNum() {
@@ -642,10 +644,11 @@ angular.module('starter.controllers', [])
         console.log("shift requested")
       }
       // test if shift owner is claiming their own shift
-    if ($scope.myId != shift._id) {
+      console.log("scope myid and shift owner ", $scope.myId, " " ,shift.submitted_by)
+    if ($scope.myId != shift.submitted_by) {
       Pickup.pickUpShift(theData).then(function(response) {
         alert("successfully requested a shift")
-        $scope.availableShifts.splice($scope.availableShifts.indexOf(shift), 1);
+        // $scope.availableShifts.splice($scope.availableShifts.indexOf(shift), 1);
       }).catch(function(err) {
         alert("Could not request to pickup this shift, try refreshing the app")
       })

@@ -93,7 +93,7 @@ angular.module('starter.directives', [])
         })
       return pos;
     },
-
+    // also populates the shifts;
     fetchStores: function(){
       return $http.get('https://shift-it.herokuapp.com/shifts/lat/' + location.lat + '/lng/' + location.lng + '/rad/5000')
         .then(function(response) {
@@ -145,6 +145,10 @@ angular.module('starter.directives', [])
 
     getShifts: function(){
       return shifts;
+    },
+
+    addShift: function(shift){
+      shifts.push(shift)
     },
 
     getStores: function(){
