@@ -7,6 +7,47 @@
   	<p class="profile-header"> Name </p>
   	<p class="profile-info">{{ profileData.firstName + " " + profileData.lastName }}</p>
   	
+    <div class="item item-divider">
+      Email
+    </div>
+    <div class="item item-text-wrap" ng-click="openDatePicker()">
+      <i class="icon ion-calendar"></i>
+        {{profileData.email}}
+    </div>
+
+    <div class="item item-divider">
+      Phone
+    </div>
+    <div class="item item-text-wrap" ng-click="openDatePicker()">
+      <i class="icon ion-calendar"></i>
+        {{profileData.phone}}
+    </div>
+
+    <div class="item item-divider">
+      Phone
+    </div>
+    <div class="item item-text-wrap">
+      <i class="icon ion-calendar"></i>
+        {{profileData.phone}}
+    </div>
+
+    <div class="item item-divider">
+      Home Store
+    </div>
+    <div class="item item-text-wrap">
+      <i class="icon ion-calendar"></i>
+        {{profileData.home_store.address}}
+    </div>
+
+    <div class="item item-divider">
+      Reputation
+    </div>
+    <div class="item item-text-wrap">
+      <p class="profile-info"> Positive reps: {{ profileData.rating.positive }}</p>
+      <p class="profile-info"> Negative reps: {{ profileData.rating.negative }}</p>
+    </div>
+
+<!-- 
   	<p class="profile-header"> Email </p>
   	<p class="profile-info">{{ profileData.email }}</p>
   	
@@ -19,7 +60,7 @@
     <p class="profile-header"> My Reputation</p>
     <p class="profile-info"> Positive reps: {{ profileData.rating.positive }}</p>
     <p class="profile-info"> Negative reps: {{ profileData.rating.negative }}</p>
-
+ -->
 
   	<button class="button button-positive" ng-click="openEditProfile()">Edit Profile</button>
   </ion-content>
