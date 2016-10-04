@@ -217,9 +217,15 @@ angular.module('starter.controllers', [])
         info = "<li>" + place.vicinity + "</li><br /><li>No shifts available for this store</li>"
       }
       // marker popup window
-      $scope.infowindow.setContent(
-        "<ul class='infowindow'><li><button onclick=\"setMyStore('" + place.place_id + "', '" + place.vicinity + "')\">Make this my home store</button></li>" + info + "</ul>"
-      );
+      if (place.place_id !== $scope.homeStore){
+        $scope.infowindow.setContent(
+          "<ul class='infowindow'><li><button onclick=\"setMyStore('" + place.place_id + "', '" + place.vicinity + "')\">Make this my home store</button></li>" + info + "</ul>"
+        );
+      } else {
+        $scope.infowindow.setContent(
+          "<ul class='infowindow'><li class=\"homestore\">This is your store!</li>" + info + "</ul>"
+        );
+      }
       $scope.infowindow.open($scope.map, this);
     });
   }
