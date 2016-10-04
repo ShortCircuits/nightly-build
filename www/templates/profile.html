@@ -2,32 +2,26 @@
   <ion-content class="padding">
 
 
-    <img ng-src="{{profileData.profilePicture}}" alt="good looking dude" />
+    <div class="item item-divider">
+        {{ profileData.firstName + " " + profileData.lastName }}
+    </div>
+    <div class="item item-avatar">
+      <img class="profilePic" ng-src="{{profileData.profilePicture}}" alt="good looking dude" />
+    </div>
 
-  	<p class="profile-header"> Name </p>
-  	<p class="profile-info">{{ profileData.firstName + " " + profileData.lastName }}</p>
-  	
     <div class="item item-divider">
       Email
     </div>
-    <div class="item item-text-wrap" ng-click="openDatePicker()">
-      <i class="icon ion-calendar"></i>
+    <div class="item item-text-wrap">
+      <i class="icon ion-email"></i>
         {{profileData.email}}
     </div>
 
     <div class="item item-divider">
       Phone
     </div>
-    <div class="item item-text-wrap" ng-click="openDatePicker()">
-      <i class="icon ion-calendar"></i>
-        {{profileData.phone}}
-    </div>
-
-    <div class="item item-divider">
-      Phone
-    </div>
     <div class="item item-text-wrap">
-      <i class="icon ion-calendar"></i>
+      <i class="icon ion-iphone"></i>
         {{profileData.phone}}
     </div>
 
@@ -35,7 +29,7 @@
       Home Store
     </div>
     <div class="item item-text-wrap">
-      <i class="icon ion-calendar"></i>
+      <i class="icon ion-location"></i>
         {{profileData.home_store.address}}
     </div>
 
@@ -43,11 +37,20 @@
       Reputation
     </div>
     <div class="item item-text-wrap">
-      <p class="profile-info"> Positive reps: {{ profileData.rating.positive }}</p>
-      <p class="profile-info"> Negative reps: {{ profileData.rating.negative }}</p>
+      <i class="icon ion-android-happy"></i>
+      Positive reps: {{ profileData.rating.positive }}
+      <br>
+      <i class="icon ion-android-sad"></i>
+      Negative reps: {{ profileData.rating.negative }}
     </div>
 
 <!-- 
+
+    <img ng-src="{{profileData.profilePicture}}" alt="good looking dude" />
+
+    <p class="profile-header"> Name </p>
+    <p class="profile-info">{{ profileData.firstName + " " + profileData.lastName }}</p>
+
   	<p class="profile-header"> Email </p>
   	<p class="profile-info">{{ profileData.email }}</p>
   	
