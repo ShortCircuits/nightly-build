@@ -1,34 +1,59 @@
 <ion-view view-title="My Shifts" class="myShifts">
   <ion-content class="padding">
     <div id="neededApproval" >
+        <h3>Shifts you posted:</h3>
         <ion-list>
-        <h3>Shifts that need your approval:</h3>
-          <ion-item ng-repeat="shift in requests">
-            <p>Where: {{shift.shift.home_store.address}}<br/>
-            When: {{shift.shift.shift_text_time}}<br/>
-            Requested by: {{shift.user_requested_name}}<br/>
-            Prize: {{shift.shift.prize}}</p>
-            <button ng-click="connect(shift.user_requested, shift.shift._id, shift._id)"> connect </button>
+          <ion-item ng-repeat="shift in requests" class="item-text-wrap" >
+            <div class="row responsive-sm">
+              <div class="col col-65">
+                <p>{{shift.shift.home_store.address}}<br/>
+                {{shift.shift.shift_text_time}}<br/>
+                prize: {{shift.shift.prize}}</p>
+              </div>
+              <div class="col col-35">
+                <p>Status: PENDING</p>
+                <button ng-click="connect(shift.user_requested, shift.shift._id, shift._id)">Requested by: {{shift.user_requested_name}}</button>
+              </div>
+            </div>
           </ion-item>
         </ion-list>
-    </div>
-    <div id="postedShifts" >
-       <ion-list>
-       <h3>Shifts you posted:</h3>
 
-          <ion-item ng-repeat="shift in myshiftsArray">
-            <span><a class="deleteShift" ng-click="delete(shift)" onmouseover="" style="cursor: pointer;"> delete </a>
-            <p>Where: {{shift.home_store.address}}<br/>
-            When: {{shift.shift_text_time}}<br/>
-            Prize: {{shift.prize}}</p></span>
+       <ion-list>
+          <ion-item ng-repeat="shift in myshiftsArray" class="item-text-wrap">
+            <div class="row responsive-sm">
+              <div class="col col-65">
+                <p>Where: {{shift.home_store.address}}<br/>
+                When: {{shift.shift_text_time}}<br/>
+                Prize: {{shift.prize}}</p>
+              </div>
+              <div class="col col-35">
+                <p>Status: Unclaimed</p>
+                <a class="" ng-click="delete(shift)" onmouseover="" style="cursor: pointer;"> delete </a>
+              </div>
+            </div>
           </ion-item>
         </ion-list>
-    </div>
-    <div id="pickedUpShifts" >
-      <ion-list>
+        <ion-list>
+          <ion-item ng-repeat="shift in myApprovedShifts" class="item-text-wrap">
+            <div class="row responsive-sm">
+              <div class="col col-65">
+                <p>Where: {{shift.shift_where}}<br/>
+                When: {{shift.shift_when}}<br/>
+                Picked up requested by: {{shift.user_requested_name}}<br/>
+                Prize: {{shift.shift_prize}}</p></span>
+              </div>
+              <div class="col col-35">
+                <p>Status: Approved</p>
+                <button ng-click="connect(shift.user_requested, shift.shift._id, shift._id)"> Go to this users page </button><br/><br/>
+              </div>
+            </div>
+          </ion-item>
+        </ion-list>
         <h3>Shifts you picked up:</h3>
+      <ion-list>
         <ion-item ng-repeat="shift in iamWorking">
           <a class="deleteShift" ng-show="!shift.approved">Pending</a>
+          <a class="deleteShift" ng-show="shift.approved">Approved</a>
           <p>Where: {{shift.shift_where}}<br/>
           When: {{shift.shift_when}}<br/>
           Picked up from: {{shift.shift_owner_name}}<br/>
@@ -37,17 +62,5 @@
       </ion-list>
   </div>
 
-  <div id="approvedPickedUpShifts" >
-    <ion-list>
-      <h3>Shifts you have approved:</h3>
-      <ion-item ng-repeat="shift in myApprovedShifts">
-        <p>Where: {{shift.shift_where}}<br/>
-        When: {{shift.shift_when}}<br/>
-        Picked up requested by: {{shift.user_requested_name}}<br/>
-        Prize: {{shift.shift_prize}}</p></span>
-        <button ng-click="connect(shift.user_requested, shift.shift._id, shift._id)"> Go to this users page </button><br/><br/>
-      </ion-item>
-    </ion-list>
-  </div>
   </ion-content>
 </ion-view>
