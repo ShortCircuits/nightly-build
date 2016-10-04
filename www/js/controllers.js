@@ -905,6 +905,8 @@ angular.module('starter.controllers', [])
   // variable to store response from /myshifts
   $scope.myshiftsArray = [];
   $scope.iamWorking = [];
+  $scope.iamRejected =[];
+  $scope.iamWaiting = [];
   $scope.myId = Maps.getUser();
   $scope.myRequests = Maps.getApprovals();
   $scope.requests = $scope.myRequests.filter(function(shft) {
@@ -980,7 +982,12 @@ angular.module('starter.controllers', [])
 
   MyShift.GetShiftsIPickedUp()
     .then(function(shiftsToWork) {
-      $scope.iamWorking = shiftsToWork;
+      $scope.iamWorking = shiftsToWork.filter(function(xyz){
+        xyz.approved===true;
+      });
+      $scope.iamWaiting = shiftsToWork.filter(function(xyz){
+        xyz.approved===false;
+      });
     }).catch(function(err) {
       alert("Could not fetch shifts you have picked up", err);
     });

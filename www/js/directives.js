@@ -46,7 +46,7 @@ angular.module('starter.directives', [])
   var approvedShift = false;
   var notificationMsg = "";
 
-  var userApprovals; //all the pickup shifts
+  var userApprovals = []; //all the pickup shifts
   var shifts;
   var stores;
   var myStore;
