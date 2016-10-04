@@ -94,17 +94,32 @@ angular.module('starter.directives', [])
       return pos;
     },
     // also populates the shifts;
+
+    // $scope.availableShifts = $scope.availableShifts.filter(function(shift){
+    //       return !shift.requested.includes($scope.myId)
+    //     });
     fetchStores: function(){
       return $http.get('https://shift-it.herokuapp.com/shifts/lat/' + location.lat + '/lng/' + location.lng + '/rad/5000')
         .then(function(response) {
           stores = response.data;
           shifts = stores.results.filter(function(store){
+            // console.log("store is: ", store)
             if (store.shifts) return true;
           }).map(function(shift){
             return shift.shifts;
           }).reduce(function(a, b) {
             return a.concat(b);
           }, []);
+          return $http.get('https://shift-it.herokuapp.com/whoami')
+            .then(function(response) {
+              loggedInUser = response.data;
+              user = response.data;
+              shifts = shifts.filter(function(shift){
+                console.log("user: ", user)
+                return !shift.requested.includes(user)
+              });
+            });
+          console.log("the shifts are here: ", shifts)
           return stores;
         });
     },
