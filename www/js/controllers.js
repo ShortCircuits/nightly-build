@@ -786,7 +786,7 @@ angular.module('starter.controllers', [])
 
     $scope.approve = function() {
       // console.log("this is the shiftId inside the approve: ", shiftId);
-      document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
+      // document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
       // document.getElementById("approveShift").style.display = "none";
       // document.getElementById("rejectShift").style.display = "none";
       $scope.canApprove = false;
