@@ -602,7 +602,15 @@ angular.module('starter.controllers', [])
         $scope.availableShifts = Maps.getShifts();
         $scope.availableShifts = $scope.availableShifts.filter(function(shift){
           return !shift.requested.includes($scope.myId)
-        });
+        })
+        // .filter(function(shift){
+        //   return !shift.submitted_by === $scope.myId;
+        // })
+        $scope.availableShifts.filter(function(shift){
+          console.log('shift subb by', shift.submitted_by)
+          console.log('my id', $scope.myId)
+          return !(shift.submitted_by === $scope.myId);
+        })
         addPrizeNum();
       })
     })
