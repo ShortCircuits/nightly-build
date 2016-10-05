@@ -374,8 +374,8 @@ angular.module('starter.directives', [])
 })
 
 
-.factory('ShiftFactory', ['$http', function($http) {
-  
+.factory('ShiftFactory', function($http) {
+
   var urlbase = 'https://shift-it.herokuapp.com/';
   
   var sf = {};
@@ -390,13 +390,14 @@ angular.module('starter.directives', [])
   sf.getShiftsPicked = function(){
     return $http.get(urlbase + 'shiftsIPickedUp')
     .then(function(response) {
+      console.log("gsp response: ", response)
       return response.data;
     });
   };
 
   return sf;
 
-}])
+})
 
 
 
