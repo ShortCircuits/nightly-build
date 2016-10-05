@@ -368,7 +368,7 @@ angular.module('starter.controllers', [])
   })
 
 // This controller handles the functionality for creating and posting a new shift.
-.controller('CoverCtrl', function($rootScope, $scope, $ionicModal, ionicDatePicker, ionicTimePicker, $http, UserService, CoverService) {
+.controller('CoverCtrl', function($rootScope, $scope, $ionicModal, UserService, CoverService) {
   
   $scope.$on("update", function() {
     $scope.data = {
