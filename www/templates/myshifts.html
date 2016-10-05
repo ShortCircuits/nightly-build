@@ -6,16 +6,16 @@
       <!-- PENDING = someone has offered to take shift, 
       original poster needs to make decision -->
       <ion-list>
-        <ion-item ng-repeat="shift in requests" class="item-text-wrap" >
+        <ion-item ng-repeat="shift in posted-pending" class="item-text-wrap" >
           <div class="row responsive-sm">
             <div class="col col-65">
-              <p>{{shift.shift.home_store.address}}<br/>
-              {{shift.shift.shift_text_time}}<br/>
-              prize: {{shift.shift.prize}}</p>
+              <p>{{shift.home_store.address}}<br/>
+              {{shift.shift_text_time}}<br/>
+              prize: {{shift.prize}}</p>
             </div>
             <div class="col col-35">
               <p>Status: PENDING</p>
-              <button ng-click="connect(shift.user_requested, shift.shift._id, shift._id)">Requested by: {{shift.user_requested_name}}</button>
+              <button ng-click="connect(shift.requested[0], shift.shift._id, shift._id)">Requested by: {{shift.user_requested_name}}</button>
             </div>
           </div>
         </ion-item>
@@ -24,7 +24,7 @@
       <!-- UNCLAIMED = no one has offered to take shift, 
       original poster can delete or edit -->
       <ion-list>
-        <ion-item ng-repeat="shift in myshiftsArray" class="item-text-wrap">
+        <ion-item ng-repeat="shift in posted-unclaimed" class="item-text-wrap">
           <div class="row responsive-sm">
             <div class="col col-65">
               <p>Where: {{shift.home_store.address}}<br/>
@@ -33,7 +33,7 @@
             </div>
             <div class="col col-35">
               <p>Status: UNCLAIMED</p>
-              <a class="" ng-click="delete(shift)" onmouseover="" style="cursor: pointer;"> delete </a>
+              <button ng-click="delete(shift)">Delete</button>
             </div>
           </div>
         </ion-item>
@@ -42,7 +42,7 @@
       <!-- APPROVED = someone has offered to take shift, 
       original poster has accepted, agreement is in place -->
       <ion-list>
-        <ion-item ng-repeat="shift in myApprovedShifts" class="item-text-wrap">
+        <ion-item ng-repeat="shift in posted-approved" class="item-text-wrap">
           <div class="row responsive-sm">
             <div class="col col-65">
               <p>Where: {{shift.shift_where}}<br/>
@@ -52,7 +52,7 @@
             </div>
             <div class="col col-35">
               <p>Status: APPROVED</p>
-              <button ng-click="connect(shift.user_requested, shift.shift._id, shift._id)"> Go to this users page </button><br/><br/>
+              <button ng-click="connect(shift.covered_by, shift.shift._id, shift._id)"> Go to this users page </button><br/><br/>
             </div>
           </div>
         </ion-item>
@@ -63,7 +63,7 @@
       <!-- PENDING = you offered to take this shift,
       and you're waiting to hear back from poster -->
       <ion-list>
-        <ion-item ng-repeat="shift in iamWaiting">
+        <ion-item ng-repeat="shift in picked-pending">
           <div class="row responsive-sm">
             <div class="col col-65">
               <p>Where: {{shift.shift_where}}<br/>
@@ -81,7 +81,7 @@
       <!-- APPROVED = you offered to take this shift,
       poster approved, you are now working this shift -->
       <ion-list>
-        <ion-item ng-repeat="shift in iamWorking">
+        <ion-item ng-repeat="shift in picked-approved">
           <div class="row responsive-sm">
             <div class="col col-65">
               <p>Where: {{shift.shift_where}}<br/>
@@ -95,6 +95,25 @@
           </div>
         </ion-item>
       </ion-list>
+
+      <!-- REJECTED = you offered to take this shift,
+      poster rejected your offer -->
+      <ion-list>
+        <ion-item ng-repeat="shift in picked-rejected">
+          <div class="row responsive-sm">
+            <div class="col col-65">
+              <p>Where: {{shift.shift_where}}<br/>
+              When: {{shift.shift_when}}<br/>
+              Posted by: {{shift.shift_owner_name}}<br/>
+              Prize: {{shift.shift_prize}}</p>
+            </div>
+            <div class="col col-35">
+              <p>Status: REJECTED</p>
+            </div>
+          </div>
+        </ion-item>
+      </ion-list>
+
 
   </ion-content>
 </ion-view>

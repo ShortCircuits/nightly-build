@@ -995,3 +995,47 @@ angular.module('starter.controllers', [])
     });
 
 })
+
+
+
+.controller('ShiftController', function($scope, $rootScope, ShiftFactory, $http, $state, UserService) {
+  $scope.$on('$ionicView.enter', function() {
+    if (!UserService.isAuthenticated()) {
+      window.location = '#/lobby'
+    }
+  });
+
+  $scope.posted-pending = [];
+  $scope.posted-unclaimed = [];
+  $scope.posted-approved = [];
+  $scope.picked-pending = [];
+  $scope.picked-rejected = [];
+  $scope.picked-approved = [];
+  
+  ShiftFactory.getShiftsPosted()
+  .then(function(shifts){
+    $scope.posted-unclaimed = shifts.filter(function(x){
+      return x.covered===false && x.requested.length<1;
+    });
+    $scope.posted-pending = shifts.filter(function(x){
+      return x.covered===false && x.requested.length>=1;
+    });
+    $scope.posted-approved = shifts.filter(function(x){
+      return x.covered===true;
+    })
+  });
+
+  ShiftFactory.getShiftsPicked()
+  .then(function(shifts){
+    $scope.picked-rejected = shifts.filter(function(x){
+      return x.rejected===true;
+    });
+    $scope.picked-pending = shifts.filter(function(x){
+      return x.rejected===false && x.approved===false ;
+    });
+    $scope.picked-approved = shifts.filter(function(x){
+      return x.approved===true;
+    })
+  });
+
+})
