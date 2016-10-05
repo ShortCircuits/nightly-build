@@ -109,7 +109,7 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
     views: {
       'tab-myshifts': {
         templateUrl: 'templates/myshifts.html',
-        controller: 'MyShiftCtrl'
+        controller: 'ShiftController'
       }
     }
   })

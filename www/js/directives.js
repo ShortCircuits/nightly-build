@@ -46,7 +46,7 @@ angular.module('starter.directives', [])
   var approvedShift = false;
   var notificationMsg = "";
 
-  var userApprovals; //all the pickup shifts
+  var userApprovals = []; //all the pickup shifts
   var shifts;
   var stores;
   var myStore;
@@ -281,22 +281,16 @@ angular.module('starter.directives', [])
         return myRequests;
       });
     },
-    GetMyShifts: function(){
-      return $http({
-          method: 'GET',
-          url: BASE_URL+'myshifts'
-      }).then(function(response) {
-        something = response.data;
-        return something;
+    getShiftsPosted: function(){
+      return $http.get(BASE_URL + 'myshifts')
+      .then(function(response) {
+        return response.data;
       });
     },
-    GetShiftsIPickedUp: function(){
-      return $http({
-          method: 'GET',
-          url: BASE_URL+'shiftsIPickedUp'
-      }).then(function(response) {
-        iamworking = response.data;
-        return iamworking;
+    getShiftsPicked: function(){
+      return $http.get(BASE_URL + 'shiftsIPickedUp')
+      .then(function(response) {
+        return response.data;
       });
     },
     setPartnerId: function(id, shift, code, pickShift){
@@ -376,6 +370,30 @@ angular.module('starter.directives', [])
 })
 
 
+// .factory('ShiftFactory', function($http) {
+
+//   var urlbase = 'https://shift-it.herokuapp.com/';
+  
+//   var sf = {};
+
+//   sf.getShiftsPosted = function(){
+//     return $http.get(urlbase + 'myshifts')
+//     .then(function(response) {
+//       return response.data;
+//     });
+//   };
+
+//   sf.getShiftsPicked = function(){
+//     return $http.get(urlbase + 'shiftsIPickedUp')
+//     .then(function(response) {
+//       console.log("gsp response: ", response)
+//       return response.data;
+//     });
+//   };
+
+//   return sf;
+
+// })
 
 
 
