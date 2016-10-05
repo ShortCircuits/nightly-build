@@ -63,7 +63,7 @@ angular.module('starter.controllers', [])
 
   // Notifications
   $scope.notification = function() {
-    document.getElementById("notification").style.display = 'none';
+    // document.getElementById("notification").style.display = 'none';
 
     // Get user Id from server
     Maps.whoAmI()
@@ -92,15 +92,15 @@ angular.module('starter.controllers', [])
           return !resp.rejected;
         }).length;
         if (response[0] && response[0].approved === true) {
-          document.getElementById("noticeMsg").innerHTML = 'You have a shift approved';
-          document.getElementById("accepto").setAttribute("onclick", "cover()")
+          // document.getElementById("noticeMsg").innerHTML = 'You have a shift approved';
+          // document.getElementById("accepto").setAttribute("onclick", "cover()")
         } else if (response[0] && response[0].approved === false) {
-          document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
-          document.getElementById("accepto").setAttribute("onclick", "approve()")
+          // document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
+          // document.getElementById("accepto").setAttribute("onclick", "approve()")
         }
         if (response.length > 0) {
           // user has notification
-          document.getElementById("notification").style.display = 'block';
+          // document.getElementById("notification").style.display = 'block';
         }
       })
       .catch(function(err) {
@@ -646,9 +646,10 @@ angular.module('starter.controllers', [])
       // test if shift owner is claiming their own shift
       console.log("scope myid and shift owner ", $scope.myId, " " ,shift.submitted_by)
     if ($scope.myId != shift.submitted_by) {
+      $scope.availableShifts.splice($scope.availableShifts.indexOf(shift), 1);
       Pickup.pickUpShift(theData).then(function(response) {
+        
         alert("successfully requested a shift")
-        // $scope.availableShifts.splice($scope.availableShifts.indexOf(shift), 1);
       }).catch(function(err) {
         alert("Could not request to pickup this shift, try refreshing the app")
       })
