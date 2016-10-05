@@ -6,7 +6,7 @@
         {{ profileData.firstName + " " + profileData.lastName }}
     </div>
     <div class="item">
-      <img class="profilePic" ng-src="{{profileData.profilePicture}}" alt="good looking dude" />
+      <img class="profilePic" ng-src="{{profileData.profilePicture}}"/>
     </div>
 
     <div class="item item-divider">
@@ -44,6 +44,11 @@
       Negative reps: {{ profileData.rating.negative }}
     </div>
 
+    <div class="item item-text-wrap">
+      <i class=""></i>
+      <button class="button button-positive" ng-click="openEditProfile()">Edit Profile</button>
+    </div>
+
 <!-- 
     <img ng-src="{{profileData.profilePicture}}" alt="good looking dude" />
 
@@ -62,8 +67,9 @@
     <p class="profile-header"> My Reputation</p>
     <p class="profile-info"> Positive reps: {{ profileData.rating.positive }}</p>
     <p class="profile-info"> Negative reps: {{ profileData.rating.negative }}</p>
+  	
+    <button class="button button-positive" ng-click="openEditProfile()">Edit Profile</button>
  -->
 
-  	<button class="button button-positive" ng-click="openEditProfile()">Edit Profile</button>
   </ion-content>
 </ion-view>
