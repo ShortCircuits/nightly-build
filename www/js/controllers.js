@@ -12,8 +12,6 @@ angular.module('starter.controllers', [])
       window.location = '#/lobby'
     }
     $scope.notification();
-    // Maps.getMyStore();
-    console.log('Opened!')
     ionic.trigger('resize');
   })
   $scope.show = function() {
@@ -60,6 +58,17 @@ angular.module('starter.controllers', [])
       })
     }
   }
+  var loc = localStorage.getItem("location");
+  loc = JSON.parse(loc)
+  console.log("this is loc ", loc)
+  if(loc.lat){
+    Maps.setLocation(loc);
+    Maps.fetchStores().then(function(stores) {
+      stores = JSON.stringify(stores);
+      localStorage.setItem("stores", stores);
+    })
+  }
+  
 
   // Notifications
   $scope.notification = function() {
@@ -70,6 +79,7 @@ angular.module('starter.controllers', [])
       .then(function(user) {
         $scope.user = user;
         console.log("whoami endpoint returning: ", user)
+        localStorage.setItem("theUser", user);
       })
       .catch(function(err) {
         console.log("Could not get user id")
@@ -125,11 +135,17 @@ angular.module('starter.controllers', [])
     document.getElementById("covermyshift").style.display = 'none';
     // could be better needs to pickup data from controler 
     // if exists otherwise do another request
-    Maps.fetchStores().then(function(stores) {
-      markerBuilder(stores);
-      $scope.hide($ionicLoading);
-    })
 
+    var stores = localStorage.getItem("stores");
+    stores = JSON.parse(stores);
+    if(stores){
+      markerBuilder(stores);
+    }else{
+      Maps.fetchStores().then(function(stores) {
+        markerBuilder(stores);
+        $scope.hide($ionicLoading);
+      })
+    }
   };
 
   $scope.zipSearch = function(zipOrCity) {
@@ -147,6 +163,9 @@ angular.module('starter.controllers', [])
 
   $scope.mapCreated = function(map) {
     $scope.map = map;
+    map = JSON.stringify(map)
+    console.log(map);
+    localStorage.setItem("theMap", map);
   };
 
   function centerOnSearch(lat, lng) {
@@ -158,14 +177,26 @@ angular.module('starter.controllers', [])
       content: 'Getting current location...',
       showBackdrop: false
     });
-
-    Maps.getMyPos().then(function(pos) {
-      $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
-      $scope.location = Maps.getLocation();
-      Maps.fetchStores().then(function(res) {
-        $ionicLoading.hide();
-      });
-    })
+    var loc = localStorage.getItem("location");
+    loc = JSON.parse(loc);
+    console.log("this is localstorage location: ", loc)
+    // var theMap = localStorage.getItem("theMap");
+    // if(theMap){
+    //   $scope.map = theMap;
+    // }
+    if(loc.lat && $scope.map){
+      $scope.map.setCenter(new google.maps.LatLng(loc.lat, loc.lng));
+      $ionicLoading.hide();
+    }else{
+      Maps.getMyPos().then(function(pos) {
+        console.log("go pos: ", pos.lat, pos.lng)
+        $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
+        $scope.location = Maps.getLocation();
+        Maps.fetchStores().then(function(res) {
+          $ionicLoading.hide();
+        });
+      })
+    }
   };
 
   $scope.centerOnMe();
@@ -233,7 +264,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('AppCtrl', function($scope, $rootScope, $ionicModal, $interval, $timeout, UserService, $window) {
+.controller('AppCtrl', function($scope, $rootScope, $ionicModal, $interval, $timeout, UserService, $window, Maps) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -241,6 +272,11 @@ angular.module('starter.controllers', [])
     // listen for the $ionicView.enter event:
     //$scope.$on('$ionicView.enter', function(e) {
     //});
+    Maps.getMyPos().then(function(loc){
+      var location = JSON.stringify(loc);
+      console.log(location)
+      localStorage.setItem("location", location);
+    })
 
     // Form data for the login modal
     $scope.loginData = {};

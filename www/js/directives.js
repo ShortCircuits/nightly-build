@@ -190,6 +190,9 @@ angular.module('starter.directives', [])
     getLocation: function() {
       return location;
     },
+    setLocation: function(loc){
+      location = loc;
+    },
     getHomeStore: function() {
       return myStore;
     },
