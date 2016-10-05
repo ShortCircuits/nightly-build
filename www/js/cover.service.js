@@ -141,8 +141,8 @@
           url: 'https://shift-it.herokuapp.com/getProfileInfo'
         }).then(function successCallback(response) {
           console.log("this is the response.data from the setHome: ", response.data)
-          home_store = response.data[0].home_store;
-          submitted_by_name = response.data[0].firstName + " " + response.data[0].lastName;
+          shift.home_store = response.data[0].home_store;
+          shift.submitted_by_name = response.data[0].firstName + " " + response.data[0].lastName;
           console.log("look in here for the home_store", home_store);
           $rootScope.$broadcast('update');
         }, function errorCallback(response) {
