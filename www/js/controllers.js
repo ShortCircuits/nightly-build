@@ -588,14 +588,14 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup, UserService, AvailableShifts) {
+.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup, UserService, AvailableShifts, $ionicLoading) {
 
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
     }
   });
-
+  $ionicLoading.show();
   // $scope.availableShifts = AvailableShifts.getShifts();
   $scope.myId = Maps.getUser();
   // assuming the stores are in place on the Maps factory
@@ -604,6 +604,7 @@ angular.module('starter.controllers', [])
 
     Maps.getMyPos().then(function(pos) {
       Maps.fetchStores().then(function(res) {
+        $ionicLoading.hide();
         $scope.availableShifts = Maps.getShifts();
         $scope.availableShifts = $scope.availableShifts.filter(function(shift){
           return !shift.requested.includes($scope.myId)
