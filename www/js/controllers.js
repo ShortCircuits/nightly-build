@@ -368,122 +368,28 @@ angular.module('starter.controllers', [])
   })
 
 // This controller handles the functionality for creating and posting a new shift.
-.controller('CoverCtrl', function($scope, $ionicModal, ionicDatePicker, ionicTimePicker, $http, UserService) {
-  $scope.shiftData = {
-    covered: false
-  };
-  $scope.prize = 0;
+.controller('CoverCtrl', function($rootScope, $scope, $ionicModal, ionicDatePicker, ionicTimePicker, $http, UserService, CoverService) {
+  
+  $scope.$on("update", function() {
+    $scope.data = {
+      prize : CoverService.prize(),
+      shift : CoverService.shift(),
+      shiftDate : CoverService.shiftDate(),
+      startTime : CoverService.startTime(),
+      endTime : CoverService.endTime(),
 
-  $scope.setHomeLocForShift = function() {
-    $http({
-      method: 'GET',
-      url: 'https://shift-it.herokuapp.com/getProfileInfo'
-    }).then(function successCallback(response) {
-      $scope.shiftData.home_store = response.data[0].home_store;
-      $scope.shiftData.submitted_by_name = response.data[0].firstName + " " + response.data[0].lastName;
-    }, function errorCallback(response) {
-      console.log("Failed to set home location in CoverCtrl");
-    });
-  }
+    }
+  })
 
   $scope.$on('$ionicView.enter', function() {
-      // Code you want executed every time view is opened
-      if (!UserService.isAuthenticated()) {
-        window.location = '#/lobby'
-      }
-      $scope.openDatePicker();
-      $scope.setHomeLocForShift();
-      console.log('Opened!')
-    })
-    // This is the Date picker modal popout, that initializes the shift_start and shift_end keys in the shift object
-    // On a chosen date it sets both values to the chosen date with no time, and then it shows the first time picker
-  var ipObj1 = {
-    callback: function(val) { //Mandatory
-      $scope.shiftData.shift_start = new Date(val);
-      $scope.shiftData.shift_end = new Date(val);
-      var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      console.log("shiftData is: ", $scope.shiftData);
-      console.log('Return value from the datepicker popup is : ' + val, new Date(val));
-      $scope.openTimePicker1();
-      $scope.shiftDate = $scope.shiftData.shift_start.getUTCDate() + " " + monthNames[$scope.shiftData.shift_start.getUTCMonth()] + " " + $scope.shiftData.shift_start.getUTCFullYear()
-
-      // var month = dateObj.getUTCMonth() + 1; //months from 1-12
-      // var day = dateObj.getUTCDate();
-      // var year = dateObj.getUTCFullYear();
-    },
-    disabledDates: [ //Optional
-      new Date(2016, 2, 16),
-      new Date(2015, 3, 16),
-      new Date(2015, 4, 16),
-      new Date(2015, 5, 16),
-      new Date('Wednesday, August 12, 2015'),
-      new Date("08-16-2016"),
-      new Date(1439676000000)
-    ],
-    from: new Date(2016, 1, 1), //Optional
-    to: new Date(2016, 10, 30), //Optional
-    inputDate: new Date(), //Optional
-    mondayFirst: false, //Optional
-    // disableWeekdays: [0],       //Optional
-    closeOnSelect: false, //Optional
-    templateType: 'popup' //Optional
-  };
-
-  // This function converts the minutes into a 2 digit number if 0 is chosen
-  function convertMinutes(minutes) {
-    if (minutes === 0) {
-      return "00"
+    // Code you want executed every time view is opened
+    if (!UserService.isAuthenticated()) {
+      window.location = '#/lobby'
     }
-    return minutes;
-  }
-
-  // This is the modal for the end shift time picker, it will update the shift object with the correct time in the
-  // current time zone for the user. On submit it opens the prize picker modal.
-  var ipObj2 = {
-    callback: function(val) { //Mandatory
-      if (typeof(val) === 'undefined' || $scope.shiftData.shift_start === undefined) {
-        alert('Please pick a shift date first!');
-        return;
-      } else {
-        var splitStart = $scope.shiftData.shift_start.toString().split(' ');
-        var selectedTime = new Date(val * 1000);
-        splitStart[4] = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes()) + ":00";
-        $scope.shiftData.shift_end = new Date(splitStart.join(' '));
-        console.log($scope.shiftData);
-        console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
-      }
-      $scope.prizePicker();
-      $scope.endTime = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes());
-    },
-    inputTime: 50400, //Optional
-    format: 12, //Optional
-    step: 15, //Optional
-    setLabel: 'Set2' //Optional
-  };
-
-  // This is the modal for the start shift time picker, it will update the shift object with the correct time in the
-  // current time zone for the user. On submit it opens the end shift time picker modal.
-  var ipObj3 = {
-    callback: function(val) { //Mandatory
-      if (typeof(val) === 'undefined' || $scope.shiftData.shift_start === undefined) {
-        alert('Please pick a shift date first!');
-        return;
-      } else {
-        var splitStart = $scope.shiftData.shift_start.toString().split(' ');
-        var selectedTime = new Date(val * 1000);
-        splitStart[4] = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes()) + ":00";
-        $scope.shiftData.shift_start = new Date(splitStart.join(' '));
-        console.log("our built time is: ", splitStart);
-        console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
-      }
-      $scope.openTimePicker2();
-      $scope.startTime = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes());
-    },
-    inputTime: 50400, //Optional
-    format: 12, //Optional
-    step: 15, //Optional
-    setLabel: 'Set2' //Optional
-  };
+    $scope.openDatePicker();
+    CoverService.setHomeLocForShift();
+    console.log('Opened!')
+  });
 
   // This shows the prize picker modal
   $ionicModal.fromTemplateUrl('templates/prizeModal.html', {
@@ -492,29 +398,31 @@ angular.module('starter.controllers', [])
     $scope.modal = modal;
   });
 
+  $scope.$on('prizeMode', function() {
+    $scope.prizePicker();
+  });
+
   // Function for the end shift time picker
   $scope.openTimePicker1 = function() {
-    ionicTimePicker.openTimePicker(ipObj3);
+    CoverService.openTimePicker1();
   };
 
   // Function for the start shift time picker
   $scope.openTimePicker2 = function() {
-    ionicTimePicker.openTimePicker(ipObj2);
+    CoverService.openTimePicker2();
   };
 
   // Function for the date picker
   $scope.openDatePicker = function() {
-    ionicDatePicker.openDatePicker(ipObj1);
+    CoverService.openDatePicker();
   };
 
   $scope.increment = function() {
-    $scope.prize += 5;
+    CoverService.increment();
   }
 
   $scope.decrement = function() {
-    if ($scope.prize > 0) {
-      $scope.prize -= 5;
-    }
+    CoverService.decrement();
   }
 
   // Function to show the prize picker
@@ -524,8 +432,7 @@ angular.module('starter.controllers', [])
 
   // Function to submit the prize to the shift object
   $scope.addPrize = function(prize) {
-    $scope.shiftData.prize = "$" + prize + ".00";
-    console.log($scope.shiftData);
+    CoverService.addPrize();
     $scope.closePrize();
   };
 
@@ -534,46 +441,10 @@ angular.module('starter.controllers', [])
     $scope.modal.hide();
   };
 
-  $scope.makeTextTime = function(data) {
-    var textStart = data.shift_start;
-    var textEnd = data.shift_end;
-    var p1 = textStart.toDateString();
-    var p2 = textStart.toLocaleTimeString();
-    p1 = p1.slice(0, -5);
-    p2 = p2.slice(0, -6) + p2.slice(-3);
-    var p3 = textEnd.toLocaleTimeString();
-    p3 = p3.slice(0, -6) + p3.slice(-3);
-    console.log("times: ", p1, " | ", p2, " | ", p3);
-    return p1 + " from " + p2 + " to " + p3;
-  };
-
-  // Setting a variable to the fully fleshed out shiftData
-  var shift = $scope.shiftData;
-
-  // Server call to insert the shift data into the database.
   $scope.postShift = function() {
-    if ($scope.shiftDate === undefined) {
-      alert("Please enter a date for your shift!")
-    } else if ($scope.startTime === undefined) {
-      alert("Please enter a start time for your shift!")
-    } else if ($scope.endTime === undefined) {
-      alert("Please enter an end time for your shift!")
-    } else {
-      console.log("shift sent to db");
-      shift.shift_text_time = $scope.makeTextTime(shift);
-      $http({
-        method: 'POST',
-        url: 'https://shift-it.herokuapp.com/shifts',
-        data: shift
-      }).then(function(response) {
-        console.log("shift submitted to database with shift data: ", shift);
-        alert("Your shift has been added!");
-        window.location = "#/tabs/map";
-      }, function(error) {
-        console.log("We apologize but we could not post your shift at this time, please reload the app and try again")
-      })
-    }
+    CoverService.postShift();
   }
+
 })
 
 .controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup, UserService, AvailableShifts, $ionicLoading) {
