@@ -1,119 +1,53 @@
 <ion-view view-title="My Shifts" class="myShifts">
   <ion-content class="padding">
+    <div id="neededApproval" >
+        <ion-list>
+        <h3>Shifts that need your approval:</h3>
+          <ion-item ng-repeat="shift in requests">
+            <p>Where: {{shift.shift.home_store.address}}<br/>
+            When: {{shift.shift.shift_text_time}}<br/>
+            Requested by: {{shift.user_requested_name}}<br/>
+            Prize: {{shift.shift.prize}}</p>
+            <button ng-click="connect(shift.user_requested, shift.shift._id, shift._id)"> connect </button>
+          </ion-item>
+        </ion-list>
+    </div>
+    <div id="postedShifts" >
+       <ion-list>
+       <h3>Shifts you posted:</h3>
 
-      <h3>Shifts you posted:</h3>
-
-      <!-- PENDING = someone has offered to take shift, 
-      original poster needs to make decision -->
+          <ion-item ng-repeat="shift in myshiftsArray">
+            <span><a class="deleteShift" ng-click="delete(shift)" onmouseover="" style="cursor: pointer;"> delete </a>
+            <p>Where: {{shift.home_store.address}}<br/>
+            When: {{shift.shift_text_time}}<br/>
+            Prize: {{shift.prize}}</p></span>
+          </ion-item>
+        </ion-list>
+    </div>
+    <div id="pickedUpShifts" >
       <ion-list>
-        <ion-item ng-repeat="shift in postedpending" class="item-text-wrap" >
-          <div class="row responsive-sm">
-            <div class="col col-65">
-              <p>{{shift.home_store.address}}<br/>
-              {{shift.shift_text_time}}<br/>
-              prize: {{shift.prize}}</p>
-            </div>
-            <div class="col col-35">
-              <p>Status: PENDING</p>
-              <button ng-click="connect(shift.requested[0], shift.shift._id, shift._id)">Requested by: {{shift.user_requested_name}}</button>
-            </div>
-          </div>
+        <h3>Shifts you picked up:</h3>
+        <ion-item ng-repeat="shift in iamWorking">
+          <a class="deleteShift" ng-show="!shift.approved">Pending</a>
+          <p>Where: {{shift.shift_where}}<br/>
+          When: {{shift.shift_when}}<br/>
+          Picked up from: {{shift.shift_owner_name}}<br/>
+          Prize: {{shift.shift_prize}}</p></span>
         </ion-item>
       </ion-list>
+  </div>
 
-      <!-- UNCLAIMED = no one has offered to take shift, 
-      original poster can delete or edit -->
-      <ion-list>
-        <ion-item ng-repeat="shift in postedunclaimed" class="item-text-wrap">
-          <div class="row responsive-sm">
-            <div class="col col-65">
-              <p>Where: {{shift.home_store.address}}<br/>
-              When: {{shift.shift_text_time}}<br/>
-              Prize: {{shift.prize}}</p>
-            </div>
-            <div class="col col-35">
-              <p>Status: UNCLAIMED</p>
-              <button ng-click="delete(shift)">Delete</button>
-            </div>
-          </div>
-        </ion-item>
-      </ion-list>
-
-      <!-- APPROVED = someone has offered to take shift, 
-      original poster has accepted, agreement is in place -->
-      <ion-list>
-        <ion-item ng-repeat="shift in postedapproved" class="item-text-wrap">
-          <div class="row responsive-sm">
-            <div class="col col-65">
-              <p>Where: {{shift.shift_where}}<br/>
-              When: {{shift.shift_when}}<br/>
-              Picked up requested by: {{shift.user_requested_name}}<br/>
-              Prize: {{shift.shift_prize}}</p></span>
-            </div>
-            <div class="col col-35">
-              <p>Status: APPROVED</p>
-              <button ng-click="connect(shift.covered_by, shift.shift._id, shift._id)"> Go to this users page </button><br/><br/>
-            </div>
-          </div>
-        </ion-item>
-      </ion-list>
-
-      <h3>Shifts you picked up:</h3>
-
-      <!-- PENDING = you offered to take this shift,
-      and you're waiting to hear back from poster -->
-      <ion-list>
-        <ion-item ng-repeat="shift in pickedpending">
-          <div class="row responsive-sm">
-            <div class="col col-65">
-              <p>Where: {{shift.shift_where}}<br/>
-              When: {{shift.shift_when}}<br/>
-              Posted by: {{shift.shift_owner_name}}<br/>
-              Prize: {{shift.shift_prize}}</p>
-            </div>
-            <div class="col col-35">
-              <p>Status: PENDING</p>
-            </div>
-          </div>
-        </ion-item>
-      </ion-list>
-
-      <!-- APPROVED = you offered to take this shift,
-      poster approved, you are now working this shift -->
-      <ion-list>
-        <ion-item ng-repeat="shift in pickedapproved">
-          <div class="row responsive-sm">
-            <div class="col col-65">
-              <p>Where: {{shift.shift_where}}<br/>
-              When: {{shift.shift_when}}<br/>
-              Posted by: {{shift.shift_owner_name}}<br/>
-              Prize: {{shift.shift_prize}}</p>
-            </div>
-            <div class="col col-35">
-              <p>Status: APPROVED</p>
-            </div>
-          </div>
-        </ion-item>
-      </ion-list>
-
-      <!-- REJECTED = you offered to take this shift,
-      poster rejected your offer -->
-      <ion-list>
-        <ion-item ng-repeat="shift in pickedrejected">
-          <div class="row responsive-sm">
-            <div class="col col-65">
-              <p>Where: {{shift.shift_where}}<br/>
-              When: {{shift.shift_when}}<br/>
-              Posted by: {{shift.shift_owner_name}}<br/>
-              Prize: {{shift.shift_prize}}</p>
-            </div>
-            <div class="col col-35">
-              <p>Status: REJECTED</p>
-            </div>
-          </div>
-        </ion-item>
-      </ion-list>
-
-
+  <div id="approvedPickedUpShifts" >
+    <ion-list>
+      <h3>Shifts you have approved:</h3>
+      <ion-item ng-repeat="shift in myApprovedShifts">
+        <p>Where: {{shift.shift_where}}<br/>
+        When: {{shift.shift_when}}<br/>
+        Picked up requested by: {{shift.user_requested_name}}<br/>
+        Prize: {{shift.shift_prize}}</p></span>
+        <button ng-click="connect(shift.user_requested, shift.shift._id, shift._id)"> Go to this users page </button><br/><br/>
+      </ion-item>
+    </ion-list>
+  </div>
   </ion-content>
 </ion-view>

@@ -151,10 +151,6 @@ div.buttons.buttons-right.header-item > span > button {
     background-color: #e42012;
 }
 
-.item-right {
-  text-align: right;
-}
-
 /* styling for location tags on map view */
 .marker1 {margin: 1em 0 0;}
 .marker2 {margin: 0;}
