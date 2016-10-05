@@ -114,13 +114,13 @@ angular.module('starter.directives', [])
             .then(function(response) {
               loggedInUser = response.data;
               user = response.data;
+              console.log("user: ", user)
               shifts = shifts.filter(function(shift){
-                console.log("user: ", user)
                 return !shift.requested.includes(user)
               });
+              return stores;
             });
           console.log("the shifts are here: ", shifts)
-          return stores;
         });
     },
 

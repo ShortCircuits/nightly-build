@@ -162,9 +162,9 @@ angular.module('starter.controllers', [])
     Maps.getMyPos().then(function(pos) {
       $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
       $scope.location = Maps.getLocation();
-      // Maps.fetchStores().then(function(res) {
-      //   $ionicLoading.hide();
-      // });
+      Maps.fetchStores().then(function(res) {
+        $ionicLoading.hide();
+      });
     })
   };
 
