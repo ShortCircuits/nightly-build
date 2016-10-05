@@ -16,18 +16,7 @@ angular.module('starter.controllers', [])
     console.log('Opened!')
     ionic.trigger('resize');
   })
-  $scope.show = function() {
-    $ionicLoading.show({
-      template: '<p>Loading please wait..</p><ion-spinner icon="lines"></ion-spinner>',
-      noBackdrop: true
-    });
-  };
-
-  $scope.hide = function() {
-    $ionicLoading.hide();
-  };
-
-  $scope.show($ionicLoading);
+  $ionicLoading.show();
 
   document.getElementById("pickupshift").style.display = 'none';
   document.getElementById("covermyshift").style.display = 'none';
@@ -36,7 +25,7 @@ angular.module('starter.controllers', [])
   $timeout(function() {
     document.getElementById("pickupshift").style.display = 'block';
     document.getElementById("covermyshift").style.display = 'block';
-    $scope.hide($ionicLoading);
+    $ionicLoading.hide();
     //document.getElementById("loading").style.display = 'none';
 
   }, 4000);
@@ -119,7 +108,7 @@ angular.module('starter.controllers', [])
   // Pickup a shift page
   $scope.pickup = function() {
 
-    $scope.show($ionicLoading);
+    $ionicLoading.show();
     $scope.centerOnMe();
     document.getElementById("pickupshift").style.display = 'none';
     document.getElementById("covermyshift").style.display = 'none';
@@ -127,7 +116,6 @@ angular.module('starter.controllers', [])
     // if exists otherwise do another request
     Maps.fetchStores().then(function(stores) {
       markerBuilder(stores);
-      $scope.hide($ionicLoading);
     })
 
   };
@@ -138,10 +126,10 @@ angular.module('starter.controllers', [])
     Maps.searchByZip(zipOrCity).then(function(response) {
       centerOnSearch(response.location.lat, response.location.lng);
       markerBuilder(response)
-      $scope.hide($ionicLoading);
+      $ionicLoading.hide();
     }).catch(function(err) {
       alert("Could not get stores from the server, please try again later");
-      $scope.hide($ionicLoading);
+      $ionicLoading.hide();
     })
   }
 
