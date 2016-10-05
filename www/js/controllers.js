@@ -653,11 +653,11 @@ angular.module('starter.controllers', [])
           pickup_shift_id: pickupShiftId
         }
       }).then(function successCallback(response) {
-        console.log("aprove return: ", response.data);
+        console.log("approve return: ", response.data);
         alert("You have successfully approved the shift.");
 
       }, function errorCallback(response) {
-        alert("Could not aprove the shift", response)
+        alert("Could not approve the shift", response)
       });
     };
 
@@ -842,3 +842,99 @@ angular.module('starter.controllers', [])
     });
 
 })
+
+
+.controller('ShiftController', function($scope, $rootScope, MyShift, $http, $state, UserService) {
+  $scope.$on('$ionicView.enter', function() {
+    if (!UserService.isAuthenticated()) {
+      window.location = '#/lobby'
+    }
+  });
+
+  $scope.postedpending = [];
+  $scope.postedunclaimed = [];
+  $scope.postedapproved = [];
+  $scope.pickedpending = [];
+  $scope.pickedrejected = [];
+  $scope.pickedapproved = [];
+  
+  MyShift.getShiftsPosted()
+  .then(function(shifts){
+    console.log("shifts_posted: ", shifts);
+    $scope.postedunclaimed = shifts.filter(function(x){
+      return x.covered===false && x.requested.length<1;
+    });
+    $scope.postedpending = shifts.filter(function(x){
+      return x.covered===false && x.requested.length>=1;
+    });
+    $scope.postedapproved = shifts.filter(function(x){
+      return x.covered===true;
+    });
+  })
+  .then(function(){
+    if ($scope.postedpending.length > 0) {
+      console.log("postedpending: ", $scope.postedpending)
+      $scope.postedpending.forEach(function(shiftreq){
+        shiftreq.claimants = [];
+        console.log("====shiftreq._id: ", shiftreq._id);
+        MyShift.getRequesters(shiftreq._id)
+        .then(function(pickups){
+          console.log("pickups returned: ", pickups);
+          pickups.forEach(function(pickup){
+            var obj = {};
+            obj.claimant_name = pickup.user_requested_name;
+            obj.claimant_id = pickup.user_requested;
+            obj.pickup_id = pickup._id;
+            shiftreq.claimants.push(obj);
+          });
+        });
+      });
+    }
+    console.log("postedpending-after: ", $scope.postedpending);
+  });
+
+  MyShift.getShiftsPicked()
+  .then(function(shifts){
+    $scope.pickedrejected = shifts.filter(function(x){
+      return x.rejected===true;
+    });
+    $scope.pickedpending = shifts.filter(function(x){
+      return !x.rejected && x.approved===false ;
+    });
+    $scope.pickedapproved = shifts.filter(function(x){
+      return x.approved===true;
+    })
+  });
+
+  $scope.delete = function(shift) {
+    var deleteMe = confirm("Are you sure you wish to delete this shift?");
+    if (deleteMe) {
+      $http({
+        method: 'DELETE',
+        url: 'https://shift-it.herokuapp.com/shifts',
+        data: {
+          _id: shift._id
+        },
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function successCallback(response) {
+        $scope.postedunclaimed.filter(x=>x.shift_id!==response.config.data._id);
+        $rootScope.badgeCount = $scope.postedpending.length;
+      }, function errorCallback(response) {
+        alert("Could not delete the shift", response)
+      });
+    }
+  };
+
+  $scope.connect = function(shift) {
+    var userId = shift.claimants[0].claimant_id;
+    var shiftid = shift._id;
+    var pickshift = shift.claimants[0].pickup_id;
+    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift);
+    window.location = '#/tab/partner'
+  };
+
+})
+
+
