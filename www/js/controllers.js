@@ -913,8 +913,6 @@ angular.module('starter.controllers', [])
   // variable to store response from /myshifts
   $scope.myshiftsArray = [];
   $scope.iamWorking = [];
-  $scope.iamRejected =[];
-  $scope.iamWaiting = [];
   $scope.myId = Maps.getUser();
   $scope.myRequests = Maps.getApprovals();
   $scope.requests = $scope.myRequests.filter(function(shft) {
@@ -928,7 +926,6 @@ angular.module('starter.controllers', [])
   // });
   $scope.myPickupShifts = [];
   $scope.myApprovedShifts;
-  
   MyShift.getAllPickups().then(function(shifts) {
     $scope.myPickupShifts = shifts;
     $scope.myApprovedShifts = $scope.myPickupShifts.filter(function(shift) {
@@ -991,86 +988,9 @@ angular.module('starter.controllers', [])
 
   MyShift.GetShiftsIPickedUp()
     .then(function(shiftsToWork) {
-      console.log("shiftsToWork: ", shiftsToWork);
-      $scope.iamWorking = shiftsToWork.filter(function(xyz){
-        xyz.approved===true;
-      });
-      $scope.iamWaiting = shiftsToWork.filter(function(xyz){
-        xyz.approved===false;
-      });
+      $scope.iamWorking = shiftsToWork;
     }).catch(function(err) {
       alert("Could not fetch shifts you have picked up", err);
     });
 
 })
-
-
-
-.controller('ShiftController', function($scope, $rootScope, MyShift, $http, $state, UserService) {
-  $scope.$on('$ionicView.enter', function() {
-    if (!UserService.isAuthenticated()) {
-      window.location = '#/lobby'
-    }
-  });
-
-  $scope.postedpending = [];
-  $scope.postedunclaimed = [];
-  $scope.postedapproved = [];
-  $scope.pickedpending = [];
-  $scope.pickedrejected = [];
-  $scope.pickedapproved = [];
-  
-  MyShift.getShiftsPosted()
-  .then(function(shifts){
-    $scope.postedunclaimed = shifts.filter(function(x){
-      return x.covered===false && x.requested.length<1;
-    });
-    $scope.postedpending = shifts.filter(function(x){
-      return x.covered===false && x.requested.length>=1;
-    });
-    $scope.postedapproved = shifts.filter(function(x){
-      return x.covered===true;
-    });
-  });
-
-  MyShift.getShiftsPicked()
-  .then(function(shifts){
-    $scope.pickedrejected = shifts.filter(function(x){
-      return x.rejected===true;
-    });
-    $scope.pickedpending = shifts.filter(function(x){
-      return !x.rejected && x.approved===false ;
-    });
-    $scope.pickedapproved = shifts.filter(function(x){
-      return x.approved===true;
-    })
-  });
-
-  $scope.delete = function(shift) {
-    var deleteMe = confirm("Are you sure you wish to delete this shift?");
-    if (deleteMe) {
-      $http({
-        method: 'DELETE',
-        url: 'https://shift-it.herokuapp.com/shifts',
-        data: {
-          _id: shift._id
-        },
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then(function successCallback(response) {
-        $scope.postedunclaimed.filter(x=>x.shift_id!==response.config.data._id);
-        $rootScope.badgeCount = $scope.postedpending.length;
-      }, function errorCallback(response) {
-        alert("Could not delete the shift", response)
-      });
-    }
-  };
-
-  $scope.connect = function(userId, shiftid, pickshift) {
-    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift);
-    window.location = '#/tab/partner'
-  };
-
-})
-
