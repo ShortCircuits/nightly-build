@@ -33,13 +33,13 @@ angular.module('starter.controllers', [])
   document.getElementById("covermyshift").style.display = 'none';
   document.getElementById("loading").style.display = 'none';
 
-  $timeout(function() {
-    document.getElementById("pickupshift").style.display = 'block';
-    document.getElementById("covermyshift").style.display = 'block';
-    $scope.hide($ionicLoading);
-    //document.getElementById("loading").style.display = 'none';
+  // $timeout(function() {
+  //   document.getElementById("pickupshift").style.display = 'block';
+  //   document.getElementById("covermyshift").style.display = 'block';
+  //   $scope.hide($ionicLoading);
+  //   //document.getElementById("loading").style.display = 'none';
 
-  }, 4000);
+  // }, 4000);
 
   window.cover = function() {
     window.location = "#/app/tab/pickup-list"
@@ -164,6 +164,8 @@ angular.module('starter.controllers', [])
       $scope.location = Maps.getLocation();
       Maps.fetchStores().then(function(res) {
         $ionicLoading.hide();
+        document.getElementById("pickupshift").style.display = 'block';
+        document.getElementById("covermyshift").style.display = 'block';
       });
     })
   };
@@ -588,33 +590,33 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup, UserService, AvailableShifts) {
-  $scope.availableShifts;
-  $scope.myId;
+.controller('PickupCtrl', function($scope, $ionicLoading, $location, $state, $http, Maps, Pickup, UserService, AvailableShifts) {
 
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
     }
-    $scope.myId = Maps.getUser();
-        Maps.getMyPos().then(function(pos) {
+  });
+
+  $ionicLoading.show();
+  // $scope.availableShifts = AvailableShifts.getShifts();
+  $scope.myId = Maps.getUser();
+  // assuming the stores are in place on the Maps factory
+  $scope.availableShifts;
+  // if there are no shifts available make another request;
+
+    Maps.getMyPos().then(function(pos) {
       Maps.fetchStores().then(function(res) {
         $scope.availableShifts = Maps.getShifts();
+        $ionicLoading.hide();
+        document.getElementById("pickupshift").style.display = 'block';
+        document.getElementById("covermyshift").style.display = 'block';
         $scope.availableShifts = $scope.availableShifts.filter(function(shift){
           return !shift.requested.includes($scope.myId)
         });
         addPrizeNum();
       })
     })
-  });
-
-  // $scope.availableShifts = AvailableShifts.getShifts();
-
-  // assuming the stores are in place on the Maps factory
-
-  // if there are no shifts available make another request;
-
-
 
   addPrizeNum()
   // make prize a number so it can be used to sortBy

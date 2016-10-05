@@ -38,10 +38,10 @@
     </div>
     <div class="item item-text-wrap">
       <i class="icon ion-android-happy"></i>
-      Positive reps: {{ profileData.rating.positive }}
+      Positive reps: {{ profileData.rating.positive || 0}}
       <br>
       <i class="icon ion-android-sad"></i>
-      Negative reps: {{ profileData.rating.negative }}
+      Negative reps: {{ profileData.rating.negative || 0}}
     </div>
 
     <div class="item item-text-wrap">
