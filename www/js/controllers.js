@@ -998,7 +998,7 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('ShiftController', function($scope, $rootScope, ShiftFactory, $http, $state, UserService) {
+.controller('ShiftController', function($scope, $rootScope, MyShift, $http, $state, UserService) {
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
@@ -1012,7 +1012,7 @@ angular.module('starter.controllers', [])
   $scope.pickedrejected = [];
   $scope.pickedapproved = [];
   
-  ShiftFactory.getShiftsPosted()
+  MyShift.getShiftsPosted()
   .then(function(shifts){
     $scope.postedunclaimed = shifts.filter(function(x){
       return x.covered===false && x.requested.length<1;
@@ -1025,7 +1025,7 @@ angular.module('starter.controllers', [])
     });
   });
 
-  ShiftFactory.getShiftsPicked()
+  MyShift.getShiftsPicked()
   .then(function(shifts){
     $scope.pickedrejected = shifts.filter(function(x){
       return x.rejected===true;
@@ -1037,6 +1037,32 @@ angular.module('starter.controllers', [])
       return x.approved===true;
     })
   });
+
+  $scope.delete = function(shift) {
+    var deleteMe = confirm("Are you sure you wish to delete this shift?");
+    if (deleteMe) {
+      $http({
+        method: 'DELETE',
+        url: 'https://shift-it.herokuapp.com/shifts',
+        data: {
+          _id: shift._id
+        },
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function successCallback(response) {
+        $scope.postedunclaimed.filter(x=>x.shift_id!==response.config.data._id);
+        $rootScope.badgeCount = $scope.postedpending.length;
+      }, function errorCallback(response) {
+        alert("Could not delete the shift", response)
+      });
+    }
+  };
+
+  $scope.connect = function(userId, shiftid, pickshift) {
+    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift);
+    window.location = '#/tab/partner'
+  };
 
 })
 

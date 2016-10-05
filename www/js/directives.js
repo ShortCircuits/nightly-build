@@ -281,19 +281,15 @@ angular.module('starter.directives', [])
         return myRequests;
       });
     },
-    GetMyShifts: function(){
-      return $http({
-          method: 'GET',
-          url: BASE_URL+'myshifts'
-      }).then(function(response) {
+    getShiftsPosted = function(){
+      return $http.get(BASE_URL + 'myshifts')
+      .then(function(response) {
         return response.data;
       });
     },
-    GetShiftsIPickedUp: function(){
-      return $http({
-          method: 'GET',
-          url: BASE_URL+'shiftsIPickedUp'
-      }).then(function(response) {
+    getShiftsPicked = function(){
+      return $http.get(BASE_URL + 'shiftsIPickedUp')
+      .then(function(response) {
         return response.data;
       });
     },
@@ -374,30 +370,30 @@ angular.module('starter.directives', [])
 })
 
 
-.factory('ShiftFactory', function($http) {
+// .factory('ShiftFactory', function($http) {
 
-  var urlbase = 'https://shift-it.herokuapp.com/';
+//   var urlbase = 'https://shift-it.herokuapp.com/';
   
-  var sf = {};
+//   var sf = {};
 
-  sf.getShiftsPosted = function(){
-    return $http.get(urlbase + 'myshifts')
-    .then(function(response) {
-      return response.data;
-    });
-  };
+//   sf.getShiftsPosted = function(){
+//     return $http.get(urlbase + 'myshifts')
+//     .then(function(response) {
+//       return response.data;
+//     });
+//   };
 
-  sf.getShiftsPicked = function(){
-    return $http.get(urlbase + 'shiftsIPickedUp')
-    .then(function(response) {
-      console.log("gsp response: ", response)
-      return response.data;
-    });
-  };
+//   sf.getShiftsPicked = function(){
+//     return $http.get(urlbase + 'shiftsIPickedUp')
+//     .then(function(response) {
+//       console.log("gsp response: ", response)
+//       return response.data;
+//     });
+//   };
 
-  return sf;
+//   return sf;
 
-})
+// })
 
 
 
