@@ -1,19 +1,67 @@
 <ion-view view-title="Shift Partner">
   <ion-content class="padding">
-    <img src={{partnerInfo.facebookPic}}>
+
+    <div class="item item-divider">
+      {{partnerInfo.name}}
+    </div>
+    <div class="item">
+      <img src={{partnerInfo.facebookPic}}>
+    </div>
+
+    <div class="item item-divider">
+      Email
+    </div>
+    <div class="item item-text-wrap">
+      <i class="icon ion-email"></i>
+      <a ng-href="mailto:{{partnerInfo.email}}">{{partnerInfo.email}}</a>
+    </div>
+
+    <div class="item item-divider">
+      Phone
+    </div>
+    <div class="item item-text-wrap contact-info">  
+      <i class="icon ion-iphone"></i>
+      {{partnerInfo.phone}}<a ng-href="tel:+1{{partnerInfo.phone.split(' ').join('').split('(').join('').split(')').join('').split('-').join('')}}">Call</a>
+    </div>
+
+    <div class="item item-divider">
+      Reputation
+    </div>
+    <div class="item item-text-wrap">
+      <i class="icon ion-android-happy"></i>
+      Positive reps: {{partnerInfo.userRepPos}}
+      <br>
+      <i class="icon ion-android-sad"></i>
+      Negative reps: {{partnerInfo.userRepNeg}}
+    </div>
+
+    <div class="item item-text-wrap">
+      <i class=""></i>
+      <button type="button" id="approveShift" class="button button-positive" ng-if="canApprove" ng-click="approve()">Accept</button>
+      <button type="button" id="rejectShift" class="button button-positive" ng-if="canApprove" ng-click="reject()">Reject</button>
+    </div>
+
+    <div class="item item-text-wrap">
+      <i class=""></i>
+      <button type="button" id="repUpVote" class="button button-positive" ng-if="canVote" ng-click="upVote()">Upvote this user</button>
+      <button type="button" id="repDownVote" class="button button-positive" ng-if="canVote" ng-click="downVote()">Downvote this user</button>
+    </div>
+
+   <!--  
+   <img src={{partnerInfo.facebookPic}}>
   	<p class="contact-header"> Name </p>
   	<p class="contact-info">{{partnerInfo.name}}</p>
   	
   	<p class="contact-header"> Email </p>
     <p class="contact-info"><a ng-href="mailto:{{partnerInfo.email}}">{{partnerInfo.email}}</a></p>
-  	
+
   	<p class="contact-header"> Phone </p>
     <span><p class="contact-info">{{partnerInfo.phone}}</p><i class="icon ion-ios-telephone-outline"><a ng-href="tel:+1{{partnerInfo.phone.split(' ').join('').split('(').join('').split(')').join('').split('-').join('')}}">  Call</a></i></span>
   	
    	<p class="contact-header"> Positive ratings: </p>
   	<p class="positive-reps">{{partnerInfo.userRepPos}}</p>
       <p class="contact-header"> Negative ratings: </p>
-    <p class="positive-reps">{{partnerInfo.userRepNeg}}</p>
+    <p class="positive-reps">{{partnerInfo.userRepNeg}}</p> 
 
   	<button class="button button-positive" ng-click="message()">Contact</button>
     <ul>
@@ -26,6 +74,8 @@
     <button type="button" id="repDownVote" class="button button-positive" ng-if="canVote" ng-click="downVote()">Downvote this user</button>
     </li>
     </ul>
+
+    -->
 
   </ion-content>
 </ion-view>
