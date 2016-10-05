@@ -281,13 +281,13 @@ angular.module('starter.directives', [])
         return myRequests;
       });
     },
-    getShiftsPosted = function(){
+    getShiftsPosted: function(){
       return $http.get(BASE_URL + 'myshifts')
       .then(function(response) {
         return response.data;
       });
     },
-    getShiftsPicked = function(){
+    getShiftsPicked: function(){
       return $http.get(BASE_URL + 'shiftsIPickedUp')
       .then(function(response) {
         return response.data;
