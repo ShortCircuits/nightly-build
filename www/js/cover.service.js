@@ -50,7 +50,7 @@
         new Date("08-16-2016"),
         new Date(1439676000000)
       ],
-      from: new Date(2016, 1, 1), //Optional
+      from: new Date(), //Optional
       to: new Date(2016, 10, 30), //Optional
       inputDate: new Date(), //Optional
       mondayFirst: false, //Optional
@@ -166,7 +166,7 @@
             data: shift
           }).then(function(response) {
             alert("Your shift has been added!");
-            window.location = "#/tabs/map";
+            window.location = "#/tab/map";
           }, function(error) {
             console.log("We apologize but we could not post your shift at this time, please reload the app and try again")
           })
