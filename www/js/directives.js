@@ -386,18 +386,3 @@ angular.module('starter.directives', [])
   }
 })
 
-.factory('Approval', function($http){
-  return {
-    approveShift: function(){
-      $http({
-        method: 'PATCH',
-        url: 'https://shift-it.herokuapp.com/pickup',
-        data: {
-          pickup_shift_id: pickupShiftId,
-          shift_id: shiftId
-        }
-      })
-    }
-
-  }
-})
