@@ -299,6 +299,12 @@ angular.module('starter.directives', [])
         return iamworking;
       });
     },
+    getRequesters: function(shiftId){
+      return $http.get(BASE_URL+'requestsByShift/'+shiftId)
+      .then(function(response) {
+        return response.data;
+      })
+    },
     setPartnerId: function(id, shift, code, pickShift){
       partnerId = id;
       shiftId = shift;
@@ -374,12 +380,3 @@ angular.module('starter.directives', [])
     }
   }
 })
-
-
-
-
-
-
-
-
-
