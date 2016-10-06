@@ -109,6 +109,18 @@
       setLabel: 'Set2' //Optional
     };
 
+    // These functions open the modal for each timePicker.
+    var openTimePicker1 = function() {
+      ionicTimePicker.openTimePicker(ipObj2);
+    };
+
+    var openTimePicker2 = function() {
+      ionicTimePicker.openTimePicker(ipObj3);
+    };
+
+    // The following makes a time that will remain in the time zone of the shift, no matter where you
+    // are trying to search for shifts from, your computer's time will not alter these values.
+
     var makeTextTime = function(data) {
       var textStart = data.shift_start;
       var textEnd = data.shift_end;
@@ -121,13 +133,6 @@
       return p1 + " from " + p2 + " to " + p3;
     };
 
-    var openTimePicker1 = function() {
-      ionicTimePicker.openTimePicker(ipObj2);
-    };
-
-    var openTimePicker2 = function() {
-      ionicTimePicker.openTimePicker(ipObj3);
-    };
 
     return {
 
