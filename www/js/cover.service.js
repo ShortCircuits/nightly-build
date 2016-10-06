@@ -59,34 +59,9 @@
       templateType: 'popup' //Optional
     };
 
-  // This is the modal for the end shift time picker, it will update the shift object with the correct time in the
-  // current time zone for the user. On submit it opens the prize picker modal.
-    var ipObj2 = {
-      callback: function(val) { //Mandatory
-        if (typeof(val) === 'undefined' || shift.shift_start === undefined) {
-          alert('Please pick a shift date first!');
-          return;
-        } else {
-          var splitStart = shift.shift_start.toString().split(' ');
-          var selectedTime = new Date(val * 1000);
-          splitStart[4] = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes()) + ":00";
-          shift.shift_end = new Date(splitStart.join(' '));
-          console.log(shift);
-          console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
-        }
-        $rootScope.$broadcast('prizeMode')
-        endTime = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes());
-        $rootScope.$broadcast('update');
-      },
-      inputTime: 50400, //Optional
-      format: 12, //Optional
-      step: 15, //Optional
-      setLabel: 'Set2' //Optional
-    };
-
   // This is the modal for the start shift time picker, it will update the shift object with the correct time in the
   // current time zone for the user. On submit it opens the end shift time picker modal.
-    var ipObj3 = {
+    var ipObj2 = {
       callback: function(val) { //Mandatory
         if (typeof(val) === 'undefined' || shift.shift_start === undefined) {
           alert('Please pick a shift date first!');
@@ -109,6 +84,31 @@
       setLabel: 'Set2' //Optional
     };
 
+  // This is the modal for the end shift time picker, it will update the shift object with the correct time in the
+  // current time zone for the user. On submit it opens the prize picker modal.
+    var ipObj3 = {
+      callback: function(val) { //Mandatory
+        if (typeof(val) === 'undefined' || shift.shift_start === undefined) {
+          alert('Please pick a shift date first!');
+          return;
+        } else {
+          var splitStart = shift.shift_start.toString().split(' ');
+          var selectedTime = new Date(val * 1000);
+          splitStart[4] = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes()) + ":00";
+          shift.shift_end = new Date(splitStart.join(' '));
+          console.log(shift);
+          console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
+        }
+        $rootScope.$broadcast('prizeMode')
+        endTime = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes());
+        $rootScope.$broadcast('update');
+      },
+      inputTime: 50400, //Optional
+      format: 12, //Optional
+      step: 15, //Optional
+      setLabel: 'Set2' //Optional
+    };
+
     var makeTextTime = function(data) {
       var textStart = data.shift_start;
       var textEnd = data.shift_end;
@@ -122,11 +122,11 @@
     };
 
     var openTimePicker1 = function() {
-      ionicTimePicker.openTimePicker(ipObj3);
+      ionicTimePicker.openTimePicker(ipObj2);
     };
 
     var openTimePicker2 = function() {
-      ionicTimePicker.openTimePicker(ipObj2);
+      ionicTimePicker.openTimePicker(ipObj3);
     };
 
     return {
