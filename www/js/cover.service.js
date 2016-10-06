@@ -50,7 +50,7 @@
         new Date("08-16-2016"),
         new Date(1439676000000)
       ],
-      from: new Date(2016, 1, 1), //Optional
+      from: new Date(), //Optional
       to: new Date(2016, 10, 30), //Optional
       inputDate: new Date(), //Optional
       mondayFirst: false, //Optional
@@ -59,34 +59,9 @@
       templateType: 'popup' //Optional
     };
 
-  // This is the modal for the end shift time picker, it will update the shift object with the correct time in the
-  // current time zone for the user. On submit it opens the prize picker modal.
-    var ipObj2 = {
-      callback: function(val) { //Mandatory
-        if (typeof(val) === 'undefined' || shift.shift_start === undefined) {
-          alert('Please pick a shift date first!');
-          return;
-        } else {
-          var splitStart = shift.shift_start.toString().split(' ');
-          var selectedTime = new Date(val * 1000);
-          splitStart[4] = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes()) + ":00";
-          shift.shift_end = new Date(splitStart.join(' '));
-          console.log(shift);
-          console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
-        }
-        $rootScope.$broadcast('prizeMode')
-        endTime = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes());
-        $rootScope.$broadcast('update');
-      },
-      inputTime: 50400, //Optional
-      format: 12, //Optional
-      step: 15, //Optional
-      setLabel: 'Set2' //Optional
-    };
-
   // This is the modal for the start shift time picker, it will update the shift object with the correct time in the
   // current time zone for the user. On submit it opens the end shift time picker modal.
-    var ipObj3 = {
+    var ipObj2 = {
       callback: function(val) { //Mandatory
         if (typeof(val) === 'undefined' || shift.shift_start === undefined) {
           alert('Please pick a shift date first!');
@@ -109,6 +84,43 @@
       setLabel: 'Set2' //Optional
     };
 
+  // This is the modal for the end shift time picker, it will update the shift object with the correct time in the
+  // current time zone for the user. On submit it opens the prize picker modal.
+    var ipObj3 = {
+      callback: function(val) { //Mandatory
+        if (typeof(val) === 'undefined' || shift.shift_start === undefined) {
+          alert('Please pick a shift date first!');
+          return;
+        } else {
+          var splitStart = shift.shift_start.toString().split(' ');
+          var selectedTime = new Date(val * 1000);
+          splitStart[4] = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes()) + ":00";
+          shift.shift_end = new Date(splitStart.join(' '));
+          console.log(shift);
+          console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
+        }
+        $rootScope.$broadcast('prizeMode')
+        endTime = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes());
+        $rootScope.$broadcast('update');
+      },
+      inputTime: 50400, //Optional
+      format: 12, //Optional
+      step: 15, //Optional
+      setLabel: 'Set2' //Optional
+    };
+
+    // These functions open the modal for each timePicker.
+    var openTimePicker1 = function() {
+      ionicTimePicker.openTimePicker(ipObj2);
+    };
+
+    var openTimePicker2 = function() {
+      ionicTimePicker.openTimePicker(ipObj3);
+    };
+
+    // The following makes a time that will remain in the time zone of the shift, no matter where you
+    // are trying to search for shifts from, your computer's time will not alter these values.
+
     var makeTextTime = function(data) {
       var textStart = data.shift_start;
       var textEnd = data.shift_end;
@@ -121,13 +133,6 @@
       return p1 + " from " + p2 + " to " + p3;
     };
 
-    var openTimePicker1 = function() {
-      ionicTimePicker.openTimePicker(ipObj3);
-    };
-
-    var openTimePicker2 = function() {
-      ionicTimePicker.openTimePicker(ipObj2);
-    };
 
     return {
 
@@ -166,7 +171,7 @@
             data: shift
           }).then(function(response) {
             alert("Your shift has been added!");
-            window.location = "#/tabs/map";
+            window.location = "#/tab/map";
           }, function(error) {
             console.log("We apologize but we could not post your shift at this time, please reload the app and try again")
           })

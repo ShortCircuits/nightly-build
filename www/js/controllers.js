@@ -217,15 +217,15 @@ angular.module('starter.controllers', [])
           shiftObj.prize = shift.prize;
           shiftObj.id = shift._id;
           AvailableShifts.addShift(shiftObj);
-          info += "<li><p class='marker1'>" + place.name +
-            "</p><p class='marker2'>" + place.vicinity +
-            "</p><p class='marker3'>" + shift.submitted_by_name + " needs someone to cover a shift" +
+          info += "<li><h4 class='marker1'>" + place.name +
+            "</h4><h6 class='marker2'>" + place.vicinity +
+            "</h6><p class='marker3'>" + shift.submitted_by_name + " needs someone to cover a shift" +
             "</p><p class='marker4'>" + shift.shift_text_time +
-            "</p><p class='marker5'>Prize: " + shift.prize +
-            "</p><button class='marker6' onclick='window.location=\"#/tab/pickup-list\"'>Take shift</button></li>";
+            "</p><h5 class='marker5'>Prize: " + shift.prize +
+            "</h5><button type='button' class='button button-small button-block button-positive' onclick='window.location=\"#/tab/pickup-list\"'>Take shift</button>";
         });
       } else {
-        info = "<li>" + place.vicinity + "</li><br /><li>No shifts available for this store</li>"
+        info = "<li>" + place.vicinity + "</li><br /><h4>No shifts available.</h4>"
       }
       // marker popup window
       if (place.place_id !== $scope.homeStore){
@@ -234,7 +234,7 @@ angular.module('starter.controllers', [])
         );
       } else {
         $scope.infowindow.setContent(
-          "<ul class='infowindow'><li class=\"homestore\">This is your store!</li>" + info + "</ul>"
+          "<ul class='infowindow'><h5 class=\"homestore\">This is your store!</h5>" + info + "</ul>"
         );
       }
       $scope.infowindow.open($scope.map, this);
