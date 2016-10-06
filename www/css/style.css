@@ -8,13 +8,34 @@ map {
   z-index: 200;
 }
 
+.header-item, .infowindow, h3 {
+  font-family: 'PT Sans', sans-serif;
+}
+
 .splashHead {
   font-size: 48px;
   text-align: center;
 }
 
 .splashPage {
-  background-color: ;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fcfcfc+0,ededed+100 */
+background: rgb(252,252,252); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+
+}
+
+#lobbylogo {
+  width:200px;
+}
+
+.splashHolder{
+  width:250px;
+  margin: auto;
+  text-align: center;
+  color: #909090;
 }
 
 .scroll {
@@ -50,6 +71,10 @@ map {
   position: relative;
   top: 5%;
 }
+.container {
+  margin-right: auto;
+  margin-left: auto;
+}
 
 .floatingButton {
 	position: absolute;
@@ -75,6 +100,15 @@ map {
   text-align: right;
   padding: 10px;
 }*/
+.item-divider{
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7f7f7+0,dddddd+100 */
+background: rgb(247,247,247); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(247,247,247,1) 0%, rgba(221,221,221,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(247,247,247,1) 0%,rgba(221,221,221,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(247,247,247,1) 0%,rgba(221,221,221,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */
+
+}
 
 #loading {
   padding:20px;
@@ -98,6 +132,13 @@ map {
   background: -webkit-linear-gradient(top,  #136b2c 0%,#00592d 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom,  #136b2c 0%,#00592d 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#136b2c', endColorstr='#00592d',GradientType=0 ); /* IE6-9 */
+
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#008e47+0,006e2e+100 */
+background: rgb(0,142,71); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(0,142,71,1) 0%, rgba(0,110,46,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(0,142,71,1) 0%,rgba(0,110,46,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(0,142,71,1) 0%,rgba(0,110,46,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008e47', endColorstr='#006e2e',GradientType=0 ); /* IE6-9 */
 
 }
 div.buttons.buttons-right.header-item > span > button {

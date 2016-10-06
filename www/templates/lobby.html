@@ -1,10 +1,16 @@
 <ion-view view-title="Shift Ninja">
   <ion-content class="padding splashPage">
-    <h1 class="splashHeader">Please Sign In</h1>
+    <div class="container">
+      <div class="splashHolder">
+        <h3 class="splashHeader">Enter the Ninja</h3>
+        <img id="lobbylogo" src="img/icon.png"/>
+        <p>Designed by partners for the partners</p>
+      </div>
+    </div>
     <form>
-      <div class="list">
-        <label class="item">
-          <button class="button button-block button-positive" ng-click="login()">Facebook Login</button>
+      <div >
+        <label >
+          <button class="button button-block button-positive" ng-click="authenticate('facebook')">Login with Facebook</button>
         </label>
       </div>
     </form>

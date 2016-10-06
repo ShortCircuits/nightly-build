@@ -12,11 +12,20 @@ angular.module('starter.controllers', [])
       window.location = '#/lobby'
     }
     $scope.notification();
-    // Maps.getMyStore();
-    console.log('Opened!')
     ionic.trigger('resize');
   })
-  $ionicLoading.show();
+  $scope.show = function() {
+    $ionicLoading.show({
+      template: '<p>Loading please wait..</p><ion-spinner icon="lines"></ion-spinner>',
+      noBackdrop: true
+    });
+  };
+
+  $scope.hide = function() {
+    $ionicLoading.hide();
+  };
+
+  $scope.show($ionicLoading);
 
   document.getElementById("pickupshift").style.display = 'none';
   document.getElementById("covermyshift").style.display = 'none';
@@ -49,6 +58,17 @@ angular.module('starter.controllers', [])
       })
     }
   }
+  var loc = localStorage.getItem("location");
+  loc = JSON.parse(loc)
+  console.log("this is loc ", loc)
+  // if(loc.lat){
+  //   Maps.setLocation(loc);
+  //   Maps.fetchStores().then(function(stores) {
+  //     stores = JSON.stringify(stores);
+  //     localStorage.setItem("stores", stores);
+  //   })
+  // }
+  
 
   // Notifications
   $scope.notification = function() {
@@ -59,6 +79,7 @@ angular.module('starter.controllers', [])
       .then(function(user) {
         $scope.user = user;
         console.log("whoami endpoint returning: ", user)
+        localStorage.setItem("theUser", user);
       })
       .catch(function(err) {
         console.log("Could not get user id")
@@ -220,7 +241,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('AppCtrl', function($scope, $rootScope, $ionicModal, $interval, $timeout, UserService, $window) {
+.controller('AppCtrl', function($scope, $rootScope, $ionicModal, $interval, $timeout, UserService, $window, Maps) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -228,6 +249,11 @@ angular.module('starter.controllers', [])
     // listen for the $ionicView.enter event:
     //$scope.$on('$ionicView.enter', function(e) {
     //});
+    Maps.getMyPos().then(function(loc){
+      var location = JSON.stringify(loc);
+      console.log(location)
+      localStorage.setItem("location", location);
+    })
 
     // Form data for the login modal
     $scope.loginData = {};
@@ -466,7 +492,15 @@ angular.module('starter.controllers', [])
         $scope.availableShifts = Maps.getShifts();
         $scope.availableShifts = $scope.availableShifts.filter(function(shift){
           return !shift.requested.includes($scope.myId)
-        });
+        })
+        // .filter(function(shift){
+        //   return !shift.submitted_by === $scope.myId;
+        // })
+        $scope.availableShifts.filter(function(shift){
+          console.log('shift subb by', shift.submitted_by)
+          console.log('my id', $scope.myId)
+          return !(shift.submitted_by === $scope.myId);
+        })
         addPrizeNum();
       })
     })
@@ -641,7 +675,7 @@ angular.module('starter.controllers', [])
 
     $scope.approve = function() {
       // console.log("this is the shiftId inside the approve: ", shiftId);
-      document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
+      // document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
       // document.getElementById("approveShift").style.display = "none";
       // document.getElementById("rejectShift").style.display = "none";
       $scope.canApprove = false;
