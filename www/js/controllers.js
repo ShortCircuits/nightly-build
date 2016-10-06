@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService) {
+.controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService, Pickup) {
   $scope.map;
   $scope.infowindow = new google.maps.InfoWindow();
   $scope.location = Maps.getLocation();
@@ -117,6 +117,7 @@ angular.module('starter.controllers', [])
         console.log("Could not get user notifications")
       })
   };
+  
 
   window.approve = function() {
     window.location = "#/tab/myshifts";
@@ -136,9 +137,40 @@ angular.module('starter.controllers', [])
     // could be better needs to pickup data from controler 
     // if exists otherwise do another request
     Maps.fetchStores().then(function(stores) {
+      window.leShift = Maps.getShifts();
       markerBuilder(stores);
     })
 
+  };
+
+  window.pShift = function(shiftid) {
+    console.log("this is le shiftID", shiftid)
+    var shift = window.leShift.filter(function(shift){
+      return shift._id === shiftid;
+    })
+    shift = shift[0];
+    console.log('this is the shifto', shift)
+    var theData = {
+      shift_id: shift._id,
+      shift_owner: shift.submitted_by,
+      shift_owner_name: shift.submitted_by_name,
+      shift_where: shift.home_store.address,
+      shift_when: shift.shift_text_time,
+      shift_prize: shift.prize,
+      shift_start: shift.shift_start,
+      shift_end: shift.shift_end,
+      voted: false
+    };
+      // test if shift owner is claiming their own shift
+    if ($scope.myId != shift.submitted_by) {
+      Pickup.pickUpShift(theData).then(function(response) {
+        alert("successfully requested a shift")
+      }).catch(function(err) {
+        alert("Could not request to pickup this shift")
+      })
+    } else {
+      alert("Sorry, you cannot claim this shift.")
+    }
   };
 
   $scope.zipSearch = function(zipOrCity) {
@@ -206,8 +238,13 @@ angular.module('starter.controllers', [])
     }
     google.maps.event.addListener(marker, 'click', function() {
       var info = "";
+      // var functor = function(shifty){
+      //   console.log('this is shifty ', shifty)
+      //   return pShift.bind(shifty)
+      // }
       if (place.shifts) {
         place.shifts.forEach(function(shift) {
+          
           var shiftObj = {};
           shiftObj.store = place.vicinity;
           shiftObj.start = shift.shift_start;
@@ -221,7 +258,7 @@ angular.module('starter.controllers', [])
             "</h6><h6 class='marker4'>" + shift.shift_text_time +
             "</h6><h6 class='marker5'>Prize: " + shift.prize +
             "</h6><br /><h6 class='marker3'>" + "Posted by: " + shift.submitted_by_name +
-            "</h6><button type='button' class='button button-small button-block button-positive take-shift' onclick='window.location=\"#/tab/pickup-list\"'>Take shift</button><br />";
+            "</h6><button type='button' class='button button-small button-block button-positive take-shift' onclick='pShift(\""+shift._id+"\")'>Take shift</button><br />";
         });
       } else {
         info = "<li>" + place.vicinity + "</li><br /><h4>No shifts available.</h4>"
