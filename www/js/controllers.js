@@ -859,7 +859,7 @@ angular.module('starter.controllers', [])
   $scope.pickedrejected = [];
   $scope.pickedapproved = [];
   
-  MyShift.getShiftsPosted()
+  MyShift.GetMyShifts()
   .then(function(shifts){
     console.log("shifts_posted: ", shifts);
     $scope.postedunclaimed = shifts.filter(function(x){
@@ -891,7 +891,7 @@ angular.module('starter.controllers', [])
     }
   });
 
-  MyShift.getShiftsPicked()
+  MyShift.GetShiftsIPickedUp()
   .then(function(shifts){
     $scope.pickedrejected = shifts.filter(function(x){
       return x.rejected===true;
