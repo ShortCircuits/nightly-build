@@ -3,10 +3,10 @@
 
 
     <div class="item item-divider">
-        {{ profileData.firstName + " " + profileData.lastName }}
+        {{ data.profile.firstName + " " + data.profile.lastName }}
     </div>
     <div class="item">
-      <img class="profilePic" ng-src="{{profileData.profilePicture}}"/>
+      <img class="profilePic" ng-src="{{data.profile.profilePicture}}"/>
     </div>
 
     <div class="item item-divider">
@@ -14,7 +14,7 @@
     </div>
     <div class="item item-text-wrap">
       <i class="icon ion-email"></i>
-        {{profileData.email}}
+        {{data.profile.email}}
     </div>
 
     <div class="item item-divider">
@@ -22,7 +22,7 @@
     </div>
     <div class="item item-text-wrap">
       <i class="icon ion-iphone"></i>
-        {{profileData.phone}}
+        {{data.profile.phone}}
     </div>
 
     <div class="item item-divider">
@@ -30,7 +30,7 @@
     </div>
     <div class="item item-text-wrap">
       <i class="icon ion-location"></i>
-        {{profileData.home_store.address}}
+        {{data.profile.home_store.address}}
     </div>
 
     <div class="item item-divider">
@@ -38,38 +38,16 @@
     </div>
     <div class="item item-text-wrap">
       <i class="icon ion-android-happy"></i>
-      Positive reps: {{ profileData.rating.positive || 0}}
+      Positive reps: {{ data.profile.rating.positive || 0}}
       <br>
       <i class="icon ion-android-sad"></i>
-      Negative reps: {{ profileData.rating.negative || 0}}
+      Negative reps: {{ data.profile.rating.negative || 0}}
     </div>
 
     <div class="item item-text-wrap">
       <i class=""></i>
       <button class="button button-positive" ng-click="openEditProfile()">Edit Profile</button>
     </div>
-
-<!-- 
-    <img ng-src="{{profileData.profilePicture}}" alt="good looking dude" />
-
-    <p class="profile-header"> Name </p>
-    <p class="profile-info">{{ profileData.firstName + " " + profileData.lastName }}</p>
-
-  	<p class="profile-header"> Email </p>
-  	<p class="profile-info">{{ profileData.email }}</p>
-  	
-  	<p class="profile-header"> Phone </p>
-  	<p class="profile-info">{{ profileData.phone }}</p>
-  	
-   	<p class="profile-header"> Home Store</p>
-    <p class="profile-info">{{ profileData.home_store.address }}</p>
-
-    <p class="profile-header"> My Reputation</p>
-    <p class="profile-info"> Positive reps: {{ profileData.rating.positive }}</p>
-    <p class="profile-info"> Negative reps: {{ profileData.rating.negative }}</p>
-  	
-    <button class="button button-positive" ng-click="openEditProfile()">Edit Profile</button>
- -->
 
   </ion-content>
 </ion-view>
