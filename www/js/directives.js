@@ -380,12 +380,3 @@ angular.module('starter.directives', [])
     }
   }
 })
-
-
-
-
-
-
-
-
-
