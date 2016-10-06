@@ -61,13 +61,13 @@ angular.module('starter.controllers', [])
   var loc = localStorage.getItem("location");
   loc = JSON.parse(loc)
   console.log("this is loc ", loc)
-  if(loc.lat){
-    Maps.setLocation(loc);
-    Maps.fetchStores().then(function(stores) {
-      stores = JSON.stringify(stores);
-      localStorage.setItem("stores", stores);
-    })
-  }
+  // if(loc.lat){
+  //   Maps.setLocation(loc);
+  //   Maps.fetchStores().then(function(stores) {
+  //     stores = JSON.stringify(stores);
+  //     localStorage.setItem("stores", stores);
+  //   })
+  // }
   
 
   // Notifications
