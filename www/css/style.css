@@ -162,6 +162,14 @@ div.buttons.buttons-right.header-item > span > button {
 	border-radius: 6px;
 }
 
+.button.button-positive.take-shift {
+  background-color:#47B7BF;
+  border-color:#4CB7BF;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+
 .button.button-positive.activated{
 	background-color:#00592D;
 }

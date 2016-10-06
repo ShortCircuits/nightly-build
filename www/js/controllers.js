@@ -217,12 +217,11 @@ angular.module('starter.controllers', [])
           shiftObj.prize = shift.prize;
           shiftObj.id = shift._id;
           AvailableShifts.addShift(shiftObj);
-          info += "<li><h4 class='marker1'>" + place.name +
-            "</h4><h6 class='marker2'>" + place.vicinity +
-            "</h6><p class='marker3'>" + shift.submitted_by_name + " needs someone to cover a shift" +
-            "</p><p class='marker4'>" + shift.shift_text_time +
-            "</p><h5 class='marker5'>Prize: " + shift.prize +
-            "</h5><button type='button' class='button button-small button-block button-positive' onclick='window.location=\"#/tab/pickup-list\"'>Take shift</button>";
+          info += "<li><h6 class='marker2'>" + place.vicinity +
+            "</h6><h6 class='marker4'>" + shift.shift_text_time +
+            "</h6><h6 class='marker5'>Prize: " + shift.prize +
+            "</h6><br /><h6 class='marker3'>" + "Posted by: " + shift.submitted_by_name +
+            "</h6><button type='button' class='button button-small button-block button-positive take-shift' onclick='window.location=\"#/tab/pickup-list\"'>Take shift</button><br />";
         });
       } else {
         info = "<li>" + place.vicinity + "</li><br /><h4>No shifts available.</h4>"
@@ -230,11 +229,11 @@ angular.module('starter.controllers', [])
       // marker popup window
       if (place.place_id !== $scope.homeStore){
         $scope.infowindow.setContent(
-          "<ul class='infowindow'><li><button onclick=\"setMyStore('" + place.place_id + "', '" + place.vicinity + "')\">Make this my home store</button></li>" + info + "</ul>"
+          "<ul class='infowindow'><li><button type='button' class='button button-small button-block button-positive' onclick=\"setMyStore('" + place.place_id + "', '" + place.vicinity + "')\">Make this my home store</button></li>" + info + "</ul>"
         );
       } else {
         $scope.infowindow.setContent(
-          "<ul class='infowindow'><h5 class=\"homestore\">This is your store!</h5>" + info + "</ul>"
+          "<ul class='infowindow'><h3 class=\"homestore\">This is your store!</h3>" + info + "</ul>"
         );
       }
       $scope.infowindow.open($scope.map, this);
