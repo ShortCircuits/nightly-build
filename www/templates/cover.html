@@ -3,6 +3,7 @@
 
   <div class="list card">
 
+    <!-- display for the shift date -->
     <div class="item item-divider">
       Shift Date
     </div>
@@ -11,6 +12,7 @@
         {{data.shiftDate}}
     </div>
 
+    <!-- display for the shift start time -->
     <div class="item item-divider">
       Shift Start Time
     </div>
@@ -19,6 +21,7 @@
         {{data.startTime}}
     </div>
 
+    <!-- display for the shift end time -->
     <div class="item item-divider">
       Shift End Time
     </div>
@@ -27,6 +30,7 @@
         {{data.endTime}}
     </div>
 
+    <!-- display for the shift prize -->
     <div class="item item-divider">
       Prize
     </div>
@@ -36,6 +40,7 @@
     </div>
   </div>
 
+  <!-- button for submitting shift that calls the function with the correct date in the cover.service -->
   <button type="button" id="pickupshift" class="button button-large button-block button-positive" ng-click="postShift()">Confirm Shift</button>
 
   </ion-content>
