@@ -5,7 +5,7 @@
     .module('starter')
     .factory('CoverService', CoverService);
 
-  function CoverService($rootScope, $ionicModal, ionicDatePicker, ionicTimePicker, $http, UserService) {
+  function CoverService($rootScope, $ionicModal, ionicDatePicker, ionicTimePicker, $http) {
     var home_store = null;
     var submitted_by_name = null;
     var shiftDate;
