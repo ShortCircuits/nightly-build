@@ -2,10 +2,10 @@
   <ion-content class="padding">
 
     <div class="item item-divider">
-      {{partnerInfo.name}}
+      {{data.partnerInfo.name}}
     </div>
     <div class="item">
-      <img src={{partnerInfo.facebookPic}}>
+      <img src={{data.partnerInfo.facebookPic}}>
     </div>
 
     <div class="item item-divider">
@@ -13,7 +13,7 @@
     </div>
     <div class="item item-text-wrap">
       <i class="icon ion-email"></i>
-      <a ng-href="mailto:{{partnerInfo.email}}">{{partnerInfo.email}}</a>
+      <a ng-href="mailto:{{data.partnerInfo.email}}">{{data.partnerInfo.email}}</a>
     </div>
 
     <div class="item item-divider">
@@ -21,7 +21,7 @@
     </div>
     <div class="item item-text-wrap contact-info">  
       <i class="icon ion-iphone"></i>
-      {{partnerInfo.phone}}<a ng-href="tel:+1{{partnerInfo.phone.split(' ').join('').split('(').join('').split(')').join('').split('-').join('')}}">Call</a>
+      {{data.partnerInfo.phone}}<a ng-href="tel:+1{{data.partnerInfo.phone.split(' ').join('').split('(').join('').split(')').join('').split('-').join('')}}">Call</a>
     </div>
 
     <div class="item item-divider">
@@ -29,22 +29,22 @@
     </div>
     <div class="item item-text-wrap">
       <i class="icon ion-android-happy"></i>
-      Positive reps: {{partnerInfo.userRepPos || 0}}
+      Positive reps: {{data.partnerInfo.userRepPos || 0}}
       <br>
       <i class="icon ion-android-sad"></i>
-      Negative reps: {{partnerInfo.userRepNeg || 0}}
+      Negative reps: {{data.partnerInfo.userRepNeg || 0}}
     </div>
 
     <div class="item item-text-wrap">
       <i class=""></i>
-      <button type="button" id="approveShift" class="button button-positive" ng-if="canApprove" ng-click="newApprove()">Accept</button>
-      <button type="button" id="rejectShift" class="button button-positive" ng-if="canApprove" ng-click="reject()">Reject</button>
+      <button type="button" id="approveShift" class="button button-positive" ng-if="data.canApprove" ng-click="newApprove()">Accept</button>
+      <button type="button" id="rejectShift" class="button button-positive" ng-if="data.canApprove" ng-click="reject()">Reject</button>
     </div>
 
     <div class="item item-text-wrap">
       <i class=""></i>
-      <button type="button" id="repUpVote" class="button button-positive" ng-if="canVote" ng-click="upVote()">Upvote this user</button>
-      <button type="button" id="repDownVote" class="button button-positive" ng-if="canVote" ng-click="downVote()">Downvote this user</button>
+      <button type="button" id="repUpVote" class="button button-positive" ng-if="data.canVote" ng-click="upVote()">Upvote this user</button>
+      <button type="button" id="repDownVote" class="button button-positive" ng-if="data.canVote" ng-click="downVote()">Downvote this user</button>
     </div>
 
    <!--  
