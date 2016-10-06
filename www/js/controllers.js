@@ -849,6 +849,50 @@ angular.module('starter.controllers', [])
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
     }
+    MyShift.getShiftsPosted()
+    .then(function(shifts){
+      console.log("shifts_posted: ", shifts);
+      $scope.postedunclaimed = shifts.filter(function(x){
+        return x.covered===false && x.requested.length<1;
+      });
+      $scope.postedpending = shifts.filter(function(x){
+        return x.covered===false && x.requested.length>=1;
+      });
+      $scope.postedapproved = shifts.filter(function(x){
+        return x.covered===true;
+      });
+    })
+    .then(function(){
+      if ($scope.postedpending.length > 0) {
+        $scope.postedpending.forEach(function(shiftreq){
+          shiftreq.claimants = [];
+          MyShift.getRequesters(shiftreq._id)
+          .then(function(pickups){
+            pickups.forEach(function(pickup){
+              var obj = {};
+              obj.shift_id = shiftreq._id;
+              obj.claimant_name = pickup.user_requested_name;
+              obj.claimant_id = pickup.user_requested;
+              obj.pickup_id = pickup._id;
+              shiftreq.claimants.push(obj);
+            });
+          });
+        });
+      }
+    });
+
+    MyShift.getShiftsPicked()
+    .then(function(shifts){
+      $scope.pickedrejected = shifts.filter(function(x){
+        return x.rejected===true;
+      });
+      $scope.pickedpending = shifts.filter(function(x){
+        return !x.rejected && x.approved===false ;
+      });
+      $scope.pickedapproved = shifts.filter(function(x){
+        return x.approved===true;
+      })
+    });
   });
 
   $scope.postedpending = [];
@@ -858,53 +902,6 @@ angular.module('starter.controllers', [])
   $scope.pickedrejected = [];
   $scope.pickedapproved = [];
   
-  MyShift.getShiftsPosted()
-  .then(function(shifts){
-    console.log("shifts_posted: ", shifts);
-    $scope.postedunclaimed = shifts.filter(function(x){
-      return x.covered===false && x.requested.length<1;
-    });
-    $scope.postedpending = shifts.filter(function(x){
-      return x.covered===false && x.requested.length>=1;
-    });
-    $scope.postedapproved = shifts.filter(function(x){
-      return x.covered===true;
-    });
-  })
-  .then(function(){
-    if ($scope.postedpending.length > 0) {
-      console.log("postedpending: ", $scope.postedpending)
-      $scope.postedpending.forEach(function(shiftreq){
-        shiftreq.claimants = [];
-        console.log("====shiftreq._id: ", shiftreq._id);
-        MyShift.getRequesters(shiftreq._id)
-        .then(function(pickups){
-          console.log("pickups returned: ", pickups);
-          pickups.forEach(function(pickup){
-            var obj = {};
-            obj.claimant_name = pickup.user_requested_name;
-            obj.claimant_id = pickup.user_requested;
-            obj.pickup_id = pickup._id;
-            shiftreq.claimants.push(obj);
-          });
-        });
-      });
-    }
-    console.log("postedpending-after: ", $scope.postedpending);
-  });
-
-  MyShift.getShiftsPicked()
-  .then(function(shifts){
-    $scope.pickedrejected = shifts.filter(function(x){
-      return x.rejected===true;
-    });
-    $scope.pickedpending = shifts.filter(function(x){
-      return !x.rejected && x.approved===false ;
-    });
-    $scope.pickedapproved = shifts.filter(function(x){
-      return x.approved===true;
-    })
-  });
 
   $scope.delete = function(shift) {
     var deleteMe = confirm("Are you sure you wish to delete this shift?");
@@ -927,10 +924,10 @@ angular.module('starter.controllers', [])
     }
   };
 
-  $scope.connect = function(shift) {
-    var userId = shift.claimants[0].claimant_id;
-    var shiftid = shift._id;
-    var pickshift = shift.claimants[0].pickup_id;
+  $scope.connect = function(claimant) {
+    var userId = claimant.claimant_id;
+    var shiftid = claimant.shift_id;
+    var pickshift = claimant.pickup_id;
     MyShift.setPartnerId(userId, shiftid, 'abc', pickshift);
     window.location = '#/tab/partner'
   };

@@ -35,7 +35,12 @@
             </div>
             <div class="col col-35">
               <p>Status: PENDING</p>
-              <button ng-click="connect(shift)">Requested by: {{shift.claimants[0].claimant_name}}</button>
+              <ion-list>
+                <ion-item ng-repeat="claimant in shift.claimants" >
+                  <button ng-click="connect(claimant)">Requested by: {{claimant.claimant_name}}</button>
+                </ion-item>
+              </ion-list>
+
             </div>
           </div>
         </ion-item>
