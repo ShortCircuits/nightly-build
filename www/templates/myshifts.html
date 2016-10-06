@@ -12,7 +12,7 @@
           <div class="col col-65">
             <p>{{shift.home_store.address}}<br/>
             {{shift.shift_text_time}}<br/>
-            prize: {{shift.prize}}</p>
+            Prize: {{shift.prize}}</p>
           </div>
           <div class="col col-35">
             <p>Status: PENDING</p>
@@ -34,8 +34,8 @@
       <ion-item ng-repeat="shift in postedunclaimed" class="item-text-wrap">
         <div class="row responsive-sm">
           <div class="col col-65">
-            <p>Where: {{shift.home_store.address}}<br/>
-            When: {{shift.shift_text_time}}<br/>
+            <p>{{shift.home_store.address}}<br/>
+            {{shift.shift_text_time}}<br/>
             Prize: {{shift.prize}}</p>
           </div>
           <div class="col col-35">
@@ -52,8 +52,8 @@
       <ion-item ng-repeat="shift in postedapproved" class="item-text-wrap">
         <div class="row responsive-sm">
           <div class="col col-65">
-            <p>Where: {{shift.shift_where}}<br/>
-            When: {{shift.shift_when}}<br/>
+            <p>{{shift.shift_where}}<br/>
+            {{shift.shift_when}}<br/>
             Picked up requested by: {{shift.user_requested_name}}<br/>
             Prize: {{shift.shift_prize}}</p></span>
           </div>
@@ -73,8 +73,8 @@
       <ion-item ng-repeat="shift in pickedpending">
         <div class="row responsive-sm">
           <div class="col col-65">
-            <p>Where: {{shift.shift_where}}<br/>
-            When: {{shift.shift_when}}<br/>
+            <p>{{shift.shift_where}}<br/>
+            {{shift.shift_when}}<br/>
             Posted by: {{shift.shift_owner_name}}<br/>
             Prize: {{shift.shift_prize}}</p>
           </div>
@@ -91,8 +91,8 @@
       <ion-item ng-repeat="shift in pickedapproved">
         <div class="row responsive-sm">
           <div class="col col-65">
-            <p>Where: {{shift.shift_where}}<br/>
-            When: {{shift.shift_when}}<br/>
+            <p>{{shift.shift_where}}<br/>
+            {{shift.shift_when}}<br/>
             Posted by: {{shift.shift_owner_name}}<br/>
             Prize: {{shift.shift_prize}}</p>
           </div>
@@ -109,8 +109,8 @@
       <ion-item ng-repeat="shift in pickedrejected">
         <div class="row responsive-sm">
           <div class="col col-65">
-            <p>Where: {{shift.shift_where}}<br/>
-            When: {{shift.shift_when}}<br/>
+            <p>{{shift.shift_where}}<br/>
+            {{shift.shift_when}}<br/>
             Posted by: {{shift.shift_owner_name}}<br/>
             Prize: {{shift.shift_prize}}</p>
           </div>
