@@ -712,62 +712,62 @@ angular.module('starter.controllers', [])
 
   // The following code is for the messenger service!!!!!!!!!!!!!!!!!!!!!
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // !!!!!!!!!!!!!Not Implemented!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-  $ionicModal.fromTemplateUrl('templates/messageModal.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
+  // $ionicModal.fromTemplateUrl('templates/messageModal.html', {
+  //   scope: $scope
+  // }).then(function(modal) {
+  //   $scope.modal = modal;
+  // });
 
-  $scope.message = function() {
-    $scope.modal.show();
-    $http({
-      method: 'GET',
-      url: 'https://shift-it.herokuapp.com/messages/id/' + userId + '/partner/' + Maps.getUser(),
-    }).then(function(data) {
-      console.log("data here is: ", data)
-        // var data = data.data;
-        // $scope.partnerInfo.name = data.firstName + ' ' + data.lastName;
-        // $scope.partnerInfo.email = data.email;
-        // $scope.partnerInfo.facebookPic = data.profilePicture;
-        // $scope.partnerInfo.phone = data.phone;
-        // $scope.partnerInfo.userRep = "Awesome!";
+  // $scope.message = function() {
+  //   $scope.modal.show();
+  //   $http({
+  //     method: 'GET',
+  //     url: 'https://shift-it.herokuapp.com/messages/id/' + userId + '/partner/' + Maps.getUser(),
+  //   }).then(function(data) {
+  //     console.log("data here is: ", data)
+  //       // var data = data.data;
+  //       // $scope.partnerInfo.name = data.firstName + ' ' + data.lastName;
+  //       // $scope.partnerInfo.email = data.email;
+  //       // $scope.partnerInfo.facebookPic = data.profilePicture;
+  //       // $scope.partnerInfo.phone = data.phone;
+  //       // $scope.partnerInfo.userRep = "Awesome!";
 
-    }).catch(function(err) {
-      alert("Could not get partner profile.")
-    });
-  }
+  //   }).catch(function(err) {
+  //     alert("Could not get partner profile.")
+  //   });
+  // }
 
-  $scope.closeMessage = function() {
-    $scope.modal.hide();
-  };
+  // $scope.closeMessage = function() {
+  //   $scope.modal.hide();
+  // };
 
-  $scope.sendMessage = function(message) {
+  // $scope.sendMessage = function(message) {
 
-    var date = new Date();
-    console.log(date);
-    var messageBody = {
-      sent_by: Maps.getUser(),
-      sent_to: userId,
-      message: message,
-      read: false,
-      dtg: date
-    }
-    console.log("message body is: ", messageBody)
+  //   var date = new Date();
+  //   console.log(date);
+  //   var messageBody = {
+  //     sent_by: Maps.getUser(),
+  //     sent_to: userId,
+  //     message: message,
+  //     read: false,
+  //     dtg: date
+  //   }
+  //   console.log("message body is: ", messageBody)
 
-    $http({
-      method: 'POST',
-      url: 'https://shift-it.herokuapp.com/messages',
-      data: messageBody
-    }).then(function(response) {
-      console.log("message submitted to database with shift data: ", messageBody);
-      alert("Your message has been sent!");
-      $scope.closeMessage();
-    }, function(error) {
-      console.log("error posting message to db")
-    })
-  }
+  //   $http({
+  //     method: 'POST',
+  //     url: 'https://shift-it.herokuapp.com/messages',
+  //     data: messageBody
+  //   }).then(function(response) {
+  //     console.log("message submitted to database with shift data: ", messageBody);
+  //     alert("Your message has been sent!");
+  //     $scope.closeMessage();
+  //   }, function(error) {
+  //     console.log("error posting message to db")
+  //   })
+  // }
 })
 
 .controller('ShiftController', function($scope, $rootScope, MyShift, $http, $state, UserService) {
