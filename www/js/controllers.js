@@ -553,6 +553,7 @@ angular.module('starter.controllers', [])
     var userId = MyShift.getPartnerId()[0];
     var shiftId = MyShift.getPartnerId()[1];
     var pickupShiftId = MyShift.getPartnerId()[2];
+    var requesterName = MyShift.getPartnerId()[3];
     console.log("userId : ", userId);
     console.log("this is the shiftId: ", shiftId);
     var currShift;
@@ -638,6 +639,25 @@ angular.module('starter.controllers', [])
         console.log("approve return: ", response.data);
         alert("You have successfully approved the shift.");
 
+      }, function errorCallback(response) {
+        alert("Could not approve the shift", response)
+      });
+    };
+
+    $scope.newApprove = function(){
+      var obj = {
+        'shiftId': shiftId,
+        'pickupId': pickupShiftId,
+        'requesterId': userId,
+        'requesterName': requesterName
+      };
+      console.log("newApprove called, data: ", obj);
+      $http({
+        method: 'PATCH',
+        url: 'https://shift-it.herokuapp.com/approval',
+        data: obj
+      }).then(function successCallback(response) {
+        alert("You have successfully approved the shift.");
       }, function errorCallback(response) {
         alert("Could not approve the shift", response)
       });
@@ -910,8 +930,18 @@ angular.module('starter.controllers', [])
   $scope.connect = function(claimant) {
     var userId = claimant.claimant_id;
     var shiftid = claimant.shift_id;
+    var partName = claimant.claimant_name;
     var pickshift = claimant.pickup_id;
-    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift);
+    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift, partName);
+    window.location = '#/tab/partner'
+  };
+
+  $scope.connectAfter = function(shift) {
+    var userId = shift.covered_by;
+    var shiftid = shift._id;
+    var partName = shift.covered_by_name;
+    var pickshift = shift.pickup_approved;
+    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift, partName);
     window.location = '#/tab/partner'
   };
 

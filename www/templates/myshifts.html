@@ -52,14 +52,13 @@
       <ion-item ng-repeat="shift in postedapproved" class="item-text-wrap">
         <div class="row responsive-sm">
           <div class="col col-65">
-            <p>{{shift.shift_where}}<br/>
-            {{shift.shift_when}}<br/>
-            Picked up requested by: {{shift.user_requested_name}}<br/>
-            Prize: {{shift.shift_prize}}</p></span>
+            <p>{{shift.home_store.address}}<br/>
+            {{shift.shift_text_time}}<br/>
+            Prize: {{shift.prize}}</p>
           </div>
           <div class="col col-35">
             <p>Status: APPROVED</p>
-            <button ng-click="connect(shift.requested[0], shift.shift._id, shift._id)"> Go to this users page </button><br/><br/>
+            <button ng-click="connectAfter(shift)"> Taken by {{shift.covered_by_name}} </button><br/><br/>
           </div>
         </div>
       </ion-item>
