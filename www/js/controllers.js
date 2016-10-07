@@ -988,7 +988,7 @@ angular.module('starter.controllers', [])
           "Content-Type": "application/json"
         }
       }).then(function successCallback(response) {
-        $scope.postedunclaimed.filter(x=>x.shift_id!==response.config.data._id);
+        $scope.postedunclaimed.filter(function(x){x.shift_id!==response.config.data._id});
         $rootScope.badgeCount = $scope.postedpending.length;
       }, function errorCallback(response) {
         alert("Could not delete the shift", response)
