@@ -143,6 +143,11 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ShiftController', function($scope, $rootScope, MyShift, $http, $state, UserService) {
+  
+  $scope.$on("update", function() {
+    $scope.data = MyShiftsService.getShiftData();
+  });
+
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
@@ -201,26 +206,8 @@ angular.module('starter.controllers', [])
     })
   });
 
-
   $scope.delete = function(shift) {
-    var deleteMe = confirm("Are you sure you wish to delete this shift?");
-    if (deleteMe) {
-      $http({
-        method: 'DELETE',
-        url: 'https://shift-it.herokuapp.com/shifts',
-        data: {
-          _id: shift._id
-        },
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then(function successCallback(response) {
-        $scope.postedunclaimed.filter(function(x){x.shift_id!==response.config.data._id});
-        $rootScope.badgeCount = $scope.postedpending.length;
-      }, function errorCallback(response) {
-        alert("Could not delete the shift", response)
-      });
-    }
+    MyShiftsService.deleteShift(shift);
   };
 
   $scope.connect = function(claimant) {
