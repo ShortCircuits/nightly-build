@@ -1,4 +1,4 @@
-(function(){
+(function() {
   "use strict";
 
   angular
@@ -13,10 +13,10 @@
     var endTime;
     var prize = 0;
     var shift = {
-      covered : false
+      covered: false
     };
 
-  // This function converts the minutes into a 2 digit number if 0 is chosen
+    // This function converts the minutes into a 2 digit number if 0 is chosen
     var convertMinutes = function(minutes) {
       if (minutes === 0) {
         return "00"
@@ -24,8 +24,8 @@
       return minutes;
     };
 
-  // This is the Date picker modal popout, that initializes the shift_start and shift_end keys in the shift object
-  // On a chosen date it sets both values to the chosen date with no time, and then it shows the first time picker
+    // This is the Date picker modal popout, that initializes the shift_start and shift_end keys in the shift object
+    // On a chosen date it sets both values to the chosen date with no time, and then it shows the first time picker
 
     var ipObj1 = {
       callback: function(val) { //Mandatory
@@ -59,8 +59,8 @@
       templateType: 'popup' //Optional
     };
 
-  // This is the modal for the start shift time picker, it will update the shift object with the correct time in the
-  // current time zone for the user. On submit it opens the end shift time picker modal.
+    // This is the modal for the start shift time picker, it will update the shift object with the correct time in the
+    // current time zone for the user. On submit it opens the end shift time picker modal.
     var ipObj2 = {
       callback: function(val) { //Mandatory
         if (typeof(val) === 'undefined' || shift.shift_start === undefined) {
@@ -84,8 +84,8 @@
       setLabel: 'Set2' //Optional
     };
 
-  // This is the modal for the end shift time picker, it will update the shift object with the correct time in the
-  // current time zone for the user. On submit it opens the prize picker modal.
+    // This is the modal for the end shift time picker, it will update the shift object with the correct time in the
+    // current time zone for the user. On submit it opens the prize picker modal.
     var ipObj3 = {
       callback: function(val) { //Mandatory
         if (typeof(val) === 'undefined' || shift.shift_start === undefined) {
@@ -136,11 +136,11 @@
 
     return {
 
-      openTimePicker1 : openTimePicker1,
+      openTimePicker1: openTimePicker1,
 
-      openTimePicker2 : openTimePicker2,
+      openTimePicker2: openTimePicker2,
 
-      setHomeLocForShift : function() {
+      setHomeLocForShift: function() {
         $http({
           method: 'GET',
           url: 'https://shift-it.herokuapp.com/getProfileInfo'
@@ -155,7 +155,7 @@
         });
       },
 
-      postShift : function() {
+      postShift: function() {
         if (shiftDate === undefined) {
           alert("Please enter a date for your shift!")
         } else if (startTime === undefined) {
@@ -163,7 +163,7 @@
         } else if (endTime === undefined) {
           alert("Please enter an end time for your shift!")
         } else {
-          shift.shift_text_time = makeTextTime(shift); 
+          shift.shift_text_time = makeTextTime(shift);
           console.log("look here I found the shift: ", shift);
           $http({
             method: 'POST',
@@ -178,47 +178,47 @@
         }
       },
 
-      openDatePicker : function() {
+      openDatePicker: function() {
         ionicDatePicker.openDatePicker(ipObj1);
       },
 
-      increment : function() {
+      increment: function() {
         prize += 5;
         $rootScope.$broadcast('update');
       },
 
-      decrement : function() {
+      decrement: function() {
         if (prize > 0) {
           prize -= 5;
           $rootScope.$broadcast('update');
         }
       },
 
-      addPrize : function() {
+      addPrize: function() {
         $rootScope.$broadcast('update');
         shift.prize = "$" + prize + ".00";
       },
 
-      shift : function() {
+      shift: function() {
         return shift;
       },
 
-      prize : function() {
+      prize: function() {
         return prize;
       },
 
-      shiftDate : function() {
+      shiftDate: function() {
         return shiftDate;
       },
 
-      startTime : function() {
+      startTime: function() {
         return startTime;
       },
 
-      endTime : function() {
+      endTime: function() {
         return endTime;
       },
 
-    } 
+    }
   }
 })();
