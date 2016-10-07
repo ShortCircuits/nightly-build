@@ -107,6 +107,7 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
 
   .state('tab.myshifts', {
     url: '/myshifts',
+    cache: false,
     views: {
       'tab-myshifts': {
         templateUrl: 'templates/myshifts.html',
