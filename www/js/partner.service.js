@@ -62,7 +62,7 @@
   		},
   		setRequesterName: function(){
   		 	requesterName = MyShift.getPartnerId()[3];
-  		}
+  		},
 	    filterMyPickups: function(){ MyShift.getAllPickups()
 		    .then(function(shifts) {
 		    	myPickupShifts = shifts;
