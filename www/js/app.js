@@ -68,7 +68,7 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
     controller: 'AppCtrl'
   })
 
-    .state('tab', {
+  .state('tab', {
     url: "/tab",
     abstract: true,
     templateUrl: "templates/tabs.html"
