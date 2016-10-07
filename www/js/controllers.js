@@ -142,7 +142,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ShiftController', function($scope, $rootScope, MyShift, $http, $state, UserService) {
+.controller('ShiftController', function($scope, $rootScope, MyShiftsService, $http, $state, UserService) {
   
   $scope.$on("update", function() {
     $scope.data = MyShiftsService.getShiftData();
@@ -156,7 +156,6 @@ angular.module('starter.controllers', [])
     MyShiftsService.GetShiftsIPickedUp();
   });
   
-
   $scope.delete = function(shift) {
     MyShiftsService.deleteShift(shift);
   };
@@ -170,5 +169,3 @@ angular.module('starter.controllers', [])
   };
 
 })
-
-
