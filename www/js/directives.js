@@ -360,29 +360,28 @@ angular.module('starter.directives', [])
   }
 })
 
-.factory('Partner', function($http) {
+// .factory('Partner', function($http) {
   
-  return {
-    vote: function(shift, rep){
-      var voteRep = new Promise(
-        function(resolve, reject){
-          $http({
-            method: 'PATCH',
-            url: 'https://shift-it.herokuapp.com/rateuser',
-            data: {
-              'pickup_shift_id': shift,
-              'rep': rep
-            }
-          }).then(function (response) {
-             console.log("got response", response.data)
-             resolve(response);
-          }, function (response) {
-            console.log(response)
-            reject(response)
-          }) 
-      })
-    return voteRep;
-    }
-  }
-})
-
+//   return {
+//     vote: function(shift, rep){
+//       var voteRep = new Promise(
+//         function(resolve, reject){
+//           $http({
+//             method: 'PATCH',
+//             url: 'https://shift-it.herokuapp.com/rateuser',
+//             data: {
+//               'pickup_shift_id': shift,
+//               'rep': rep
+//             }
+//           }).then(function (response) {
+//              console.log("got response", response.data)
+//              resolve(response);
+//           }, function (response) {
+//             console.log(response)
+//             reject(response)
+//           }) 
+//       })
+//     return voteRep;
+//     }
+//   }
+// })
