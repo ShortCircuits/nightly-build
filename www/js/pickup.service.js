@@ -29,6 +29,23 @@
       })
     };
 
+    var pickUpShift = function(theData) {
+      var post = new Promise(
+        function(resolve, reject) {
+          $http({
+            method: 'POST',
+            url: 'https://shift-it.herokuapp.com/pickup',
+            data: theData
+          }).then(function(response) {
+            console.log("got response", response.data)
+            resolve(response.data);
+          }, function(response) {
+            reject(response)
+          });
+        })
+      return post;
+    };
+
     var addPrizeNum = function() {
       if (availableShifts) {
         availableShifts.map(function(shift) {
@@ -70,6 +87,10 @@
         } else {
           alert("Sorry, you cannot claim this shift.")
         }
+      },
+
+      pickUpShift: function(theData) {
+        return pickUpShift(theData);
       },
 
       getShiftsNearMe : function() {
