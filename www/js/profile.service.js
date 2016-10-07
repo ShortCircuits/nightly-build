@@ -1,4 +1,4 @@
-(function(){
+(function() {
   "use strict";
 
   angular
@@ -19,7 +19,7 @@
 
     return {
 
-      getUserData : function() {
+      getUserData: function() {
         $http({
           method: 'GET',
           url: 'https://shift-it.herokuapp.com/getProfileInfo'
@@ -31,7 +31,7 @@
         });
       },
 
-      submitProfile : function() {
+      submitProfile: function() {
         editProfile.phone = formatPhoneNumber(editProfile.phone);
         if (!editProfile.phone) {
           // Match fail
@@ -51,18 +51,18 @@
         }
       },
 
-      fillEditProfile : function() {
+      fillEditProfile: function() {
         editProfile.firstName = profileData.firstName;
         editProfile.lastName = profileData.lastName;
         editProfile.email = profileData.email;
         editProfile.phone = profileData.phone || '';
       },
 
-      getProfileData : function() {
+      getProfileData: function() {
         return profileData;
       },
 
-      getEditProfile : function() {
+      getEditProfile: function() {
         return editProfile;
       }
 

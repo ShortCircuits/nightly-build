@@ -1,4 +1,4 @@
-(function(){
+(function() {
   "use strict";
 
   angular
@@ -9,7 +9,7 @@
     var userData = $auth.getPayload();
 
     return {
-      isAuthenticated: function(){
+      isAuthenticated: function() {
         return $auth.isAuthenticated();
       },
       authenticate: function(provider) {
@@ -24,13 +24,15 @@
         console.log("User logged out in user.service")
         $rootScope.$emit('userLoggedOut');
       },
-      getUser: function(){
+      getUser: function() {
         return userData;
       },
       successAuth: function() {
         userData = $auth.getPayload();
-        
-        $rootScope.$emit('userLoggedIn', {data: userData});
+
+        $rootScope.$emit('userLoggedIn', {
+          data: userData
+        });
       },
       failedAuth: function() {
         userData = undefined;
