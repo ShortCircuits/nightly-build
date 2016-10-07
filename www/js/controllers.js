@@ -578,8 +578,8 @@ angular.module('starter.controllers', [])
         PartnerService.reject();
       }
 
-      $scope.approve = function(){
-        PartnerService.approve();
+      $scope.newApprove = function(){
+        PartnerService.newApprove();
       }
 
 

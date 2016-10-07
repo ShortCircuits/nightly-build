@@ -21,6 +21,7 @@
     var userId;
     var shiftId;
     var pickupShiftId;
+    var requesterName;
     // var userId; = MyShift.getPartnerId()[0];
     // var shiftId; = MyShift.getPartnerId()[1];
     // var pickupShiftId; = MyShift.getPartnerId()[2];
@@ -59,6 +60,9 @@
   		setPickupShiftID: function(){
   			pickupShiftId = MyShift.getPartnerId()[2];
   		},
+  		setRequesterName: function(){
+  		 	requesterName = MyShift.getPartnerId()[3];
+  		}
 	    filterMyPickups: function(){ MyShift.getAllPickups()
 		    .then(function(shifts) {
 		    	myPickupShifts = shifts;
@@ -174,6 +178,24 @@
 	        alert("Could not approve the shift", response)
 	      });
 		  },
+		  newApprove: function(){
+	      var obj = {
+	        'shiftId': shiftId,
+	        'pickupId': pickupShiftId,
+	        'requesterId': userId,
+	        'requesterName': requesterName
+	      };
+	      console.log("newApprove called, data: ", obj);
+	      $http({
+	        method: 'PATCH',
+	        url: 'https://shift-it.herokuapp.com/approval',
+	        data: obj
+	      }).then(function successCallback(response) {
+	        alert("You have successfully approved the shift.");
+	      }, function errorCallback(response) {
+	        alert("Could not approve the shift", response)
+	      });
+	    },
   		// code which stops someone from accessing /partner directly
   		getCode: function(){
       	var something = codea;
