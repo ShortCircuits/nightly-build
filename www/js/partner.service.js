@@ -50,7 +50,12 @@
 
 
 		return {
-
+			
+			setPartnerInfo: function() {
+				userId = MyShift.getPartnerId()[0];
+				shiftId = MyShift.getPartnerId()[1];
+				pickupShiftId = MyShift.getPartnerId()[2];
+			},
 			setUserID: function() {
 				userId = MyShift.getPartnerId()[0];
 			},
