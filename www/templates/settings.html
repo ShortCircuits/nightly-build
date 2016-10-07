@@ -6,16 +6,18 @@
     Profile
   </a>
 
+<!--
+  Log in button taken out because user has to be logged in already to access app   
   <a class="item item-icon-left" ng-click="login()">
-    <i class="icon ion-key"></i>
+    <i class="icon ion-log-in"></i>
     Login
-    <span class="item-note" ng-if="loginData">
+    <span class="item-note" ng-if="loggedIn">
       Logged In
     </span>
-  </a>
+  </a> -->
 
   <a class="item item-icon-left" ng-click="logout()">
-    <i class="icon ion-locked"></i>
+    <i class="icon ion-log-out"></i>
     Logout
     <span class="item-note">
     </span>

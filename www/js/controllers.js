@@ -17,6 +17,11 @@ angular.module('starter.controllers', [])
     // Form data for the login modal
     $scope.loginData = {};
     // Create the login modal that we will use later
+
+    // variable to determine if user is logged in or not
+    $scope.loggedIn = UserService.isAuthenticated();
+    console.log("im logged in: ", $scope.loggedIn);
+
     $ionicModal.fromTemplateUrl('templates/login.html', {
       scope: $scope
     }).then(function(modal) {
