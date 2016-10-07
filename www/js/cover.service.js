@@ -173,7 +173,11 @@
             alert("Your shift has been added!");
             window.location = "#/tab/map";
           }, function(error) {
-            console.log("We apologize but we could not post your shift at this time, please reload the app and try again")
+            if(error.status === 403){
+              alert("You can not post more than 5 active shifts.")
+            } else {
+              console.log("We apologize but we could not post your shift at this time, please reload the app and try again")
+            }
           })
         }
       },
