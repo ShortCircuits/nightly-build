@@ -335,77 +335,20 @@ angular.module('starter.controllers', [])
     });
 
   })
-  .controller('ProfileCtrl', function($scope, $http, $ionicModal, Profile, Maps, UserService) {
+  .controller('ProfileCtrl', function($scope, $http, $ionicModal, UserService, ProfileService) {
 
-    $scope.profileData = {};
-    $scope.formatPhoneNumber = function(phone) {
-      var s2 = ("" + phone).replace(/\D/g, '');
-      var m = s2.match(/^(\d{3})(\d{3})(\d{4})$/);
-      return (!m) ? null : "(" + m[1] + ") " + m[2] + "-" + m[3];
-    };
+    $scope.$on('update', function() {
+      $scope.data = {
+        profile : ProfileService.getProfileData(),
+        editProfile : ProfileService.getEditProfile(),
+      }
+    });
 
     $scope.$on('$ionicView.enter', function() {
       if (!UserService.isAuthenticated()) {
         window.location = '#/lobby'
       }
-
-      if (!Maps.getUser()) {
-        // Need to decide -- how to handle not-logged-in
-        alert("Not logged in, friend!");
-      } else {
-        // Code you want executed every time view is opened
-        $http({
-          method: 'GET',
-          url: 'https://shift-it.herokuapp.com/getProfileInfo'
-        }).then(function successCallback(response) {
-          $scope.profileData = response.data[0];
-        }, function errorCallback(response) {
-          // redirect to login page if user tries to reach profile page when not logged in
-        });
-      }
-
-      $scope.editProfileTempData = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: ''
-      };
-
-      $scope.fillEditTemp = function() {
-        $scope.editProfileTempData.firstName = $scope.profileData.firstName;
-        $scope.editProfileTempData.lastName = $scope.profileData.lastName;
-        $scope.editProfileTempData.email = $scope.profileData.email;
-        $scope.editProfileTempData.phone = $scope.profileData.phone || '';
-      };
-
-      $scope.clearEditTemp = function() {
-        $scope.editProfileTempData.firstName = '';
-        $scope.editProfileTempData.lastName = '';
-        $scope.editProfileTempData.email = '';
-        $scope.editProfileTempData.phone = '';
-      };
-
-      // Functionality for editProfile modal
-      $scope.submitProfile = function() {
-        $scope.editProfileTempData.phone = $scope.formatPhoneNumber($scope.editProfileTempData.phone);
-        if (!$scope.editProfileTempData.phone) {
-          // Match fail
-          alert("Please check your phone number and try again.");
-        } else {
-          // Match pass
-          $http({
-            method: 'PATCH',
-            url: 'https://shift-it.herokuapp.com/users',
-            data: $scope.editProfileTempData,
-          }).then(function successCallback(response) {
-            $scope.profileData = response.data;
-            $scope.closeEditProfile();
-          }, function errorCallback(response) {
-            alert("Failure to update profile");
-            $scope.closeEditProfile();
-          })
-        }
-      }
+      ProfileService.getUserData();
 
       // Open and close the modal to edit Profile
       $ionicModal.fromTemplateUrl('templates/editProfile.html', {
@@ -417,16 +360,21 @@ angular.module('starter.controllers', [])
       // Triggered in the edit profile modal to close it
       $scope.closeEditProfile = function() {
         $scope.modal.hide();
-        $scope.clearEditTemp();
       };
 
       // Open the edit profile modal
       $scope.openEditProfile = function() {
-        $scope.fillEditTemp();
+        ProfileService.fillEditProfile();
         $scope.modal.show();
       };
 
-    })
+      // Functionality for editProfile modal
+      $scope.submitProfile = function() {
+        ProfileService.submitProfile()
+        $scope.closeEditProfile();
+      };
+
+    });
   })
 
 // This controller handles the functionality for creating and posting a new shift.
@@ -822,99 +770,6 @@ angular.module('starter.controllers', [])
   }
 })
 
-// .controller('MyShiftCtrl', function($scope, $rootScope, Maps, MyShift, $http, $state, UserService) {
-
-//   $scope.$on('$ionicView.enter', function() {
-//     if (!UserService.isAuthenticated()) {
-//       window.location = '#/lobby'
-//     }
-//   });
-//   // variable to store response from /myshifts
-//   $scope.myshiftsArray = [];
-//   $scope.iamWorking = [];
-//   $scope.myId = Maps.getUser();
-//   $scope.myRequests = Maps.getApprovals();
-//   $scope.requests = $scope.myRequests.filter(function(shft) {
-//     return shft.shift_owner === $scope.myId;
-//   });
-
-//   // .filter(function(shift){
-//   //   if(shift.shift_owner === $scope.myId){
-//   //     return shift.approved;
-//   //   }
-//   // });
-//   $scope.myPickupShifts = [];
-//   $scope.myApprovedShifts;
-//   MyShift.getAllPickups().then(function(shifts) {
-//     $scope.myPickupShifts = shifts;
-//     $scope.myApprovedShifts = $scope.myPickupShifts.filter(function(shift) {
-//       if (shift.shift_owner === $scope.myId) {
-//         return shift.approved;
-//       }
-//     })
-//     console.log("My approved shifts ", $scope.myApprovedShifts)
-//   })
-
-//   $scope.connect = function(userId, shiftid, pickshift) {
-//     MyShift.setPartnerId(userId, shiftid, 'abc', pickshift);
-//     window.location = '#/tab/partner'
-//   };
-
-//   $scope.delete = function(shift) {
-//     var deleteMe = confirm("Are you sure you wish to delete this shift?");
-//     if (deleteMe) {
-//       $http({
-//         method: 'DELETE',
-//         url: 'https://shift-it.herokuapp.com/shifts',
-//         data: {
-//           _id: shift._id
-//         },
-//         headers: {
-//           "Content-Type": "application/json"
-//         }
-//       }).then(function successCallback(response) {
-//         $scope.myshiftsArray.splice($scope.myshiftsArray.indexOf(shift), 1);
-//         $scope.myRequests = $scope.myRequests.filter(function(sheeft) {
-//           return sheeft.shift_id !== response.config.data._id;
-//         });
-//         $scope.requests = $scope.requests.filter(function(sheeft) {
-//           return sheeft.shift_id !== response.config.data._id;
-//         });
-//         $rootScope.badgeCount = $scope.myRequests.filter(function(resp) {
-//           return !resp.rejected;
-//         }).length;
-//         alert("You have successfully deleted the shift.");
-//       }, function errorCallback(response) {
-//         alert("Could not delete the shift", response)
-//       });
-//     }
-//   };
-
-//   // Function from MyShift factory which pulls shifts the user has posted - endpoint => /myshifts
-//   MyShift.GetMyShifts()
-//     .then(function(myshifts) {
-//       $scope.myshiftsArray = myshifts;
-//       $scope.requests.forEach(function(pending) {
-//         $scope.myshiftsArray.forEach(function(shift) {
-//           if (pending.shift_id === shift._id) {
-//             pending.shift = shift;
-//           }
-//         })
-//       })
-//     }).catch(function(err) {
-//       alert("Could not fetch your shifts.", err);
-//     });
-
-//   MyShift.GetShiftsIPickedUp()
-//     .then(function(shiftsToWork) {
-//       $scope.iamWorking = shiftsToWork;
-//     }).catch(function(err) {
-//       alert("Could not fetch shifts you have picked up", err);
-//     });
-
-// })
-
-
 .controller('ShiftController', function($scope, $rootScope, MyShift, $http, $state, UserService) {
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
@@ -999,8 +854,18 @@ angular.module('starter.controllers', [])
   $scope.connect = function(claimant) {
     var userId = claimant.claimant_id;
     var shiftid = claimant.shift_id;
+    var partName = claimant.claimant_name;
     var pickshift = claimant.pickup_id;
-    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift);
+    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift, partName);
+    window.location = '#/tab/partner'
+  };
+
+  $scope.connectAfter = function(shift) {
+    var userId = shift.covered_by;
+    var shiftid = shift._id;
+    var partName = shift.covered_by_name;
+    var pickshift = shift.pickup_approved;
+    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift, partName);
     window.location = '#/tab/partner'
   };
 
