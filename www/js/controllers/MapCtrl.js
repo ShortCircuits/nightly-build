@@ -1,6 +1,6 @@
 angular.module('maps.controller', [])
 
-.controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService, Pickup) {
+.controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService, PickupService) {
   $scope.map;
   $scope.infowindow = new google.maps.InfoWindow();
   $scope.location = Maps.getLocation();
@@ -115,7 +115,7 @@ angular.module('maps.controller', [])
     };
     // test if shift owner is claiming their own shift
     if ($scope.user !== shift.submitted_by) {
-      Pickup.pickUpShift(theData).then(function(response) {
+      PickupService.pickUpShift(theData).then(function(response) {
         alert("successfully requested a shift")
       }).catch(function(err) {
         alert("Could not request to pickup this shift")

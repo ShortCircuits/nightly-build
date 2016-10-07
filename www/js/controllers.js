@@ -180,84 +180,30 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup, UserService, AvailableShifts, $ionicLoading) {
+.controller('PickupCtrl', function($scope, UserService, $ionicLoading, PickupService) {
+
+  $scope.sortorder = 'shift.prize';
+
+  $scope.availableShifts;
 
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
     }
+    $ionicLoading.show();
+    PickupService.getShiftsNearMe()
+  
+
   });
-  $ionicLoading.show();
-  // $scope.availableShifts = AvailableShifts.getShifts();
-  $scope.myId = Maps.getUser();
-  // assuming the stores are in place on the Maps factory
-  $scope.availableShifts;
-  // if there are no shifts available make another request;
 
-    Maps.getMyPos().then(function(pos) {
-      Maps.fetchStores().then(function(res) {
-        $ionicLoading.hide();
-        $scope.availableShifts = Maps.getShifts();
-        $scope.availableShifts = $scope.availableShifts.filter(function(shift){
-          return !shift.requested.includes($scope.myId)
-        })
-        // .filter(function(shift){
-        //   return !shift.submitted_by === $scope.myId;
-        // })
-        $scope.availableShifts.filter(function(shift){
-          console.log('shift subb by', shift.submitted_by)
-          console.log('my id', $scope.myId)
-          return !(shift.submitted_by === $scope.myId);
-        })
-        addPrizeNum();
-      })
-    })
-
-  addPrizeNum()
-  // make prize a number so it can be used to sortBy
-  function addPrizeNum() {
-    if ($scope.availableShifts) {
-      $scope.availableShifts.map(function(shift) {
-        shift.prizeNum = parseInt(shift.prize.slice(1));
-      })
-      console.log($scope.availableShifts)
-    }
-  }
-
-  // scope for filter on the pickup page
-  $scope.sortorder = 'shift.prize';
+  $scope.$on('update', function() {
+    $scope.availableShifts = PickupService.availableShifts();
+  });
 
   $scope.pickupShift = function(shift) {
-    var theData = {
-      shift_id: shift._id,
-      shift_owner: shift.submitted_by,
-      shift_owner_name: shift.submitted_by_name,
-      shift_where: shift.home_store.address,
-      shift_when: shift.shift_text_time,
-      shift_prize: shift.prize,
-      shift_start: shift.shift_start,
-      shift_end: shift.shift_end,
-      voted: false
-    };
-    var notifyUser = function() {
-        //Needs to go to different page
-        window.location = "#/tab/map";
-        console.log("shift requested")
-      }
-      // test if shift owner is claiming their own shift
-      console.log("scope myid and shift owner ", $scope.myId, " " ,shift.submitted_by)
-    if ($scope.myId != shift.submitted_by) {
-      $scope.availableShifts.splice($scope.availableShifts.indexOf(shift), 1);
-      Pickup.pickUpShift(theData).then(function(response) {
-        
-        alert("successfully requested a shift")
-      }).catch(function(err) {
-        alert("Could not request to pickup this shift, try refreshing the app")
-      })
-    } else {
-      alert("Sorry, you cannot claim this shift.")
-    }
+    PickupService.pickupShift(shift);
   };
+
 })
 
 .controller('PartnerCtrl', function($scope, UserService, PartnerService, MyShift) {
@@ -312,239 +258,6 @@ angular.module('starter.controllers', [])
   });
 
 })
-
-// .controller('PartnerCtrl', function($scope, $http, MyShift, UserService, Partner, $ionicModal, Maps) {
-
-//   $scope.$on('$ionicView.enter', function() {
-//     if (!UserService.isAuthenticated()) {
-//       window.location = '#/lobby'
-//     }
-//   });
-//   $scope.myApprovedShifts;
-//   $scope.canVote = false;
-//   $scope.canApprove = false;
-//   $scope.myPickupShifts;
-
-//   // only go in here if the user has reached this page through our connect function
-//   var ex = MyShift.getCode();
-//   if (ex === 'abc') {
-//     // possible get request to db to fetch facebook profile data
-//     // var data;
-
-//     // MyShift.GetRequests()
-//     //   .then(function(reqs) {
-//     //     data = reqs;
-//     //   })
-//     MyShift.getAllPickups().then(function(shifts) {
-//       $scope.myPickupShifts = shifts;
-//       $scope.myApprovedShifts = $scope.myPickupShifts.filter(function(shift) {
-//         return shift.approved;
-//       })
-
-//       // Check to see if user can vote on reps for the other user
-//       var currentUser = Maps.getUser();
-//       var currentTime = new Date();
-//       $scope.myApprovedShifts.forEach(function(shift) {
-//         var shiftTime = new Date(shift.shift_end);
-//         // and not in the id of user is not in voted array :: TODO
-//         if (!shift.voted && shift.approved && currentUser === shift.shift_owner && currentTime > shiftTime) {
-//           $scope.canVote = true;
-//         }else{
-//           $scope.canVote = false;
-//         }
-//       })
-//       console.log("My approved shifts ", $scope.myApprovedShifts)
-//       $scope.myPickupShifts.forEach(function(shift) {
-//         // and not in the id of user is not in voted array :: TODO
-//         if (!shift.approved && currentUser === shift.shift_owner) {
-//           $scope.canApprove = true;
-//         }
-//       })
-//     })
-
-//     //this needs better namings
-//     var userId = MyShift.getPartnerId()[0];
-//     var shiftId = MyShift.getPartnerId()[1];
-//     var pickupShiftId = MyShift.getPartnerId()[2];
-//     console.log("userId : ", userId);
-//     console.log("this is the shiftId: ", shiftId);
-//     var currShift;
-//     $scope.upVote = function() {
-//       Partner.vote(pickupShiftId, 'positive')
-//         .then(function(res) {
-//           alert("successfully upvoted this partner")
-//           $scope.canVote = false;
-//           //update the status of the local shitf so it cant be voted on again
-//           currShift = $scope.myPickupShifts.filter(function(shift){
-//             return shift._id === pickupShiftId
-//           })
-//           currShift.voted = false;
-//         })
-//         .catch(function(err) {
-//           alert("could not upvote this partner")
-//         })
-//     }
-
-//     $scope.downVote = function() {
-//       Partner.vote(pickupShiftId, 'negative')
-//         .then(function(res) {
-//           alert("successfully downvoted this partner")
-//           $scope.canVote = false;
-//           //update the status of the local shitf so it cant be voted on again
-//           currShift = $scope.myPickupShifts.filter(function(shift){
-//             return shift._id === pickupShiftId
-//           })
-//           currShift.voted = false;
-//         })
-//         .catch(function(err) {
-//           alert("could not downvote this partner")
-//         })
-//     }
-
-//     $scope.reject = function() {
-//       // console.log("this is the shiftId inside: ", shiftId);
-//       // document.getElementById("approveShift").style.display = "none";
-//       // document.getElementById("rejectShift").style.display = "none";
-//       $scope.canApprove = false;
-//       $http({
-//         method: 'PATCH',
-//         url: 'https://shift-it.herokuapp.com/shiftsreject',
-//         data: {
-//           shift_id: shiftId,
-//           requester: userId
-//         }
-//       }).then(function(response) {
-//         console.log("successfully added user to restricted.", response);
-//       }).catch(function(err) {
-//         console.log("Error adding to restricted: ", err);
-//       });
-
-//       $http({
-//         method: 'PATCH',
-//         url: 'https://shift-it.herokuapp.com/pickupreject',
-//         data: {
-//           pickup_shift_id: pickupShiftId
-//         }
-//       }).then(function successCallback(response) {
-//         console.log("reject return: ", response.data);
-//         alert("You have successfully rejected the shift.");
-
-//       }, function errorCallback(response) {
-//         alert("Could not reject the shift", response)
-//       });
-//     };
-
-//     $scope.approve = function() {
-//       // console.log("this is the shiftId inside the approve: ", shiftId);
-//       document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
-//       // document.getElementById("approveShift").style.display = "none";
-//       // document.getElementById("rejectShift").style.display = "none";
-//       $scope.canApprove = false;
-//       $http({
-//         method: 'PATCH',
-//         url: 'https://shift-it.herokuapp.com/pickup',
-//         data: {
-//           pickup_shift_id: pickupShiftId,
-//           shift_id: shiftId
-//         }
-//       }).then(function successCallback(response) {
-//         console.log("approve return: ", response.data);
-//         alert("You have successfully approved the shift.");
-
-//       }, function errorCallback(response) {
-//         alert("Could not approve the shift", response)
-//       });
-//     };
-
-//     $scope.partnerInfo = {
-//       name: "",
-//       email: "",
-//       phone: "",
-//       userRep: "",
-//       facebookPic: "",
-//       shiftId: shiftId
-//     };
-
-//     $http({
-//       method: 'GET',
-//       url: 'https://shift-it.herokuapp.com/user/id/' + userId,
-//     }).then(function(data) {
-//       console.log("data here is: ", data)
-//       var data = data.data;
-//       $scope.partnerInfo.name = data.firstName + ' ' + data.lastName;
-//       $scope.partnerInfo.email = data.email;
-//       $scope.partnerInfo.facebookPic = data.profilePicture;
-//       $scope.partnerInfo.phone = data.phone;
-//       $scope.partnerInfo.userRepPos = data.rating.positive;
-//       $scope.partnerInfo.userRepNeg = data.rating.negative;
-
-//     }).catch(function(err) {
-//       alert("Could not get partner profile.")
-//     });
-
-//   } else {
-//     console.log("Thy should not be here at this point of time and space");
-//   }
-
-//   // The following code is for the messenger service!!!!!!!!!!!!!!!!!!!!!
-//   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//   // !!!!!!!!!!!!!Not Implemented!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-//   // $ionicModal.fromTemplateUrl('templates/messageModal.html', {
-//   //   scope: $scope
-//   // }).then(function(modal) {
-//   //   $scope.modal = modal;
-//   // });
-
-//   // $scope.message = function() {
-//   //   $scope.modal.show();
-//   //   $http({
-//   //     method: 'GET',
-//   //     url: 'https://shift-it.herokuapp.com/messages/id/' + userId + '/partner/' + Maps.getUser(),
-//   //   }).then(function(data) {
-//   //     console.log("data here is: ", data)
-//   //       // var data = data.data;
-//   //       // $scope.partnerInfo.name = data.firstName + ' ' + data.lastName;
-//   //       // $scope.partnerInfo.email = data.email;
-//   //       // $scope.partnerInfo.facebookPic = data.profilePicture;
-//   //       // $scope.partnerInfo.phone = data.phone;
-//   //       // $scope.partnerInfo.userRep = "Awesome!";
-
-//   //   }).catch(function(err) {
-//   //     alert("Could not get partner profile.")
-//   //   });
-//   // }
-
-//   // $scope.closeMessage = function() {
-//   //   $scope.modal.hide();
-//   // };
-
-//   // $scope.sendMessage = function(message) {
-
-//   //   var date = new Date();
-//   //   console.log(date);
-//   //   var messageBody = {
-//   //     sent_by: Maps.getUser(),
-//   //     sent_to: userId,
-//   //     message: message,
-//   //     read: false,
-//   //     dtg: date
-//   //   }
-//   //   console.log("message body is: ", messageBody)
-
-//   //   $http({
-//   //     method: 'POST',
-//   //     url: 'https://shift-it.herokuapp.com/messages',
-//   //     data: messageBody
-//   //   }).then(function(response) {
-//   //     console.log("message submitted to database with shift data: ", messageBody);
-//   //     alert("Your message has been sent!");
-//   //     $scope.closeMessage();
-//   //   }, function(error) {
-//   //     console.log("error posting message to db")
-//   //   })
-//   // }
-// })
 
 .controller('ShiftController', function($scope, $rootScope, MyShift, $http, $state, UserService) {
   $scope.$on('$ionicView.enter', function() {
