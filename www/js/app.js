@@ -1,4 +1,5 @@
-angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-timepicker', 'starter.controllers', 'starter.directives'])
+angular.module('main', ['ionic', 'satellizer', 'maps.controller', 'starter.directives']);
+angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-timepicker', 'starter.controllers', 'starter.directives','main'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -106,6 +107,7 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
 
   .state('tab.myshifts', {
     url: '/myshifts',
+    cache: false,
     views: {
       'tab-myshifts': {
         templateUrl: 'templates/myshifts.html',
@@ -146,4 +148,4 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('tab/settings');
-})
+});
