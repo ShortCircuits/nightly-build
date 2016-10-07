@@ -1,21 +1,28 @@
 <ion-view view-title="Settings">
-  <ion-content>
-     <ul class="list">
+  <ion-content class="padding">
 
-     <li class="item item-toggle">
-         Toggle 1
-         <label class="toggle">
-             <input type="checkbox">
-             <div class="track">
-                 <div class="handle"></div>
-             </div>
-         </label>
-     </li>
-     <li><a class="button icon icon-right ion-chevron-right" href="#/tab/profile">Profile</a></li>
-     <br />
-     <li><a class="button icon icon-right ion-chevron-right" ng-click="login()">Login</a></li>
-     <br />
-     <li><a class="button icon icon-right ion-chevron-right" ng-click="logout()">Logout</a></li>
+  <a class="item item-icon-left" href="#/tab/profile">
+    <i class="icon ion-person"></i>
+    Profile
+  </a>
+
+<!--
+  Log in button taken out because user has to be logged in already to access app   
+  <a class="item item-icon-left" ng-click="login()">
+    <i class="icon ion-log-in"></i>
+    Login
+    <span class="item-note" ng-if="loggedIn">
+      Logged In
+    </span>
+  </a> -->
+
+  <a class="item item-icon-left" ng-click="logout()">
+    <i class="icon ion-log-out"></i>
+    Logout
+    <span class="item-note">
+    </span>
+  </a>
+
   </ion-content>
 </ion-view>
 
