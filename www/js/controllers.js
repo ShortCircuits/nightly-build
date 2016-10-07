@@ -14,19 +14,21 @@ angular.module('starter.controllers', [])
     $scope.notification();
     ionic.trigger('resize');
   })
-  
-  $scope.show = function() {
-    $ionicLoading.show({
-      template: '<p>Loading please wait..</p><ion-spinner icon="lines"></ion-spinner>',
-      noBackdrop: true
-    });
-  };
 
-  $scope.hide = function() {
-    $ionicLoading.hide();
-  };
+  $ionicLoading.show();
 
-  $scope.show($ionicLoading);
+  // $scope.show = function() {
+  //   $ionicLoading.show({
+  //     template: '<p>Loading please wait..</p><ion-spinner icon="lines"></ion-spinner>',
+  //     noBackdrop: true
+  //   });
+  // };
+
+  // $scope.hide = function() {
+  //   $ionicLoading.hide();
+  // };
+
+  // $scope.show($ionicLoading);
 
   document.getElementById("pickupshift").style.display = 'none';
   document.getElementById("covermyshift").style.display = 'none';
