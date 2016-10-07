@@ -50,7 +50,7 @@
 
 
 		return {
-			
+
 			setPartnerInfo: function() {
 				userId = MyShift.getPartnerId()[0];
 				shiftId = MyShift.getPartnerId()[1];
@@ -186,6 +186,7 @@
 				});
 			},
 			newApprove: function() {
+				canApprove = false;
 				var obj = {
 					'shiftId': shiftId,
 					'pickupId': pickupShiftId,
@@ -198,6 +199,7 @@
 					url: 'https://shift-it.herokuapp.com/approval',
 					data: obj
 				}).then(function successCallback(response) {
+					$rootScope.$broadcast('update');
 					alert("You have successfully approved the shift.");
 				}, function errorCallback(response) {
 					alert("Could not approve the shift", response)
