@@ -5,17 +5,16 @@
     .module('starter')
     .factory('PickupService', PickupService);
 
-  function PickupService($rootScope, $http, MyShift, Maps, Pickup, $ionicLoading, UserService) {
+  function PickupService($rootScope, $http, Maps, MyShift, $ionicLoading, UserService) {
 
     var myId = UserService.getUser()._id;
-
     var availableShifts;
 
     var getShiftsNearMe = function() {
       Maps.getMyPos().then(function(pos) {
         Maps.fetchStores().then(function(res) {
           availableShifts = Maps.getShifts();
-          availableShifts = availableShifts.filter(function(shift){
+          availableShifts = availableShifts.filter(function(shift) {
             if (shift.submitted_by === myId) return false;
             if (shift.restricted.includes(myId)) return false;
             if (shift.requested.includes(myId)) return false;
@@ -54,10 +53,9 @@
       }
     };
 
-
     return {
 
-      pickupShift : function(shift) {
+      pickupShift: function(shift) {
         var theData = {
           shift_id: shift._id,
           shift_owner: shift.submitted_by,
@@ -75,11 +73,11 @@
             console.log("shift requested")
           }
           // test if shift owner is claiming their own shift
-          console.log("scope myid and shift owner ", myId, " " ,shift.submitted_by)
+        console.log("scope myid and shift owner ", myId, " ", shift.submitted_by)
         if (myId != shift.submitted_by) {
           availableShifts.splice(availableShifts.indexOf(shift), 1);
           Pickup.pickUpShift(theData).then(function(response) {
-            
+
             alert("successfully requested a shift")
           }).catch(function(err) {
             alert("Could not request to pickup this shift, try refreshing the app")
@@ -93,17 +91,13 @@
         return pickUpShift(theData);
       },
 
-      getShiftsNearMe : function() {
+      getShiftsNearMe: function() {
         getShiftsNearMe();
       },
 
-      availableShifts : function() {
+      availableShifts: function() {
         return availableShifts;
       },
-
-
-
     }
-
   }
 })();
