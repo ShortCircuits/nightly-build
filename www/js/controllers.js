@@ -14,6 +14,7 @@ angular.module('starter.controllers', [])
     $scope.notification();
     ionic.trigger('resize');
   })
+  
   $scope.show = function() {
     $ionicLoading.show({
       template: '<p>Loading please wait..</p><ion-spinner icon="lines"></ion-spinner>',
