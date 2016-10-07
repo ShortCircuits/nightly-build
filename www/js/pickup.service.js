@@ -76,7 +76,7 @@
         console.log("scope myid and shift owner ", myId, " ", shift.submitted_by)
         if (myId != shift.submitted_by) {
           availableShifts.splice(availableShifts.indexOf(shift), 1);
-          Pickup.pickUpShift(theData).then(function(response) {
+          pickUpShift(theData).then(function(response) {
 
             alert("successfully requested a shift")
           }).catch(function(err) {
