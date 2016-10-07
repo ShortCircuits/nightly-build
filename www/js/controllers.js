@@ -162,7 +162,7 @@ angular.module('starter.controllers', [])
       voted: false
     };
       // test if shift owner is claiming their own shift
-    if ($scope.myId != shift.submitted_by) {
+    if ($scope.user !== shift.submitted_by) {
       Pickup.pickUpShift(theData).then(function(response) {
         alert("successfully requested a shift")
       }).catch(function(err) {
@@ -238,10 +238,6 @@ angular.module('starter.controllers', [])
     }
     google.maps.event.addListener(marker, 'click', function() {
       var info = "";
-      // var functor = function(shifty){
-      //   console.log('this is shifty ', shifty)
-      //   return pShift.bind(shifty)
-      // }
       if (place.shifts) {
         place.shifts.forEach(function(shift) {
           
@@ -581,7 +577,6 @@ angular.module('starter.controllers', [])
       $scope.newApprove = function(){
         PartnerService.newApprove();
       }
-
 
     } else {
       console.log("Thy should not be here at this point of time and space");
