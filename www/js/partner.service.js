@@ -55,6 +55,7 @@
 				userId = MyShift.getPartnerId()[0];
 				shiftId = MyShift.getPartnerId()[1];
 				pickupShiftId = MyShift.getPartnerId()[2];
+				requesterName = MyShift.getPartnerId()[3];
 			},
 			setUserID: function() {
 				userId = MyShift.getPartnerId()[0];
