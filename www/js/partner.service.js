@@ -26,6 +26,27 @@
     // var pickupShiftId; = MyShift.getPartnerId()[2];
     var currShift;
 
+    var vote = function(shift, rep){
+      var voteRep = new Promise(
+        function(resolve, reject){
+          $http({
+            method: 'PATCH',
+            url: 'https://shift-it.herokuapp.com/rateuser',
+            data: {
+              'pickup_shift_id': shift,
+              'rep': rep
+            }
+          }).then(function (response) {
+             console.log("got response", response.data)
+             resolve(response);
+          }, function (response) {
+            console.log(response)
+            reject(response)
+          }) 
+      })
+    return voteRep;
+    };
+
 
   	return {
 
@@ -67,7 +88,7 @@
 	    	})
 		  },
 	    upVote: function() {
-	      Partner.vote(pickupShiftId, 'positive')
+	      vote(pickupShiftId, 'positive')
 	        .then(function(res) {
 	          alert("successfully upvoted this partner")
 	          canVote = false;
@@ -83,7 +104,7 @@
 	        })
 	    },
 	    downVote: function() {
-	      Partner.vote(pickupShiftId, 'negative')
+	      vote(pickupShiftId, 'negative')
 	        .then(function(res) {
 	          alert("successfully downvoted this partner")
 	          canVote = false;
