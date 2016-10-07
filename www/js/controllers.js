@@ -152,80 +152,21 @@ angular.module('starter.controllers', [])
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
     }
+    MyShiftsService.GetMyShifts();
+    MyShiftsService.GetShiftsIPickedUp();
   });
-
-  $scope.postedpending = [];
-  $scope.postedunclaimed = [];
-  $scope.postedapproved = [];
-  $scope.pickedpending = [];
-  $scope.pickedrejected = [];
-  $scope.pickedapproved = [];
   
-  MyShift.GetMyShifts()
-  .then(function(shifts){
-    console.log("shifts_posted: ", shifts);
-    $scope.postedunclaimed = shifts.filter(function(x){
-      return x.covered===false && x.requested.length<1;
-    });
-    $scope.postedpending = shifts.filter(function(x){
-      return x.covered===false && x.requested.length>=1;
-    });
-    $scope.postedapproved = shifts.filter(function(x){
-      return x.covered===true;
-    });
-  })
-  .then(function(){
-    if ($scope.postedpending.length > 0) {
-      $scope.postedpending.forEach(function(shiftreq){
-        shiftreq.claimants = [];
-        MyShift.getRequesters(shiftreq._id)
-        .then(function(pickups){
-          pickups.forEach(function(pickup){
-            var obj = {};
-            obj.shift_id = shiftreq._id;
-            obj.claimant_name = pickup.user_requested_name;
-            obj.claimant_id = pickup.user_requested;
-            obj.pickup_id = pickup._id;
-            shiftreq.claimants.push(obj);
-          });
-        });
-      });
-    }
-  });
-
-  MyShift.GetShiftsIPickedUp()
-  .then(function(shifts){
-    $scope.pickedrejected = shifts.filter(function(x){
-      return x.rejected===true;
-    });
-    $scope.pickedpending = shifts.filter(function(x){
-      return !x.rejected && x.approved===false ;
-    });
-    $scope.pickedapproved = shifts.filter(function(x){
-      return x.approved===true;
-    })
-  });
 
   $scope.delete = function(shift) {
     MyShiftsService.deleteShift(shift);
   };
 
   $scope.connect = function(claimant) {
-    var userId = claimant.claimant_id;
-    var shiftid = claimant.shift_id;
-    var partName = claimant.claimant_name;
-    var pickshift = claimant.pickup_id;
-    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift, partName);
-    window.location = '#/tab/partner'
+    MyShiftsService.connect(claimant);
   };
 
   $scope.connectAfter = function(shift) {
-    var userId = shift.covered_by;
-    var shiftid = shift._id;
-    var partName = shift.covered_by_name;
-    var pickshift = shift.pickup_approved;
-    MyShift.setPartnerId(userId, shiftid, 'abc', pickshift, partName);
-    window.location = '#/tab/partner'
+    MyShiftsService.connectAfter(shift);
   };
 
 })

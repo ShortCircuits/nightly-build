@@ -31,6 +31,18 @@
     .then(function(response) {return response.data;});
   };
 
+  var setPartnerId = function(id, shift, code, pickShift, partName){
+    partnerId = id;
+    shiftId = shift;
+    codea = code;
+    pickShiftId = pickShift;
+    partnerName = partName;
+  };
+
+  var getPartnerId = function(){
+    return [partnerId, shiftId, pickShiftId, partnerName]
+  };
+
   return {
     GetMyShifts: function(){
       return $http.get(urlbase+'myshifts')
@@ -45,12 +57,13 @@
         shiftData.postedapproved = shifts.filter(function(x){
           return x.covered===true;
         });
+        return shifts;
       })
       .then(function(){
         if (shiftData.postedpending.length > 0) {
           shiftData.postedpending.forEach(function(shiftreq){
             shiftreq.claimants = [];
-            MyShift.getRequesters(shiftreq._id)
+            getRequesters(shiftreq._id)
             .then(function(pickups){
               pickups.forEach(function(pickup){
                 var obj = {};
@@ -62,6 +75,11 @@
               });
             });
           });
+        $rootScope.badgeCount = shiftData.postedpending.length;
+        $rootScope.$broadcast('update');
+        } else {
+          $rootScope.badgeCount = shiftData.postedpending.length;
+          $rootScope.$broadcast('update');
         }
       });
     },
@@ -79,6 +97,7 @@
         shiftData.pickedapproved = shifts.filter(function(x){
           return x.approved===true;
         });
+        $rootScope.$broadcast('update');
       });
     },
 
@@ -86,16 +105,12 @@
       return shiftData;
     },
 
-    getRequesters: function(){
-      return getRequesters();
+    getRequesters: function(shiftId){
+      return getRequesters(shiftId);
     },
 
     setPartnerId: function(id, shift, code, pickShift, partName){
-      partnerId = id;
-      shiftId = shift;
-      codea = code;
-      pickShiftId = pickShift;
-      partnerName = partName;
+      return setPartnerId(id, shift, code, pickShift, partName);
     },
 
     getPartnerId: function(){
@@ -114,27 +129,45 @@
     },
 
     deleteShift: function(shift) {
-    var deleteMe = confirm("Are you sure you wish to delete this shift?");
-    if (deleteMe) {
-      $http({
-        method: 'DELETE',
-        url: 'https://shift-it.herokuapp.com/shifts',
-        data: {
-          _id: shift._id
-        },
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then(function successCallback(response) {
-        shiftData.postedunclaimed.filter(function(x){
-          x.shift_id!==response.config.data._id;
+      var deleteMe = confirm("Are you sure you wish to delete this shift?");
+      if (deleteMe) {
+        return $http({
+          method: 'DELETE',
+          url: 'https://shift-it.herokuapp.com/shifts',
+          data: {
+            _id: shift._id
+          },
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(function successCallback(response) {
+          shiftData.postedunclaimed.filter(function(x){
+            x.shift_id!==response.config.data._id;
+          });
+          $rootScope.badgeCount = shiftData.postedpending.length;
+        }, function errorCallback(response) {
+          alert("Could not delete the shift", response)
         });
-        $rootScope.badgeCount = $scope.postedpending.length;
-      }, function errorCallback(response) {
-        alert("Could not delete the shift", response)
-      });
-    }
-  }
+      }
+    }, 
+
+    connect: function(claimant) {
+      var userId = claimant.claimant_id;
+      var shiftid = claimant.shift_id;
+      var partName = claimant.claimant_name;
+      var pickshift = claimant.pickup_id;
+      setPartnerId(userId, shiftid, 'abc', pickshift, partName);
+      window.location = '#/tab/partner'
+    };
+
+    connectAfter: function(shift) {
+      var userId = shift.covered_by;
+      var shiftid = shift._id;
+      var partName = shift.covered_by_name;
+      var pickshift = shift.pickup_approved;
+      setPartnerId(userId, shiftid, 'abc', pickshift, partName);
+      window.location = '#/tab/partner'
+    };
 
   }
 	
