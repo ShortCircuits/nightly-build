@@ -269,6 +269,7 @@ angular.module('starter.directives', [])
   var mishifts = [];
   var myRequests = [];
   var partnerId;
+  var partnerName;
   var shiftId;
   var pickShiftId;
   var codea = null;
@@ -308,14 +309,15 @@ angular.module('starter.directives', [])
         return response.data;
       })
     },
-    setPartnerId: function(id, shift, code, pickShift){
+    setPartnerId: function(id, shift, code, pickShift, partName){
       partnerId = id;
       shiftId = shift;
       codea = code;
       pickShiftId = pickShift;
+      partnerName = partName;
     },
     getPartnerId: function(){
-      return [partnerId, shiftId, pickShiftId]
+      return [partnerId, shiftId, pickShiftId, partnerName]
     },
     getCode: function(){
       var something = codea;
@@ -383,3 +385,4 @@ angular.module('starter.directives', [])
     }
   }
 })
+
