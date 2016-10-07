@@ -180,84 +180,30 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PickupCtrl', function($scope, $location, $state, $http, Maps, Pickup, UserService, AvailableShifts, $ionicLoading) {
+.controller('PickupCtrl', function($scope, UserService, $ionicLoading, PickupService) {
+
+  $scope.sortorder = 'shift.prize';
+
+  $scope.availableShifts;
 
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
     }
+    $ionicLoading.show();
+    PickupService.getShiftsNearMe()
+  
+
   });
-  $ionicLoading.show();
-  // $scope.availableShifts = AvailableShifts.getShifts();
-  $scope.myId = Maps.getUser();
-  // assuming the stores are in place on the Maps factory
-  $scope.availableShifts;
-  // if there are no shifts available make another request;
 
-    Maps.getMyPos().then(function(pos) {
-      Maps.fetchStores().then(function(res) {
-        $ionicLoading.hide();
-        $scope.availableShifts = Maps.getShifts();
-        $scope.availableShifts = $scope.availableShifts.filter(function(shift){
-          return !shift.requested.includes($scope.myId)
-        })
-        // .filter(function(shift){
-        //   return !shift.submitted_by === $scope.myId;
-        // })
-        $scope.availableShifts.filter(function(shift){
-          console.log('shift subb by', shift.submitted_by)
-          console.log('my id', $scope.myId)
-          return !(shift.submitted_by === $scope.myId);
-        })
-        addPrizeNum();
-      })
-    })
-
-  addPrizeNum()
-  // make prize a number so it can be used to sortBy
-  function addPrizeNum() {
-    if ($scope.availableShifts) {
-      $scope.availableShifts.map(function(shift) {
-        shift.prizeNum = parseInt(shift.prize.slice(1));
-      })
-      console.log($scope.availableShifts)
-    }
-  }
-
-  // scope for filter on the pickup page
-  $scope.sortorder = 'shift.prize';
+  $scope.$on('update', function() {
+    $scope.availableShifts = PickupService.availableShifts();
+  });
 
   $scope.pickupShift = function(shift) {
-    var theData = {
-      shift_id: shift._id,
-      shift_owner: shift.submitted_by,
-      shift_owner_name: shift.submitted_by_name,
-      shift_where: shift.home_store.address,
-      shift_when: shift.shift_text_time,
-      shift_prize: shift.prize,
-      shift_start: shift.shift_start,
-      shift_end: shift.shift_end,
-      voted: false
-    };
-    var notifyUser = function() {
-        //Needs to go to different page
-        window.location = "#/tab/map";
-        console.log("shift requested")
-      }
-      // test if shift owner is claiming their own shift
-      console.log("scope myid and shift owner ", $scope.myId, " " ,shift.submitted_by)
-    if ($scope.myId != shift.submitted_by) {
-      $scope.availableShifts.splice($scope.availableShifts.indexOf(shift), 1);
-      Pickup.pickUpShift(theData).then(function(response) {
-        
-        alert("successfully requested a shift")
-      }).catch(function(err) {
-        alert("Could not request to pickup this shift, try refreshing the app")
-      })
-    } else {
-      alert("Sorry, you cannot claim this shift.")
-    }
+    PickupService.pickupShift(shift);
   };
+
 })
 
 .controller('PartnerCtrl', function($scope, UserService, PartnerService, MyShift) {
