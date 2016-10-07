@@ -175,6 +175,7 @@ angular.module('starter.controllers', [])
 
   $scope.postShift = function() {
     CoverService.postShift();
+    $scope.data = {};
   }
 
 })
