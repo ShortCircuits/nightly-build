@@ -1,5 +1,6 @@
 angular.module('main', ['ionic', 'satellizer', 'maps.controller', 'starter.directives']);
-angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-timepicker', 'starter.controllers', 'starter.directives','main'])
+angular.module('profile', ['ionic', 'satellizer', 'profile.controller']);
+angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-timepicker', 'starter.controllers', 'starter.directives','main', 'profile'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

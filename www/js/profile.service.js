@@ -2,7 +2,7 @@
   "use strict";
 
   angular
-    .module('starter')
+    .module('profile')
     .factory('ProfileService', ProfileService);
 
   function ProfileService($rootScope, $http) {
