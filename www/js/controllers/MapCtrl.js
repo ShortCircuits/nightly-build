@@ -1,6 +1,6 @@
 angular.module('maps.controller', [])
 
-.controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Maps, AvailableShifts, UserService, PickupService) {
+.controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Maps, UserService, PickupService) {
   $scope.map;
   $scope.infowindow = new google.maps.InfoWindow();
   $scope.location = Maps.getLocation();
@@ -200,7 +200,6 @@ angular.module('maps.controller', [])
           shiftObj.postedby_name = shift.submitted_by_name;
           shiftObj.prize = shift.prize;
           shiftObj.id = shift._id;
-          AvailableShifts.addShift(shiftObj);
           info += "<li><h6 class='marker2'>" + place.vicinity +
             "</h6><h6 class='marker4'>" + shift.shift_text_time +
             "</h6><h6 class='marker5'>Prize: " + shift.prize +

@@ -25,7 +25,6 @@ angular.module('starter.directives', [])
           e.preventDefault();
           return false;
         });
-
       }
 
       if (document.readyState === "complete") {
@@ -34,24 +33,6 @@ angular.module('starter.directives', [])
 
         google.maps.event.addDomListener(window, 'load', initialize);
       }
-    }
-  }
-})
-
-.factory('AvailableShifts', function() {
-
-  //simplified version of the factory / currently all shifts cramed into one array
-  // var availableShifts = [];
-
-  return {
-    availableShifts: [],
-    // no select by store for now :: TODO
-    getShifts: function(store) {
-      return this.availableShifts;
-    },
-    addShift: function(shift) {
-      // each shift should have UUID so we can eliminate duplicates from the list
-      this.availableShifts.push(shift)
     }
   }
 })
@@ -68,7 +49,7 @@ angular.module('starter.directives', [])
   var allPickups;
 
   return {
-    GetRequests: function(){
+    GetRequests: function() {
       return $http({
         method: 'GET',
         url: BASE_URL + 'pickup'
@@ -133,9 +114,9 @@ angular.module('starter.directives', [])
 .factory('Partner', function($http) {
 
   return {
-    vote: function(shift, rep){
+    vote: function(shift, rep) {
       var voteRep = new Promise(
-        function(resolve, reject){
+        function(resolve, reject) {
           $http({
             method: 'PATCH',
             url: 'https://shift-it.herokuapp.com/rateuser',
@@ -143,15 +124,15 @@ angular.module('starter.directives', [])
               'pickup_shift_id': shift,
               'rep': rep
             }
-          }).then(function (response) {
-             console.log("got response", response.data)
-             resolve(response);
-          }, function (response) {
+          }).then(function(response) {
+            console.log("got response", response.data)
+            resolve(response);
+          }, function(response) {
             console.log(response)
             reject(response)
-          }) 
-      })
-    return voteRep;
+          })
+        })
+      return voteRep;
     }
   }
 })
