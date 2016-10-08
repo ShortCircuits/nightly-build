@@ -89,15 +89,13 @@ angular.module('maps.controller', [])
       // $ionicLoading.show();
       // centerOnMe();
       centerOnMe();
-      document.getElementById("pickupshift").style.display = 'none';
-      document.getElementById("covermyshift").style.display = 'none';
+      $scope.pickupButtons = false;
       window.leShift = Main.getShifts();
       markerBuilder(stores);
     }else{
       // $ionicLoading.show();
       centerOnMe();
-      document.getElementById("pickupshift").style.display = 'none';
-      document.getElementById("covermyshift").style.display = 'none';
+      $scope.pickupButtons = false;
       // could be better needs to pickup data from controler 
       // if exists otherwise do another request
       Main.fetchStores().then(function(stores) {
