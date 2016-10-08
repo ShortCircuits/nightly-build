@@ -5,7 +5,7 @@
 		.module('starter')
 		.factory('PartnerService', PartnerService);
 
-	function PartnerService($rootScope, $http, MyShiftsService, Maps) {
+	function PartnerService($rootScope, $http, MyShiftsService, Main) {
 
 		// data used by voting
 		var myApprovedShifts;
