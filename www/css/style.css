@@ -211,3 +211,23 @@ div.buttons.buttons-right.header-item > span > button {
 .date_cell {
   cursor: pointer;
 }
+
+.pulist ion-item {
+  border: 2px solid #99B7AC;
+  border-radius: 5px;
+  margin: 0.5em 0;
+  padding: 0;
+}
+
+.mslist .msitem {
+  border: 2px solid #99B7AC;
+  border-radius: 5px;
+  margin: 0.5em 0;
+  padding: 0;
+}
+
+.claimlist .claimitem {
+  border: none;
+  margin: 0.5em 0;
+  padding: 0;
+}
