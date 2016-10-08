@@ -6,6 +6,7 @@ angular.module('maps.controller', [])
   $scope.location = Main.getLocation();
   $scope.user;
   $scope.homeStore;
+  $scope.pickupButtons = false;
 
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {

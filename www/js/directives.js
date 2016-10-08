@@ -98,14 +98,14 @@ angular.module('starter.directives', [])
       return something;
     },
 
-    getAllPickups: function(){
-      return $http.get(urlbase+'allpickups')
-      .then(function(response) {return response.data;});
+    getAllPickups: function() {
+      return $http.get(urlbase + 'allpickups')
+        .then(function(response) {
+          return response.data;
+        });
     },
   }
-
 })
-
 
 .factory('Partner', function($http) {
 
