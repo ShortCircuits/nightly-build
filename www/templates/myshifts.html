@@ -6,19 +6,19 @@
     <!-- PENDING = someone has offered to take shift, 
     original poster needs to make decision -->
     
-    <ion-list>
-      <ion-item ng-repeat="shift in data.postedpending" class="item-text-wrap" >
+    <ion-list class="mslist">
+      <ion-item ng-repeat="shift in data.postedpending" class="item-text-wrap msitem" >
         <div class="row responsive-sm">
-          <div class="col col-65">
-            <p>{{shift.home_store.address}}<br/>
+          <div class="col col-67">
+            <h2>{{shift.home_store.address}}<br/>
             {{shift.shift_text_time}}<br/>
-            Prize: {{shift.prize}}</p>
+            Prize: {{shift.prize}}</h2>
           </div>
-          <div class="col col-35">
-            <p>Status: PENDING</p>
+          <div class="col col-33">
+            <h2>Status: PENDING</h2>
 
-            <ion-list>
-              <ion-item ng-repeat="claimant in shift.claimants" >
+            <ion-list class="claimlist">
+              <ion-item ng-repeat="claimant in shift.claimants" class="claimitem">
                 <button ng-click="connect(claimant)">Requested by: {{claimant.claimant_name}}</button>
               </ion-item>
             </ion-list>
@@ -30,16 +30,16 @@
 
     <!-- UNCLAIMED = no one has offered to take shift, 
     original poster can delete or edit -->
-    <ion-list>
-      <ion-item ng-repeat="shift in data.postedunclaimed" class="item-text-wrap">
+    <ion-list class="mslist">
+      <ion-item ng-repeat="shift in data.postedunclaimed" class="item-text-wrap msitem">
         <div class="row responsive-sm">
-          <div class="col col-65">
-            <p>{{shift.home_store.address}}<br/>
+          <div class="col col-67">
+            <h2>{{shift.home_store.address}}<br/>
             {{shift.shift_text_time}}<br/>
-            Prize: {{shift.prize}}</p>
+            Prize: {{shift.prize}}</h2>
           </div>
-          <div class="col col-35">
-            <p>Status: UNCLAIMED</p>
+          <div class="col col-33">
+            <h2>Status: UNCLAIMED</h2>
             <button ng-click="delete(shift)">Delete</button>
           </div>
         </div>
@@ -48,16 +48,16 @@
 
     <!-- APPROVED = someone has offered to take shift, 
     original poster has accepted, agreement is in place -->
-    <ion-list>
-      <ion-item ng-repeat="shift in data.postedapproved" class="item-text-wrap">
+    <ion-list class="mslist">
+      <ion-item ng-repeat="shift in data.postedapproved" class="item-text-wrap msitem">
         <div class="row responsive-sm">
-          <div class="col col-65">
-            <p>{{shift.home_store.address}}<br/>
+          <div class="col col-67">
+            <h2>{{shift.home_store.address}}<br/>
             {{shift.shift_text_time}}<br/>
-            Prize: {{shift.prize}}</p>
+            Prize: {{shift.prize}}</h2>
           </div>
-          <div class="col col-35">
-            <p>Status: APPROVED</p>
+          <div class="col col-33">
+            <h2>Status: APPROVED</h2>
             <button ng-click="connectAfter(shift)"> Taken by {{shift.covered_by_name}} </button><br/><br/>
           </div>
         </div>
@@ -68,17 +68,17 @@
 
     <!-- PENDING = you offered to take this shift,
     and you're waiting to hear back from poster -->
-    <ion-list>
-      <ion-item ng-repeat="shift in data.pickedpending">
+    <ion-list class="mslist">
+      <ion-item ng-repeat="shift in data.pickedpending" class="item-text-wrap msitem">
         <div class="row responsive-sm">
-          <div class="col col-65">
-            <p>{{shift.shift_where}}<br/>
+          <div class="col col-67">
+            <h2>{{shift.shift_where}}<br/>
             {{shift.shift_when}}<br/>
             Posted by: {{shift.shift_owner_name}}<br/>
-            Prize: {{shift.shift_prize}}</p>
+            Prize: {{shift.shift_prize}}</h2>
           </div>
-          <div class="col col-35">
-            <p>Status: PENDING</p>
+          <div class="col col-33">
+            <h2>Status: PENDING</h2>
           </div>
         </div>
       </ion-item>
@@ -86,17 +86,17 @@
 
     <!-- APPROVED = you offered to take this shift,
     poster approved, you are now working this shift -->
-    <ion-list>
-      <ion-item ng-repeat="shift in data.pickedapproved">
+    <ion-list class="mslist">
+      <ion-item ng-repeat="shift in data.pickedapproved" class="item-text-wrap msitem">
         <div class="row responsive-sm">
-          <div class="col col-65">
-            <p>{{shift.shift_where}}<br/>
+          <div class="col col-67">
+            <h2>{{shift.shift_where}}<br/>
             {{shift.shift_when}}<br/>
             Posted by: {{shift.shift_owner_name}}<br/>
-            Prize: {{shift.shift_prize}}</p>
+            Prize: {{shift.shift_prize}}</h2>
           </div>
-          <div class="col col-35">
-            <p>Status: APPROVED</p>
+          <div class="col col-33">
+            <h2>Status: APPROVED</h2>
           </div>
           </div>
       </ion-item>
@@ -104,17 +104,17 @@
 
     <!-- REJECTED = you offered to take this shift,
     poster rejected your offer -->
-    <ion-list>
-      <ion-item ng-repeat="shift in data.pickedrejected">
+    <ion-list class="mslist">
+      <ion-item ng-repeat="shift in data.pickedrejected" class="item-text-wrap msitem">
         <div class="row responsive-sm">
-          <div class="col col-65">
-            <p>{{shift.shift_where}}<br/>
+          <div class="col col-67">
+            <h2>{{shift.shift_where}}<br/>
             {{shift.shift_when}}<br/>
             Posted by: {{shift.shift_owner_name}}<br/>
-            Prize: {{shift.shift_prize}}</p>
+            Prize: {{shift.shift_prize}}</h2>
           </div>
-          <div class="col col-35">
-            <p>Status: REJECTED</p>
+          <div class="col col-33">
+            <h2>Status: REJECTED</h2>
           </div>
         </div>
       </ion-item>

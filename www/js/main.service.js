@@ -59,7 +59,7 @@
           })
         return pos;
       },
-      
+
       fetchStores: function() {
         return $http.get('https://shift-it.herokuapp.com/shifts/lat/' + location.lat + '/lng/' + location.lng + '/rad/5000')
           .then(function(response) {
