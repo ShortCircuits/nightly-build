@@ -39,7 +39,11 @@
             console.log("got response", response.data)
             resolve(response.data);
           }, function(response) {
-            reject(response)
+            if(response.status === 403){
+              alert("You have reached your pickup limit.")
+            } else {
+              reject(response)
+            }
           });
         })
       return post;
