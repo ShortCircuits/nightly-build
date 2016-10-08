@@ -5,7 +5,7 @@
 		.module('starter')
 		.factory('PartnerService', PartnerService);
 
-	function PartnerService($rootScope, $http, MyShift, Main) {
+	function PartnerService($rootScope, $http, MyShiftsService, Maps) {
 
 		// data used by voting
 		var myApprovedShifts;
@@ -22,9 +22,6 @@
 		var shiftId;
 		var pickupShiftId;
 		var requesterName;
-		// var userId; = MyShift.getPartnerId()[0];
-		// var shiftId; = MyShift.getPartnerId()[1];
-		// var pickupShiftId; = MyShift.getPartnerId()[2];
 		var currShift;
 
 		var vote = function(shift, rep) {
@@ -52,25 +49,25 @@
 		return {
 
 			setPartnerInfo: function() {
-				userId = MyShift.getPartnerId()[0];
-				shiftId = MyShift.getPartnerId()[1];
-				pickupShiftId = MyShift.getPartnerId()[2];
-				requesterName = MyShift.getPartnerId()[3];
+				userId = MyShiftsService.getPartnerId()[0];
+				shiftId = MyShiftsService.getPartnerId()[1];
+				pickupShiftId = MyShiftsService.getPartnerId()[2];
+				requesterName = MyShiftsService.getPartnerId()[3];
 			},
 			setUserID: function() {
-				userId = MyShift.getPartnerId()[0];
+				userId = MyShiftsService.getPartnerId()[0];
 			},
 			setShiftID: function() {
-				shiftId = MyShift.getPartnerId()[1];
+				shiftId = MyShiftsService.getPartnerId()[1];
 			},
 			setPickupShiftID: function() {
-				pickupShiftId = MyShift.getPartnerId()[2];
+				pickupShiftId = MyShiftsService.getPartnerId()[2];
 			},
 			setRequesterName: function() {
-				requesterName = MyShift.getPartnerId()[3];
+				requesterName = MyShiftsService.getPartnerId()[3];
 			},
 			filterMyPickups: function() {
-				MyShift.getAllPickups()
+				MyShiftsService.getAllPickups()
 					.then(function(shifts) {
 						myPickupShifts = shifts;
 						myApprovedShifts = myPickupShifts.filter(function(shift) {
@@ -201,8 +198,10 @@
 				}).then(function successCallback(response) {
 					$rootScope.$broadcast('update');
 					alert("You have successfully approved the shift.");
+      		window.location = '#/tab/myshifts';
 				}, function errorCallback(response) {
 					alert("Could not approve the shift", response)
+      		window.location = '#/tab/myshifts';
 				});
 			},
 			// code which stops someone from accessing /partner directly
