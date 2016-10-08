@@ -73,7 +73,6 @@ angular.module('starter.controllers', [])
     }
     $ionicLoading.show();
     PickupService.getShiftsNearMe()
-  
 
   });
 
