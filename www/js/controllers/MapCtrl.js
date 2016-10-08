@@ -1,6 +1,6 @@
 angular.module('maps.controller', [])
 
-.controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Main, UserService, PickupService) {
+.controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Main, UserService, PickupService, MyShiftsService) {
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
@@ -69,15 +69,14 @@ angular.module('maps.controller', [])
         console.log("Could not get home store")
       })
 
-    Main.getPickupNotifications()
-      .then(function(response) {
-        $rootScope.badgeCount = response.filter(function(resp) {
-          return !resp.rejected;
-        }).length;
-      })
-      .catch(function(err) {
-        console.log("Could not get pickup shifts")
-      })
+    MyShiftsService.getBadgeCount()
+    .then(function(number){
+      $rootScope.badgeCount = number;
+    })
+    .catch(function(err) {
+      console.log("Could not get badgeCount")
+    })
+
   };
 
   // Pickup a shift page
