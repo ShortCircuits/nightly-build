@@ -7,27 +7,16 @@
   </ion-header-bar>
   <ion-content>
     <div>
-    <!-- <span> -->
-      <!-- <form class="prize" ng-submit="addPrize()">
-        <div class="list">
-          <label class="item item-input">
-            <input type="text" ng-model="shiftData.prize">
-          </label>
-          <label class="item">
-            <button class="button button-block button-positive" type="submit">Add Prize</button>
-          </label>
-        </div>
-      </form> -->
       <span class="input-label prizePick" > 
-        <p class="prizeAmt"> ${{data.prize}}.00
+        <p class="prizeAmt"> ${{data.prize}}.00 </p>
         <br />
+        <p class="upArrow"> 
           <a class="button icon ion-arrow-up-b button-clear button-dark" ng-click="increment()"></a>
+        </p>
+        <p class="downArrow">
           <a class="button icon ion-arrow-down-b button-clear button-dark" ng-click="decrement()"></a>
         </p>
       </span>
-      <!-- 
-      <button class="increment" ng-click="increment()"></button><button class="decrement" ng-click="decrement()"></button> -->
-      <!-- </span> -->
 
       <button class="button button-block button-positive" type="submit" ng-click="addPrize(prize)">Add Prize</button>
     </div>
