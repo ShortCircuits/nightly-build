@@ -72,17 +72,10 @@ angular.module('maps.controller', [])
     MyShiftsService.getBadgeCount()
     .then(function(number){
       $rootScope.badgeCount = number;
-      console.log("### badgeCount: ", $rootScope.badgeCount);
     })
     .catch(function(err) {
       console.log("Could not get badgeCount")
     })
-    // Main.getPickupNotifications()
-    //   .then(function(response) {
-    //     $rootScope.badgeCount = response.filter(function(resp) {
-    //       return !resp.rejected;
-    //     }).length;
-    //   })
 
   };
 

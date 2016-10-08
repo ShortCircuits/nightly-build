@@ -123,7 +123,6 @@
       return $http.get(urlbase+'myshifts')
       .then(function(response) {return response.data;})
       .then(function(shifts){
-        console.log("### getBadgeCount called")
         return shifts.filter(function(x){
           return x.covered===false && x.requested.length>=1;
         }).length;
