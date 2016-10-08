@@ -21,7 +21,6 @@
       logOut: function() {
         $auth.logout();
         userData = undefined;
-        console.log("User logged out in user.service")
         $rootScope.$emit('userLoggedOut');
       },
       getUser: function() {

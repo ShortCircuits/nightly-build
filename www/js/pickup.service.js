@@ -37,7 +37,6 @@
             url: 'https://shift-it.herokuapp.com/pickup',
             data: theData
           }).then(function(response) {
-            console.log("got response", response.data)
             resolve(response.data);
           }, function(response) {
             if (response.status === 403) {
@@ -75,14 +74,11 @@
         var notifyUser = function() {
             //Needs to go to different page
             window.location = "#/tab/map";
-            console.log("shift requested")
           }
           // test if shift owner is claiming their own shift
-        console.log("scope myid and shift owner ", myId, " ", shift.submitted_by)
         if (myId != shift.submitted_by) {
           availableShifts.splice(availableShifts.indexOf(shift), 1);
           pickUpShift(theData).then(function(response) {
-
             alert("successfully requested a shift")
           }).catch(function(err) {
             alert("Could not request to pickup this shift, try refreshing the app")
