@@ -6,28 +6,30 @@
     </div>
   </ion-header-bar>
   <ion-content>
-  <!-- <span> -->
-    <!-- <form class="prize" ng-submit="addPrize()">
-      <div class="list">
-        <label class="item item-input">
-          <input type="text" ng-model="shiftData.prize">
-        </label>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Add Prize</button>
-        </label>
-      </div>
-    </form> -->
-    <span class="input-label prizePick" > 
-      <p class="prizeAmt"> ${{data.prize}}.00 </p>
-      <p class="incrementArrows">
-        <a class="button icon ion-arrow-up-b button-clear button-dark" ng-click="increment()"></a>
-        <a class="button icon ion-arrow-down-b button-clear button-dark" ng-click="decrement()"></a>
-      </p>
-    </span>
-    <!-- 
-    <button class="increment" ng-click="increment()"></button><button class="decrement" ng-click="decrement()"></button> -->
-    <!-- </span> -->
+    <div>
+    <!-- <span> -->
+      <!-- <form class="prize" ng-submit="addPrize()">
+        <div class="list">
+          <label class="item item-input">
+            <input type="text" ng-model="shiftData.prize">
+          </label>
+          <label class="item">
+            <button class="button button-block button-positive" type="submit">Add Prize</button>
+          </label>
+        </div>
+      </form> -->
+      <span class="input-label prizePick" > 
+        <p class="prizeAmt"> ${{data.prize}}.00
+        <br />
+          <a class="button icon ion-arrow-up-b button-clear button-dark" ng-click="increment()"></a>
+          <a class="button icon ion-arrow-down-b button-clear button-dark" ng-click="decrement()"></a>
+        </p>
+      </span>
+      <!-- 
+      <button class="increment" ng-click="increment()"></button><button class="decrement" ng-click="decrement()"></button> -->
+      <!-- </span> -->
 
-    <button class="button button-block button-positive" type="submit" ng-click="addPrize(prize)">Add Prize</button>
+      <button class="button button-block button-positive" type="submit" ng-click="addPrize(prize)">Add Prize</button>
+    </div>
   </ion-content>
 </ion-modal-view>
