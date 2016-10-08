@@ -10,7 +10,7 @@ angular.module('starter.directives', [])
       function initialize() {
 
         var mapOptions = {
-          center: new google.maps.LatLng(30.2798807, -97.7201470999999),
+          center: new google.maps.LatLng(30.2688407, -97.7410917),
           zoom: 13,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -98,14 +98,14 @@ angular.module('starter.directives', [])
       return something;
     },
 
-    getAllPickups: function(){
-      return $http.get(urlbase+'allpickups')
-      .then(function(response) {return response.data;});
+    getAllPickups: function() {
+      return $http.get(urlbase + 'allpickups')
+        .then(function(response) {
+          return response.data;
+        });
     },
   }
-
 })
-
 
 .factory('Partner', function($http) {
 

@@ -5,7 +5,7 @@
 		.module('starter')
 		.factory('MyShiftsService', MyShiftsService);
 
-	function MyShiftsService($rootScope, $http, Maps) {
+	function MyShiftsService($rootScope, $http, Main) {
 
   var urlbase = 'https://shift-it.herokuapp.com/';
 

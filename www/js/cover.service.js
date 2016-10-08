@@ -42,9 +42,6 @@
         // var year = dateObj.getUTCFullYear();
       },
       disabledDates: [ //Optional
-        new Date(2016, 2, 16),
-        new Date(2015, 3, 16),
-        new Date(2015, 4, 16),
         new Date(2015, 5, 16),
         new Date('Wednesday, August 12, 2015'),
         new Date("08-16-2016"),
@@ -133,11 +130,9 @@
       return p1 + " from " + p2 + " to " + p3;
     };
 
-
     return {
 
       openTimePicker1: openTimePicker1,
-
       openTimePicker2: openTimePicker2,
 
       setHomeLocForShift: function() {
@@ -173,7 +168,7 @@
             alert("Your shift has been added!");
             window.location = "#/tab/map";
           }, function(error) {
-            if(error.status === 403){
+            if (error.status === 403) {
               alert("You can not post more than 5 active shifts.")
             } else {
               console.log("We apologize but we could not post your shift at this time, please reload the app and try again")
