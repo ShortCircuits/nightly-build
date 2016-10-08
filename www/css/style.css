@@ -17,6 +17,13 @@ map {
   text-align: center;
 }
 
+.find-me {
+  position: absolute;
+  z-index: 20;
+  left: 10px;
+  bottom: 43px;
+}
+
 .splashPage {
 /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fcfcfc+0,ededed+100 */
 background: rgb(252,252,252); /* Old browsers */

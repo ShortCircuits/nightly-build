@@ -142,6 +142,8 @@ angular.module('maps.controller', [])
     console.log("clicky")
     Main.getMyPos().then(function(pos) {
       $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
+      document.getElementById("pickupshift").style.display = 'block';
+      document.getElementById("covermyshift").style.display = 'block';
     })
   }
 
