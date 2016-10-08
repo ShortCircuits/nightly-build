@@ -40,7 +40,7 @@
             console.log("got response", response.data)
             resolve(response.data);
           }, function(response) {
-            if(response.status === 403){
+            if (response.status === 403) {
               alert("You have reached your pickup limit.")
             } else {
               reject(response)
