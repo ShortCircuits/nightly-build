@@ -51,9 +51,9 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
 ///////////////////////////////////////////////////
 // Remove this if statement for deployed version //
 ///////////////////////////////////////////////////
-  if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
-    commonConfig.redirectUri = 'http://localhost:8100/';
-  }
+  // if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+  //   commonConfig.redirectUri = 'http://localhost:8100/';
+  // }
 ///////////////////////////////////////////////////
 //    Must be there for the app build though     //
 ///////////////////////////////////////////////////
@@ -149,5 +149,5 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
   })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('tab/settings');
+  $urlRouterProvider.otherwise('lobby');
 });
