@@ -1,18 +1,24 @@
 <ion-view title="Pickup a shift">
-    <ion-content>
+    <ion-content class="padding">
     	<div class="topbar">
     		<select ng-model="sortorder">
         <option value="Sort by" selected disabled>Sort by</option>
 			  <option value="-prizeNum" selected="true">High prize</option>
 			  <option value="shift.shift_start">Time</option>
 			</select>
-       <ion-list>
-			  <ion-item ng-repeat="shift in availableShifts | orderBy:sortorder">
-			    <p>Where: {{shift.home_store.address}}<br/>
-			    When: {{shift.shift_text_time}}<br/>
-			    Posted by: {{shift.submitted_by_name}} (contact)<br/>
-			    Prize: {{shift.prize}}</p>
-			    <button ng-click="pickupShift(shift)">Claim this shift</button>
+       <ion-list class="pulist">
+			  <ion-item class="item-text-wrap" ng-repeat="shift in availableShifts | orderBy:sortorder">
+			  	<div class="row responsive-sm">
+	          <div class="col col-75">
+					    <h2>Where: {{shift.home_store.address}}<br/>
+					    When: {{shift.shift_text_time}}<br/>
+					    Posted by: {{shift.submitted_by_name}} (contact)<br/>
+					    Prize: {{shift.prize}}</h2>
+				    </div>
+	          <div class="col col-25">
+				    	<button ng-click="pickupShift(shift)">Claim this shift</button>
+				   	</div>
+        	</div>
 			  </ion-item>
 			</ion-list>
     </ion-content>

@@ -211,3 +211,12 @@ div.buttons.buttons-right.header-item > span > button {
 .date_cell {
   cursor: pointer;
 }
+
+.pulist ion-item {
+  border: 2px solid #00592D;
+  border-radius: 5px;
+  margin: 0.5em 0;
+  padding: 0;
+}
+
+
