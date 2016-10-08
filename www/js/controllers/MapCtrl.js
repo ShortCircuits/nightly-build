@@ -168,7 +168,7 @@ angular.module('maps.controller', [])
     var location = Main.getLocation();
     console.log("this is loc from maps fac", location)
     var stores = Main.getStores();
-    if(location){
+    if(location && $scope.map){
       $scope.map.setCenter(new google.maps.LatLng(location.lat, location.lng));
       if(stores){
         $ionicLoading.hide();
