@@ -8,6 +8,8 @@ angular.module('maps.controller', [])
     $scope.notification();
     ionic.trigger('resize');
   })
+
+  var myId;
   $scope.map;
   $scope.infowindow = new google.maps.InfoWindow();
   $scope.location = Main.getLocation();
@@ -212,7 +214,16 @@ angular.module('maps.controller', [])
     }
     google.maps.event.addListener(marker, 'click', function() {
       var info = "";
-      if (place.shifts) {
+      myId = UserService.getUser()._id;
+      if(place.shifts){
+        place.shifts = place.shifts.filter(function(shift){
+          if (shift.submitted_by === myId) return false;
+          if (shift.restricted.includes(myId)) return false;
+          if (shift.requested.includes(myId)) return false;
+          return true;
+        })
+      }
+      if (place.shifts && place.shifts.length) {
         place.shifts.forEach(function(shift) {
           var shiftObj = {};
           shiftObj.store = place.vicinity;
