@@ -5,7 +5,7 @@
 		.module('starter')
 		.factory('PartnerService', PartnerService);
 
-	function PartnerService($rootScope, $http, MyShift, Maps) {
+	function PartnerService($rootScope, $http, MyShift, Main) {
 
 		// data used by voting
 		var myApprovedShifts;
@@ -77,7 +77,7 @@
 								return shift.approved;
 							})
 							// Check to see if user can vote on reps for the other user
-						var currentUser = Maps.getUser();
+						var currentUser = Main.getUser();
 						var currentTime = new Date();
 						myApprovedShifts.forEach(function(shift) {
 							var shiftTime = new Date(shift.shift_end);

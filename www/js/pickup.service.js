@@ -5,15 +5,15 @@
     .module('starter')
     .factory('PickupService', PickupService);
 
-  function PickupService($rootScope, $http, Maps, MyShift, $ionicLoading, UserService) {
+  function PickupService($rootScope, $http, Main, MyShift, $ionicLoading, UserService) {
 
     var myId = UserService.getUser()._id;
     var availableShifts;
 
     var getShiftsNearMe = function() {
-      Maps.getMyPos().then(function(pos) {
-        Maps.fetchStores().then(function(res) {
-          availableShifts = Maps.getShifts();
+      Main.getMyPos().then(function(pos) {
+        Main.fetchStores().then(function(res) {
+          availableShifts = Main.getShifts();
           availableShifts = availableShifts.filter(function(shift) {
             if (shift.submitted_by === myId) return false;
             if (shift.restricted.includes(myId)) return false;

@@ -1,9 +1,9 @@
 angular.module('maps.controller', [])
 
-.controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Maps, UserService, PickupService) {
+.controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Main, UserService, PickupService) {
   $scope.map;
   $scope.infowindow = new google.maps.InfoWindow();
-  $scope.location = Maps.getLocation();
+  $scope.location = Main.getLocation();
   $scope.user;
   $scope.homeStore;
 
@@ -38,7 +38,7 @@ angular.module('maps.controller', [])
     }
     var confirmation = confirm("Set your home store as " + address + "?");
     if (confirmation) {
-      Maps.setMyStore(myStoreObj).then(function(response) {
+      Main.setMyStore(myStoreObj).then(function(response) {
         console.log("home store set as: ", response)
       }).catch(function(res) {
         alert(res)
@@ -53,7 +53,7 @@ angular.module('maps.controller', [])
   $scope.notification = function() {
 
     // Get user Id from server
-    Maps.whoAmI()
+    Main.whoAmI()
       .then(function(user) {
         $scope.user = user;
         console.log("whoami endpoint returning: ", user)
@@ -63,7 +63,7 @@ angular.module('maps.controller', [])
         console.log("Could not get user id")
       })
 
-    Maps.getMyStore()
+    Main.getMyStore()
       .then(function(storeId) {
         $scope.homeStore = storeId;
         console.log("my store id is: ", storeId);
@@ -72,7 +72,7 @@ angular.module('maps.controller', [])
         console.log("Could not get home store")
       })
 
-    Maps.getPickupNotifications()
+    Main.getPickupNotifications()
       .then(function(response) {
         $rootScope.badgeCount = response.filter(function(resp) {
           return !resp.rejected;
@@ -86,14 +86,14 @@ angular.module('maps.controller', [])
   // Pickup a shift page
   $scope.pickup = function() {
 
-    var stores = Maps.getStores();
+    var stores = Main.getStores();
     if(stores){
       // $ionicLoading.show();
       // centerOnMe();
       centerOnMe();
       document.getElementById("pickupshift").style.display = 'none';
       document.getElementById("covermyshift").style.display = 'none';
-      window.leShift = Maps.getShifts();
+      window.leShift = Main.getShifts();
       markerBuilder(stores);
     }else{
       // $ionicLoading.show();
@@ -102,8 +102,8 @@ angular.module('maps.controller', [])
       document.getElementById("covermyshift").style.display = 'none';
       // could be better needs to pickup data from controler 
       // if exists otherwise do another request
-      Maps.fetchStores().then(function(stores) {
-        window.leShift = Maps.getShifts();
+      Main.fetchStores().then(function(stores) {
+        window.leShift = Main.getShifts();
         markerBuilder(stores);
       })
     }
@@ -143,7 +143,7 @@ angular.module('maps.controller', [])
   $scope.zipSearch = function(zipOrCity) {
     document.getElementById("pickupshift").style.display = 'none';
     document.getElementById("covermyshift").style.display = 'none';
-    Maps.searchByZip(zipOrCity).then(function(response) {
+    Main.searchByZip(zipOrCity).then(function(response) {
       centerOnSearch(response.location.lat, response.location.lng);
       markerBuilder(response)
       $ionicLoading.hide();
@@ -155,7 +155,7 @@ angular.module('maps.controller', [])
 
   $scope.mapCreated = function(map) {
     $scope.map = map;
-    Maps.setMap(map);
+    Main.setMap(map);
   };
 
   function centerOnSearch(lat, lng) {
@@ -167,20 +167,20 @@ angular.module('maps.controller', [])
       content: 'Getting current location...',
       showBackdrop: false
     });
-    $scope.map = Maps.getMap();
-    var location = Maps.getLocation();
+    $scope.map = Main.getMap();
+    var location = Main.getLocation();
     console.log("this is loc from maps fac", location)
-    var stores = Maps.getStores();
+    var stores = Main.getStores();
     if(location){
       $scope.map.setCenter(new google.maps.LatLng(location.lat, location.lng));
       if(stores){
         $ionicLoading.hide();
       }
     }else{
-      Maps.getMyPos().then(function(pos) {
+      Main.getMyPos().then(function(pos) {
         $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
-        $scope.location = Maps.getLocation();
-        Maps.fetchStores().then(function(res) {
+        $scope.location = Main.getLocation();
+        Main.fetchStores().then(function(res) {
           $ionicLoading.hide();
         });
       })

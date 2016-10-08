@@ -3,9 +3,9 @@
 
   angular
     .module('main')
-    .factory('Maps', Maps);
+    .factory('Main', Main);
 
-  function Maps($http) {
+  function Main($http) {
 
     var location;
     var map = undefined;
