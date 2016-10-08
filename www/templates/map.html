@@ -14,6 +14,7 @@
       <button type="button" id="pickupshift" ng-if="pickupButtons" class="button button-large button-block button-positive" ng-click="pickup()">Pick up shift</button>
       <button type="button" id="covermyshift" ng-if="pickupButtons" class="button button-large button-block button-positive" ui-sref="tab.cover">Post a Shift</button>
     </div>
+    <a ng-click="findMe()" class="button icon ion-android-locate button-clear button-dark find-me"></a>
     <div class="floatingButton" id="searchMe">
       <form class="item item-input" ng-submit="zipSearch(zip)">
         <i class="icon ion-search placeholder-icon"></i>

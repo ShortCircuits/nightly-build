@@ -52,7 +52,6 @@
             return response.data;
           })
           .then(function(shifts) {
-            console.log("GetMyShifts ***********")
             shiftData.postedunclaimed = shifts.filter(function(x) {
               return x.covered === false && x.requested.length < 1;
             });
@@ -80,10 +79,10 @@
                     });
                   });
               });
-              $rootScope.badgeCount = shiftData.postedpending.length;
+              $rootScope.badgeCount = shiftData.postedpending.length + shiftData.pickedapproved.length;
               $rootScope.$broadcast('update');
             } else {
-              $rootScope.badgeCount = shiftData.postedpending.length;
+              $rootScope.badgeCount = shiftData.postedpending.length + shiftData.pickedapproved.length;
               $rootScope.$broadcast('update');
             }
           });
@@ -95,7 +94,6 @@
             return response.data;
           })
           .then(function(shifts) {
-            console.log("GetShiftsIPickedUp ***********")
             shiftData.pickedrejected = shifts.filter(function(x) {
               return x.rejected === true;
             });
@@ -126,15 +124,7 @@
       },
 
       getBadgeCount: function() {
-        return $http.get(urlbase + 'myshifts')
-          .then(function(response) {
-            return response.data;
-          })
-          .then(function(shifts) {
-            return shifts.filter(function(x) {
-              return x.covered === false && x.requested.length >= 1;
-            }).length;
-          })
+        return shiftData.postedpending.length + shiftData.pickedapproved.length;
       },
 
       getCode: function() {
@@ -163,10 +153,10 @@
               "Content-Type": "application/json"
             }
           }).then(function successCallback(response) {
-            shiftData.postedunclaimed.filter(function(x) {
-              x.shift_id !== response.config.data._id;
+            shiftData.postedunclaimed = shiftData.postedunclaimed.filter(function(x) {
+              return x._id !== response.config.data._id;
             });
-            $rootScope.badgeCount = shiftData.postedpending.length;
+            $rootScope.badgeCount = shiftData.postedpending.length + shiftData.pickedapproved.length;
             $rootScope.$broadcast('update');
           }, function errorCallback(response) {
             alert("Could not delete the shift", response)

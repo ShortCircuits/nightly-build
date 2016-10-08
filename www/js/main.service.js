@@ -76,13 +76,11 @@
               .then(function(response) {
                 var loggedInUser = response.data; // ??
                 user = response.data;
-                console.log("user: ", user)
                 shifts = shifts.filter(function(shift) {
                   return !shift.requested.includes(user)
                 });
                 return stores;
               });
-            console.log("the shifts are here: ", shifts)
           });
       },
 
@@ -96,7 +94,6 @@
                 home_store: myStoreObj
               }
             }).then(function(response) {
-              console.log("response from fetching", response)
               resolve(response.data);
             }, function(response) {
               reject("Please log in to set your home store.");

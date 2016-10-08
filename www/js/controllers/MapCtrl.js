@@ -70,14 +70,8 @@ angular.module('maps.controller', [])
       .catch(function(err) {
         console.log("Could not get home store")
       })
-
-    MyShiftsService.getBadgeCount()
-    .then(function(number){
-      $rootScope.badgeCount = number;
-    })
-    .catch(function(err) {
-      console.log("Could not get badgeCount")
-    })
+    MyShiftsService.GetMyShifts();
+    MyShiftsService.GetShiftsIPickedUp();
 
   };
 
@@ -137,6 +131,20 @@ angular.module('maps.controller', [])
       alert("Sorry, you cannot claim this shift.")
     }
   };
+
+  $scope.findMe = function(){
+    $ionicLoading.show();
+    console.log("clicky")
+    Main.getMyPos().then(function(pos) {
+      Main.setLocation(pos);
+      Main.fetchStores().then(function(){
+        $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
+        $ionicLoading.hide();
+        document.getElementById("pickupshift").style.display = 'block';
+        document.getElementById("covermyshift").style.display = 'block';
+      })
+    })
+  }
 
   $scope.zipSearch = function(zipOrCity) {
     document.getElementById("pickupshift").style.display = 'none';
