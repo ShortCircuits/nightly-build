@@ -119,6 +119,16 @@
       return [partnerId, shiftId, pickShiftId, partnerName]
     },
 
+    getBadgeCount: function(){
+      return $http.get(urlbase+'myshifts')
+      .then(function(response) {return response.data;})
+      .then(function(shifts){
+        return shifts.filter(function(x){
+          return x.covered===false && x.requested.length>=1;
+        }).length;
+      })
+    },
+
     getCode: function(){
       var something = codea;
       codea = null;
@@ -147,6 +157,7 @@
             x.shift_id!==response.config.data._id;
           });
           $rootScope.badgeCount = shiftData.postedpending.length;
+          $rootScope.$broadcast('update');
         }, function errorCallback(response) {
           alert("Could not delete the shift", response)
         });
