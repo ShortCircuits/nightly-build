@@ -231,3 +231,23 @@ div.buttons.buttons-right.header-item > span > button {
   margin: 0.5em 0;
   padding: 0;
 }
+
+.prizePick {
+  padding: 3% 0% 0% 0%;
+  margin: auto;
+}
+
+.prizeAmt {
+  font-size: 175%;
+  text-align: center;
+  margin: auto;
+  letter-spacing: 1px;
+}
+
+.upArrow {
+  text-align: center;
+}
+
+.downArrow {
+  text-align: center;
+}
