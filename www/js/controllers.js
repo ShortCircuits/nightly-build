@@ -89,7 +89,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PartnerCtrl', function($scope, UserService, PartnerService, MyShift) {
+.controller('PartnerCtrl', function($scope, UserService, PartnerService, MyShiftsService) {
 
   $scope.$on("update", function() {
     $scope.data = {
@@ -105,7 +105,7 @@ angular.module('starter.controllers', [])
       window.location = '#/lobby'
     }
     // only go in here if the user has reached this page through our connect function
-    var ex = MyShift.getCode();
+    var ex = MyShiftsService.getCode();
     if (ex === 'abc') {
 
 

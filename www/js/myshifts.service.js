@@ -48,6 +48,7 @@
       return $http.get(urlbase+'myshifts')
       .then(function(response) {return response.data;})
       .then(function(shifts){
+        console.log("GetMyShifts ***********")
         shiftData.postedunclaimed = shifts.filter(function(x){
           return x.covered===false && x.requested.length<1;
         });
@@ -88,6 +89,7 @@
       return $http.get(urlbase+'shiftsIPickedUp')
       .then(function(response) {return response.data;})
       .then(function(shifts){
+        console.log("GetShiftsIPickedUp ***********")
         shiftData.pickedrejected = shifts.filter(function(x){
           return x.rejected===true;
         });
@@ -157,8 +159,8 @@
       var partName = claimant.claimant_name;
       var pickshift = claimant.pickup_id;
       setPartnerId(userId, shiftid, 'abc', pickshift, partName);
-      window.location = '#/tab/partner'
-    };
+      window.location = '#/tab/partner';
+    },
 
     connectAfter: function(shift) {
       var userId = shift.covered_by;
@@ -166,8 +168,8 @@
       var partName = shift.covered_by_name;
       var pickshift = shift.pickup_approved;
       setPartnerId(userId, shiftid, 'abc', pickshift, partName);
-      window.location = '#/tab/partner'
-    };
+      window.location = '#/tab/partner';
+    }
 
   }
 	
