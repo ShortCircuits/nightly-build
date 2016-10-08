@@ -1,4 +1,6 @@
-angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-timepicker', 'starter.controllers', 'starter.directives'])
+angular.module('main', ['ionic', 'satellizer', 'maps.controller', 'starter.directives']);
+angular.module('profile', ['ionic', 'satellizer', 'profile.controller']);
+angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-timepicker', 'starter.controllers', 'starter.directives','main', 'profile', 'cover.controller'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -49,9 +51,9 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
 ///////////////////////////////////////////////////
 // Remove this if statement for deployed version //
 ///////////////////////////////////////////////////
-  if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
-    commonConfig.redirectUri = 'http://localhost:8100/';
-  }
+  // if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+  //   commonConfig.redirectUri = 'http://localhost:8100/';
+  // }
 ///////////////////////////////////////////////////
 //    Must be there for the app build though     //
 ///////////////////////////////////////////////////
@@ -68,7 +70,7 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
     controller: 'AppCtrl'
   })
 
-    .state('tab', {
+  .state('tab', {
     url: "/tab",
     abstract: true,
     templateUrl: "templates/tabs.html"
@@ -96,6 +98,7 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
 
   .state('tab.map', {
     url: '/map',
+    cache: false,
     views: {
       'tab-map': {
         templateUrl: 'templates/map.html',
@@ -106,10 +109,11 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
 
   .state('tab.myshifts', {
     url: '/myshifts',
+    cache: false,
     views: {
       'tab-myshifts': {
         templateUrl: 'templates/myshifts.html',
-        controller: 'MyShiftCtrl'
+        controller: 'ShiftController'
       }
     }
   })
@@ -146,4 +150,4 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('tab/settings');
-})
+});

@@ -7,6 +7,37 @@ map {
   height: 100%;
   z-index: 200;
 }
+
+.header-item, .infowindow, h3 {
+  font-family: 'PT Sans', sans-serif;
+}
+
+.splashHead {
+  font-size: 48px;
+  text-align: center;
+}
+
+.splashPage {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fcfcfc+0,ededed+100 */
+background: rgb(252,252,252); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+
+}
+
+#lobbylogo {
+  width:200px;
+}
+
+.splashHolder{
+  width:250px;
+  margin: auto;
+  text-align: center;
+  color: #909090;
+}
+
 .scroll {
   height: 100%;
 }
@@ -40,6 +71,10 @@ map {
   position: relative;
   top: 5%;
 }
+.container {
+  margin-right: auto;
+  margin-left: auto;
+}
 
 .floatingButton {
 	position: absolute;
@@ -52,7 +87,7 @@ map {
     text-align: center;
 }
 
-#notification {
+/*#notification {
   display: none;
   position: absolute;
   top:8%;
@@ -64,6 +99,15 @@ map {
   opacity: 0.9; 
   text-align: right;
   padding: 10px;
+}*/
+.item-divider{
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7f7f7+0,dddddd+100 */
+background: rgb(247,247,247); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(247,247,247,1) 0%, rgba(221,221,221,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(247,247,247,1) 0%,rgba(221,221,221,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(247,247,247,1) 0%,rgba(221,221,221,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */
+
 }
 
 #loading {
@@ -89,6 +133,13 @@ map {
   background: linear-gradient(to bottom,  #136b2c 0%,#00592d 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#136b2c', endColorstr='#00592d',GradientType=0 ); /* IE6-9 */
 
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#008e47+0,006e2e+100 */
+background: rgb(0,142,71); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(0,142,71,1) 0%, rgba(0,110,46,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(0,142,71,1) 0%,rgba(0,110,46,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(0,142,71,1) 0%,rgba(0,110,46,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008e47', endColorstr='#006e2e',GradientType=0 ); /* IE6-9 */
+
 }
 div.buttons.buttons-right.header-item > span > button {
 	color: white;
@@ -111,6 +162,14 @@ div.buttons.buttons-right.header-item > span > button {
 	border-radius: 6px;
 }
 
+.button.button-positive.take-shift {
+  background-color:#47B7BF;
+  border-color:#4CB7BF;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+
 .button.button-positive.activated{
 	background-color:#00592D;
 }
@@ -121,6 +180,14 @@ div.buttons.buttons-right.header-item > span > button {
 	box-shadow: 0px 2px 2px #888888;
 }
 
+.myShifts {
+  padding-bottom: 40px;
+}
+
+#neededApproval, #postedShifts, #pickedUpShifts {
+  margin: 1em auto;
+}
+
 .profile-header {
 	color: #666;
 	margin-top: 2em;
@@ -128,6 +195,9 @@ div.buttons.buttons-right.header-item > span > button {
 
 .profile-info {
 	font-size: 150%;
+}
+.tabs .tab-item .badge {
+    background-color: #e42012;
 }
 
 /* styling for location tags on map view */
@@ -137,3 +207,7 @@ div.buttons.buttons-right.header-item > span > button {
 .marker4 {margin: 0;}
 .marker5 {margin: 0;}
 .marker6 {margin: 0;}
+
+.date_cell {
+  cursor: pointer;
+}
