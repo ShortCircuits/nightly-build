@@ -35,16 +35,13 @@
 							'rep': rep
 						}
 					}).then(function(response) {
-						console.log("got response", response.data)
 						resolve(response);
 					}, function(response) {
-						console.log(response)
 						reject(response)
 					})
 				})
 			return voteRep;
 		};
-
 
 		return {
 
@@ -84,14 +81,13 @@
 							} else {
 								canVote = false;
 							}
-						})
-						console.log("My approved shifts ", myApprovedShifts)
+						});
 						myPickupShifts.forEach(function(shift) {
 							// and not in the id of user is not in voted array :: TODO
 							if (!shift.approved && currentUser === shift.shift_owner) {
 								canApprove = true;
 							}
-						})
+						});
 						$rootScope.$broadcast('update');
 					})
 			},
@@ -152,19 +148,13 @@
 						pickup_shift_id: pickupShiftId
 					}
 				}).then(function successCallback(response) {
-					console.log("reject return: ", response.data);
 					$rootScope.$broadcast('update');
 					alert("You have successfully rejected the shift.");
-
 				}, function errorCallback(response) {
 					alert("Could not reject the shift", response)
 				});
 			},
 			approve: function() {
-				// console.log("this is the shiftId inside the approve: ", shiftId);
-				// document.getElementById("noticeMsg").innerHTML = 'A shift is waiting your approval';
-				// document.getElementById("approveShift").style.display = "none";
-				// document.getElementById("rejectShift").style.display = "none";
 				canApprove = false;
 				$http({
 					method: 'PATCH',
@@ -174,10 +164,8 @@
 						shift_id: shiftId
 					}
 				}).then(function successCallback(response) {
-					console.log("approve return: ", response.data);
 					$rootScope.$broadcast('update');
 					alert("You have successfully approved the shift.");
-
 				}, function errorCallback(response) {
 					alert("Could not approve the shift", response)
 				});
@@ -190,7 +178,6 @@
 					'requesterId': userId,
 					'requesterName': requesterName
 				};
-				console.log("newApprove called, data: ", obj);
 				$http({
 					method: 'PATCH',
 					url: 'https://shift-it.herokuapp.com/approval',
@@ -231,7 +218,6 @@
 					method: 'GET',
 					url: 'https://shift-it.herokuapp.com/user/id/' + userId,
 				}).then(function(response) {
-					console.log("data here is: ", response)
 					var data = response.data;
 					partnerInfo.name = data.firstName + ' ' + data.lastName;
 					partnerInfo.email = data.email;

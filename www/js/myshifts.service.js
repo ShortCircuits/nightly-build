@@ -52,7 +52,6 @@
             return response.data;
           })
           .then(function(shifts) {
-            console.log("GetMyShifts ***********")
             shiftData.postedunclaimed = shifts.filter(function(x) {
               return x.covered === false && x.requested.length < 1;
             });
@@ -95,7 +94,6 @@
             return response.data;
           })
           .then(function(shifts) {
-            console.log("GetShiftsIPickedUp ***********")
             shiftData.pickedrejected = shifts.filter(function(x) {
               return x.rejected === true;
             });

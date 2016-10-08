@@ -8,7 +8,6 @@
   function ProfileService($rootScope, $http) {
 
     var profileData = {};
-
     var editProfile = {};
 
     var formatPhoneNumber = function(phone) {

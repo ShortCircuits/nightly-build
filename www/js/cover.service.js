@@ -32,8 +32,6 @@
         shift.shift_start = new Date(val);
         shift.shift_end = new Date(val);
         var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        console.log("shiftData is: ", shift);
-        console.log('Return value from the datepicker popup is : ' + val, new Date(val));
         openTimePicker1();
         shiftDate = shift.shift_start.getUTCDate() + " " + monthNames[shift.shift_start.getUTCMonth()] + " " + shift.shift_start.getUTCFullYear()
         $rootScope.$broadcast('update');
@@ -68,8 +66,6 @@
           var selectedTime = new Date(val * 1000);
           splitStart[4] = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes()) + ":00";
           shift.shift_start = new Date(splitStart.join(' '));
-          console.log("our built time is: ", splitStart);
-          console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
         }
         openTimePicker2();
         startTime = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes());
@@ -93,8 +89,6 @@
           var selectedTime = new Date(val * 1000);
           splitStart[4] = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes()) + ":00";
           shift.shift_end = new Date(splitStart.join(' '));
-          console.log(shift);
-          console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
         }
         $rootScope.$broadcast('prizeMode')
         endTime = selectedTime.getUTCHours() + ":" + convertMinutes(selectedTime.getUTCMinutes());
@@ -140,10 +134,8 @@
           method: 'GET',
           url: 'https://shift-it.herokuapp.com/getProfileInfo'
         }).then(function successCallback(response) {
-          console.log("this is the response.data from the setHome: ", response.data)
           shift.home_store = response.data[0].home_store;
           shift.submitted_by_name = response.data[0].firstName + " " + response.data[0].lastName;
-          console.log("look in here for the home_store", home_store);
           $rootScope.$broadcast('update');
         }, function errorCallback(response) {
           console.log("Failed to set home location in CoverCtrl");
@@ -159,7 +151,6 @@
           alert("Please enter an end time for your shift!")
         } else {
           shift.shift_text_time = makeTextTime(shift);
-          console.log("look here I found the shift: ", shift);
           $http({
             method: 'POST',
             url: 'https://shift-it.herokuapp.com/shifts',
@@ -171,7 +162,7 @@
             if (error.status === 403) {
               alert("You can not post more than 5 active shifts.")
             } else {
-              console.log("We apologize but we could not post your shift at this time, please reload the app and try again")
+              console.log("Could not post your shift")
             }
           })
         }

@@ -11,7 +11,6 @@ angular.module('starter.controllers', [])
 
     Main.getMyPos().then(function(loc){
       var location = JSON.stringify(loc);
-      console.log(location)
       localStorage.setItem("location", location);
     })
 
@@ -21,7 +20,6 @@ angular.module('starter.controllers', [])
 
     // variable to determine if user is logged in or not
     $scope.loggedIn = UserService.isAuthenticated();
-    console.log("im logged in: ", $scope.loggedIn);
 
     $ionicModal.fromTemplateUrl('templates/login.html', {
       scope: $scope
@@ -52,7 +50,6 @@ angular.module('starter.controllers', [])
 
     $rootScope.$on('userLoggedIn', function(data) {
       // here we will recieve the logged in user
-      console.log(data);
       $scope.closeLogin();
       $window.location = "#/tab/map"
     });
