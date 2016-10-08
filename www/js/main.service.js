@@ -108,6 +108,8 @@
       searchByZip: function(zipOrCity) {
         return $http.get('https://shift-it.herokuapp.com/areaSearch/address/' + zipOrCity)
           .then(function(response) {
+            location.lat = response.data.location.lat;
+            location.lng = response.data.location.lng;
             stores = response.data;
             shifts = stores.results.filter(function(store) {
               if (store.shifts) return true;
