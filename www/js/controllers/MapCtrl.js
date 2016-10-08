@@ -139,11 +139,16 @@ angular.module('maps.controller', [])
   };
 
   $scope.findMe = function(){
+    $ionicLoading.show();
     console.log("clicky")
     Main.getMyPos().then(function(pos) {
-      $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
-      document.getElementById("pickupshift").style.display = 'block';
-      document.getElementById("covermyshift").style.display = 'block';
+      Main.setLocation(pos);
+      Main.fetchStores().then(function(){
+        $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
+        $ionicLoading.hide();
+        document.getElementById("pickupshift").style.display = 'block';
+        document.getElementById("covermyshift").style.display = 'block';
+      })
     })
   }
 
