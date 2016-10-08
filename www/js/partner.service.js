@@ -198,10 +198,10 @@
 				}).then(function successCallback(response) {
 					$rootScope.$broadcast('update');
 					alert("You have successfully approved the shift.");
-      		window.location = '#/tab/myshifts';
+					window.location = '#/tab/myshifts';
 				}, function errorCallback(response) {
 					alert("Could not approve the shift", response)
-      		window.location = '#/tab/myshifts';
+					window.location = '#/tab/myshifts';
 				});
 			},
 			// code which stops someone from accessing /partner directly
