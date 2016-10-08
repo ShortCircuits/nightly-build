@@ -16,20 +16,16 @@ angular.module('maps.controller', [])
     ionic.trigger('resize');
   })
 
-  // $ionicLoading.show();
-  document.getElementById("pickupshift").style.display = 'none';
-  document.getElementById("covermyshift").style.display = 'none';
-  document.getElementById("loading").style.display = 'none';
   if($scope.location){
-      document.getElementById("pickupshift").style.display = 'block';
-      document.getElementById("covermyshift").style.display = 'block';
       $ionicLoading.hide();
+      $scope.pickupButtons = true;
   }else{
-    $timeout(function() {
-      document.getElementById("pickupshift").style.display = 'block';
-      document.getElementById("covermyshift").style.display = 'block';
-      $ionicLoading.hide();
-    }, 3000);
+    Main.getMyPos().then(function(pos){
+      $timeout(function(){
+        $scope.pickupButtons = true;
+        $ionicLoading.hide();
+      },700)
+    })
   }
   // sets the store the user works at :: TODO
   window.setMyStore = function(storeId, address) {
