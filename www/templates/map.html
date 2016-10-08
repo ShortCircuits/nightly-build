@@ -15,7 +15,9 @@
       <button type="button" id="covermyshift" ng-if="pickupButtons" class="button button-large button-block button-positive" ui-sref="tab.cover">Post a Shift</button>
     </div>
     <div class="floatingButton" id="searchMe">
+      <!-- <a ng-click="findMe()" class="button icon ion-pinpoint"></a> -->
       <form class="item item-input" ng-submit="zipSearch(zip)">
+        <a ng-click="findMe()" class="button icon ion-pinpoint"></a>
         <i class="icon ion-search placeholder-icon"></i>
         <input name="zip" ng-model="zip" type="text" placeholder="Search by City or Zip code">
         <!-- <button type="submit" class="button" ng-click="zipSearch()">Login</button> -->

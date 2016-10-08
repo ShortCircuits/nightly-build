@@ -138,6 +138,13 @@ angular.module('maps.controller', [])
     }
   };
 
+  $scope.findMe = function(){
+    console.log("clicky")
+    Main.getMyPos().then(function(pos) {
+      $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
+    })
+  }
+
   $scope.zipSearch = function(zipOrCity) {
     document.getElementById("pickupshift").style.display = 'none';
     document.getElementById("covermyshift").style.display = 'none';
