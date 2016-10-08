@@ -7,12 +7,13 @@
 
   function PickupService($rootScope, $http, Main, MyShift, $ionicLoading, UserService) {
 
-    var myId = UserService.getUser()._id;
+    var myId;
     var availableShifts;
 
     var getShiftsNearMe = function() {
       Main.getMyPos().then(function(pos) {
         Main.fetchStores().then(function(res) {
+          myId = UserService.getUser()._id;
           availableShifts = Main.getShifts();
           availableShifts = availableShifts.filter(function(shift) {
             if (shift.submitted_by === myId) return false;
