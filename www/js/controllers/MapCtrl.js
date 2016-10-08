@@ -15,17 +15,21 @@ angular.module('maps.controller', [])
     ionic.trigger('resize');
   })
 
-  $ionicLoading.show();
+  // $ionicLoading.show();
   document.getElementById("pickupshift").style.display = 'none';
   document.getElementById("covermyshift").style.display = 'none';
   document.getElementById("loading").style.display = 'none';
-
-  $timeout(function() {
-    document.getElementById("pickupshift").style.display = 'block';
-    document.getElementById("covermyshift").style.display = 'block';
-    $ionicLoading.hide();
-  }, 4000);
-
+  if($scope.location){
+      document.getElementById("pickupshift").style.display = 'block';
+      document.getElementById("covermyshift").style.display = 'block';
+      $ionicLoading.hide();
+  }else{
+    $timeout(function() {
+      document.getElementById("pickupshift").style.display = 'block';
+      document.getElementById("covermyshift").style.display = 'block';
+      $ionicLoading.hide();
+    }, 3000);
+  }
   // sets the store the user works at :: TODO
   window.setMyStore = function(storeId, address) {
     var myStoreObj = {
@@ -82,16 +86,27 @@ angular.module('maps.controller', [])
   // Pickup a shift page
   $scope.pickup = function() {
 
-    $ionicLoading.show();
-    centerOnMe();
-    document.getElementById("pickupshift").style.display = 'none';
-    document.getElementById("covermyshift").style.display = 'none';
-    // could be better needs to pickup data from controler 
-    // if exists otherwise do another request
-    Maps.fetchStores().then(function(stores) {
+    var stores = Maps.getStores();
+    if(stores){
+      // $ionicLoading.show();
+      // centerOnMe();
+      centerOnMe();
+      document.getElementById("pickupshift").style.display = 'none';
+      document.getElementById("covermyshift").style.display = 'none';
       window.leShift = Maps.getShifts();
       markerBuilder(stores);
-    })
+    }else{
+      // $ionicLoading.show();
+      centerOnMe();
+      document.getElementById("pickupshift").style.display = 'none';
+      document.getElementById("covermyshift").style.display = 'none';
+      // could be better needs to pickup data from controler 
+      // if exists otherwise do another request
+      Maps.fetchStores().then(function(stores) {
+        window.leShift = Maps.getShifts();
+        markerBuilder(stores);
+      })
+    }
 
   };
 
@@ -140,6 +155,7 @@ angular.module('maps.controller', [])
 
   $scope.mapCreated = function(map) {
     $scope.map = map;
+    Maps.setMap(map);
   };
 
   function centerOnSearch(lat, lng) {
@@ -151,14 +167,24 @@ angular.module('maps.controller', [])
       content: 'Getting current location...',
       showBackdrop: false
     });
-
-    Maps.getMyPos().then(function(pos) {
-      $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
-      $scope.location = Maps.getLocation();
-      Maps.fetchStores().then(function(res) {
+    $scope.map = Maps.getMap();
+    var location = Maps.getLocation();
+    console.log("this is loc from maps fac", location)
+    var stores = Maps.getStores();
+    if(location){
+      $scope.map.setCenter(new google.maps.LatLng(location.lat, location.lng));
+      if(stores){
         $ionicLoading.hide();
-      });
-    })
+      }
+    }else{
+      Maps.getMyPos().then(function(pos) {
+        $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
+        $scope.location = Maps.getLocation();
+        Maps.fetchStores().then(function(res) {
+          $ionicLoading.hide();
+        });
+      })
+    }
   };
 
   centerOnMe();

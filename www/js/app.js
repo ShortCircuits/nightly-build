@@ -98,6 +98,7 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
 
   .state('tab.map', {
     url: '/map',
+    cache: false,
     views: {
       'tab-map': {
         templateUrl: 'templates/map.html',
