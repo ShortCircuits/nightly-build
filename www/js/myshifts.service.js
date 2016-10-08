@@ -163,10 +163,9 @@
               "Content-Type": "application/json"
             }
           }).then(function successCallback(response) {
-            shiftData.postedunclaimed.filter(function(x) {
-              x.shift_id !== response.config.data._id;
+            shiftData.postedunclaimed = shiftData.postedunclaimed.filter(function(x) {
+              x._id !== response.config.data._id;
             });
-            $rootScope.badgeCount = shiftData.postedpending.length;
             $rootScope.$broadcast('update');
           }, function errorCallback(response) {
             alert("Could not delete the shift", response)
