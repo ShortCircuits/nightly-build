@@ -1,6 +1,6 @@
 angular.module('maps.controller', [])
 
-.controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Main, UserService, PickupService) {
+.controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Main, UserService, MyShiftsService, PickupService) {
   $scope.map;
   $scope.infowindow = new google.maps.InfoWindow();
   $scope.location = Main.getLocation();

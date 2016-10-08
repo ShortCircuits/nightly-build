@@ -127,6 +127,7 @@
         return shifts.filter(function(x){
           return x.covered===false && x.requested.length>=1;
         }).length;
+      })
     },
 
     getCode: function(){
