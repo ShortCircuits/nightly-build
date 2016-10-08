@@ -100,14 +100,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
   text-align: right;
   padding: 10px;
 }*/
-.item-divider{
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7f7f7+0,dddddd+100 */
-background: rgb(247,247,247); /* Old browsers */
-background: -moz-linear-gradient(top,  rgba(247,247,247,1) 0%, rgba(221,221,221,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top,  rgba(247,247,247,1) 0%,rgba(221,221,221,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom,  rgba(247,247,247,1) 0%,rgba(221,221,221,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */
 
+.item-divider{
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7f7f7+0,dddddd+100 */
+  background: rgb(247,247,247); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(247,247,247,1) 0%, rgba(221,221,221,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  rgba(247,247,247,1) 0%,rgba(221,221,221,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  rgba(247,247,247,1) 0%,rgba(221,221,221,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */
 }
 
 #loading {
@@ -133,14 +133,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', end
   background: linear-gradient(to bottom,  #136b2c 0%,#00592d 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#136b2c', endColorstr='#00592d',GradientType=0 ); /* IE6-9 */
 
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#008e47+0,006e2e+100 */
-background: rgb(0,142,71); /* Old browsers */
-background: -moz-linear-gradient(top,  rgba(0,142,71,1) 0%, rgba(0,110,46,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top,  rgba(0,142,71,1) 0%,rgba(0,110,46,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom,  rgba(0,142,71,1) 0%,rgba(0,110,46,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008e47', endColorstr='#006e2e',GradientType=0 ); /* IE6-9 */
-
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#008e47+0,006e2e+100 */
+  background: rgb(0,142,71); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(0,142,71,1) 0%, rgba(0,110,46,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  rgba(0,142,71,1) 0%,rgba(0,110,46,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  rgba(0,142,71,1) 0%,rgba(0,110,46,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008e47', endColorstr='#006e2e',GradientType=0 ); /* IE6-9 */
 }
+
 div.buttons.buttons-right.header-item > span > button {
 	color: white;
 }
@@ -197,7 +197,7 @@ div.buttons.buttons-right.header-item > span > button {
 	font-size: 150%;
 }
 .tabs .tab-item .badge {
-    background-color: #e42012;
+  background-color: #e42012;
 }
 
 /* styling for location tags on map view */
@@ -210,4 +210,44 @@ div.buttons.buttons-right.header-item > span > button {
 
 .date_cell {
   cursor: pointer;
+}
+
+.pulist ion-item {
+  border: 2px solid #99B7AC;
+  border-radius: 5px;
+  margin: 0.5em 0;
+  padding: 0;
+}
+
+.mslist .msitem {
+  border: 2px solid #99B7AC;
+  border-radius: 5px;
+  margin: 0.5em 0;
+  padding: 0;
+}
+
+.claimlist .claimitem {
+  border: none;
+  margin: 0.5em 0;
+  padding: 0;
+}
+
+.prizePick {
+  padding: 3% 0% 0% 0%;
+  margin: auto;
+}
+
+.prizeAmt {
+  font-size: 175%;
+  text-align: center;
+  margin: auto;
+  letter-spacing: 1px;
+}
+
+.upArrow {
+  text-align: center;
+}
+
+.downArrow {
+  text-align: center;
 }
