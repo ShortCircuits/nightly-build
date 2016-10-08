@@ -51,7 +51,7 @@
         new Date(1439676000000)
       ],
       from: new Date(), //Optional
-      to: new Date(2016, 10, 30), //Optional
+      to: new Date(2025, 10, 30), //Optional
       inputDate: new Date(), //Optional
       mondayFirst: false, //Optional
       // disableWeekdays: [0],       //Optional

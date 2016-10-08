@@ -5,7 +5,7 @@
     .module('starter')
     .factory('PickupService', PickupService);
 
-  function PickupService($rootScope, $http, Maps, MyShift, $ionicLoading, UserService) {
+  function PickupService($rootScope, $http, Maps, $ionicLoading, UserService) {
 
     var myId = UserService.getUser()._id;
     var availableShifts;

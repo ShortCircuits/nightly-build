@@ -97,14 +97,10 @@ angular.module('starter.directives', [])
       codea = null;
       return something;
     },
-    getAllPickups: function() {
-      return $http({
-        method: 'GET',
-        url: BASE_URL + 'allpickups'
-      }).then(function(response) {
-        allPickups = response.data;
-        return allPickups;
-      });
+
+    getAllPickups: function(){
+      return $http.get(urlbase+'allpickups')
+      .then(function(response) {return response.data;});
     },
   }
 
