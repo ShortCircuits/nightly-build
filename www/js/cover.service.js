@@ -189,6 +189,13 @@
         shift.prize = "$" + prize + ".00";
       },
 
+      resetFields: function() {
+        shiftDate = null;
+        startTime = null;
+        endTime = null;
+        prize = 0;
+      },
+      
       shift: function() {
         return shift;
       },
