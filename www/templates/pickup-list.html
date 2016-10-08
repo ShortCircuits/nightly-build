@@ -8,15 +8,15 @@
 			</select>
        <ion-list class="pulist">
 			  <ion-item class="item-text-wrap" ng-repeat="shift in availableShifts | orderBy:sortorder">
-			  	<div class="row responsive-sm">
-	          <div class="col col-67">
+			  	<div class="row responsive-md">
+	          <div class="col col-50">
 					    <h2>Where: {{shift.home_store.address}}<br/>
 					    When: {{shift.shift_text_time}}<br/>
 					    Posted by: {{shift.submitted_by_name}} (contact)<br/>
 					    Prize: {{shift.prize}}</h2>
 				    </div>
-	          <div class="col col-33">
-				    	<button ng-click="pickupShift(shift)">Claim this shift</button>
+	          <div class="col col-50">
+				    	<button ng-click="pickupShift(shift)" class="button pums">Claim this shift</button>
 				   	</div>
         	</div>
 			  </ion-item>
