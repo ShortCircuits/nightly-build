@@ -1,13 +1,6 @@
 angular.module('maps.controller', [])
 
 .controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Main, UserService, PickupService) {
-  $scope.map;
-  $scope.infowindow = new google.maps.InfoWindow();
-  $scope.location = Main.getLocation();
-  $scope.user;
-  $scope.homeStore;
-  $scope.pickupButtons = false;
-
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
@@ -15,6 +8,13 @@ angular.module('maps.controller', [])
     $scope.notification();
     ionic.trigger('resize');
   })
+  $scope.map;
+  $scope.infowindow = new google.maps.InfoWindow();
+  $scope.location = Main.getLocation();
+  $scope.user;
+  $scope.homeStore;
+  $scope.pickupButtons = false;
+
 
   if($scope.location){
       $ionicLoading.hide();
