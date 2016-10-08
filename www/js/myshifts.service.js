@@ -164,7 +164,7 @@
             }
           }).then(function successCallback(response) {
             shiftData.postedunclaimed = shiftData.postedunclaimed.filter(function(x) {
-              x._id !== response.config.data._id;
+              return x._id !== response.config.data._id;
             });
             $rootScope.$broadcast('update');
           }, function errorCallback(response) {
