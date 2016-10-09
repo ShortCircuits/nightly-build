@@ -12,7 +12,8 @@
 
     var getShiftsNearMe = function() {
       if(Main.getLocation){
-      // Main.getMyPos().then(function(pos) {
+        var locObj = JSON.parse(localStorage.getItem("location"));
+        Main.setLocation(locObj);
         Main.fetchStores().then(function(res) {
           myId = UserService.getUser()._id;
           availableShifts = Main.getShifts();
@@ -28,7 +29,6 @@
           return;
         })
       }
-      // })
     };
 
     var pickUpShift = function(theData) {
