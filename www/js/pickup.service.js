@@ -11,8 +11,9 @@
     var availableShifts;
 
     var getShiftsNearMe = function() {
- 
-      Main.getMyPos().then(function(pos) {
+      if(Main.getLocation){
+        var locObj = JSON.parse(localStorage.getItem("location"));
+        Main.setLocation(locObj);
         Main.fetchStores().then(function(res) {
           myId = UserService.getUser()._id;
           availableShifts = Main.getShifts();
@@ -27,7 +28,7 @@
           $ionicLoading.hide();
           return;
         })
-      })
+      }
     };
 
     var pickUpShift = function(theData) {

@@ -9,11 +9,6 @@ angular.module('starter.controllers', [])
       }
     });
 
-    Main.getMyPos().then(function(loc){
-      var location = JSON.stringify(loc);
-      localStorage.setItem("location", location);
-    })
-
     // Form data for the login modal
     $scope.loginData = {};
     // Create the login modal that we will use later

@@ -61,14 +61,10 @@
       },
 
       fetchStores: function() {
-        if(!location){
-          window.location = '#/tab/map';
-        } else {
         return $http.get('https://shift-it.herokuapp.com/shifts/lat/' + location.lat + '/lng/' + location.lng + '/rad/5000')
           .then(function(response) {
             stores = response.data;
             shifts = stores.results.filter(function(store) {
-              // console.log("store is: ", store)
               if (store.shifts) return true;
             }).map(function(shift) {
               return shift.shifts;
@@ -85,7 +81,6 @@
                 return stores;
               });
           });
-        }
       },
 
       setMyStore: function(myStoreObj) {

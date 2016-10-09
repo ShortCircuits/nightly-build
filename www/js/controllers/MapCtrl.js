@@ -45,7 +45,7 @@ angular.module('maps.controller', [])
     }
   }
   var loc = localStorage.getItem("location");
-  loc = JSON.parse(loc)
+  // loc = JSON.parse(loc)
   console.log("this is loc ", loc)
 
   // Notifications
@@ -134,6 +134,8 @@ angular.module('maps.controller', [])
     $ionicLoading.show();
     console.log("clicky")
     Main.getMyPos().then(function(pos) {
+      var locObj = JSON.stringify(pos);
+      localStorage.setItem('location', locObj);
       Main.setLocation(pos);
       Main.fetchStores().then(function(){
         $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
@@ -146,8 +148,10 @@ angular.module('maps.controller', [])
   $scope.zipSearch = function(zipOrCity) {
     $scope.pickupButtons = false;
     Main.searchByZip(zipOrCity).then(function(response) {
+      var locObj = JSON.stringify({lat:response.location.lat, lng:response.location.lng});
+      localStorage.setItem('location', locObj);
       centerOnSearch(response.location.lat, response.location.lng);
-      markerBuilder(response)
+      markerBuilder(response);
       $ionicLoading.hide();
     }).catch(function(err) {
       alert("Could not get stores from the server, please try again later");
