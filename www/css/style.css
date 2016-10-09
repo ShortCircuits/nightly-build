@@ -1,5 +1,7 @@
 /* Empty. Add your own CSS if you like */
-
+body {
+  color:#5a5a5a;
+}
 map {
   position: absolute;
   display: block;
@@ -227,7 +229,10 @@ div.buttons.buttons-right.header-item > span > button {
 }
 
 .mslist .msitem {
-  border: 2px solid #bbb;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid #e4e4e4;
   border-radius: 5px;
   margin: 0.5em 0;
   padding: 0;

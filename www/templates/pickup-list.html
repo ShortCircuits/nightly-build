@@ -6,14 +6,14 @@
 			  <option value="-prizeNum" selected="true">High prize</option>
 			  <option value="shift.shift_start">Time</option>
 			</select>
-       <ion-list class="pulist">
+       <ion-list class="mslist">
 			  <ion-item class="item-text-wrap" ng-repeat="shift in availableShifts | orderBy:sortorder">
 			  	<div class="row responsive-md">
 	          <div class="col col-50">
-					    <h2>Where: {{shift.home_store.address}}<br/>
-					    When: {{shift.shift_text_time}}<br/>
-					    Posted by: {{shift.submitted_by_name}} (contact)<br/>
-					    Prize: {{shift.prize}}</h2>
+					    <p>Where: {{shift.home_store.address}}</p>
+					    <p>When: {{shift.shift_text_time}}</p>
+					    <p>Posted by: {{shift.submitted_by_name}} (contact)</p>
+					    <p>Prize: {{shift.prize}}</p>
 				    </div>
 	          <div class="col col-50">
 				    	<button ng-click="pickupShift(shift)" class="button pums">Claim this shift</button>

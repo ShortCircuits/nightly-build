@@ -10,9 +10,9 @@
       <ion-item ng-repeat="shift in data.postedpending" class="item-text-wrap msitem" >
         <div class="row responsive-md">
           <div class="col col-50">
-            <h2>{{shift.home_store.address}}<br/>
-            {{shift.shift_text_time}}<br/>
-            Prize: {{shift.prize}}</h2>
+            <p>{{shift.home_store.address}}<p/>
+            <p>{{shift.shift_text_time}}<p/>
+            <p>Prize: {{shift.prize}}</p>
           </div>
           <div class="col col-50">
             <h2>Status: PENDING</h2>
@@ -34,9 +34,9 @@
       <ion-item ng-repeat="shift in data.postedunclaimed" class="item-text-wrap msitem">
         <div class="row responsive-md">
           <div class="col col-50">
-            <h2>{{shift.home_store.address}}<br/>
-            {{shift.shift_text_time}}<br/>
-            Prize: {{shift.prize}}</h2>
+            <p>{{shift.home_store.address}}<p/>
+            <p>{{shift.shift_text_time}}<p/>
+            <p>Prize: {{shift.prize}}</p>
           </div>
           <div class="col col-50">
             <h2>Status: UNCLAIMED</h2>
@@ -52,9 +52,9 @@
       <ion-item ng-repeat="shift in data.postedapproved" class="item-text-wrap msitem">
         <div class="row responsive-md">
           <div class="col col-50">
-            <h2>{{shift.home_store.address}}<br/>
-            {{shift.shift_text_time}}<br/>
-            Prize: {{shift.prize}}</h2>
+            <p>{{shift.home_store.address}}<p/>
+            <p>{{shift.shift_text_time}}<p/>
+            <p>Prize: {{shift.prize}}</p>
           </div>
           <div class="col col-50">
             <h2>Status: APPROVED</h2>
@@ -72,10 +72,10 @@
       <ion-item ng-repeat="shift in data.pickedpending" class="item-text-wrap msitem">
         <div class="row responsive-md">
           <div class="col col-50">
-            <h2>{{shift.shift_where}}<br/>
-            {{shift.shift_when}}<br/>
-            Posted by: {{shift.shift_owner_name}}<br/>
-            Prize: {{shift.shift_prize}}</h2>
+            <p>{{shift.shift_where}}<p/>
+            <p>{{shift.shift_when}}<p/>
+            <p>Posted by: {{shift.shift_owner_name}}<p/>
+            <p>Prize: {{shift.shift_prize}}</p>
           </div>
           <div class="col col-50">
             <h2>Status: PENDING</h2>
@@ -90,10 +90,10 @@
       <ion-item ng-repeat="shift in data.pickedapproved" class="item-text-wrap msitem">
         <div class="row responsive-md">
           <div class="col col-50">
-            <h2>{{shift.shift_where}}<br/>
-            {{shift.shift_when}}<br/>
-            Posted by: {{shift.shift_owner_name}}<br/>
-            Prize: {{shift.shift_prize}}</h2>
+            <p>{{shift.shift_where}}<p/>
+            <p>{{shift.shift_when}}<p/>
+            <p>Posted by: {{shift.shift_owner_name}}<p/>
+            <p>Prize: {{shift.shift_prize}}</p>
           </div>
           <div class="col col-50">
             <h2>Status: APPROVED</h2>
@@ -108,10 +108,10 @@
       <ion-item ng-repeat="shift in data.pickedrejected" class="item-text-wrap msitem">
         <div class="row responsive-md">
           <div class="col col-50">
-            <h2>{{shift.shift_where}}<br/>
-            {{shift.shift_when}}<br/>
-            Posted by: {{shift.shift_owner_name}}<br/>
-            Prize: {{shift.shift_prize}}</h2>
+            <p>{{shift.shift_where}}<p/>
+            <p>{{shift.shift_when}}<p/>
+            <p>Posted by: {{shift.shift_owner_name}}<p/>
+            <p>Prize: {{shift.shift_prize}}</p>
           </div>
           <div class="col col-50">
             <h2>Status: REJECTED</h2>
