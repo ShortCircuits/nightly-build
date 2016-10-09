@@ -70,14 +70,8 @@ angular.module('maps.controller', [])
       .catch(function(err) {
         console.log("Could not get home store")
       })
-
-    MyShiftsService.getBadgeCount()
-    .then(function(number){
-      $rootScope.badgeCount = number;
-    })
-    .catch(function(err) {
-      console.log("Could not get badgeCount")
-    })
+    MyShiftsService.GetMyShifts();
+    MyShiftsService.GetShiftsIPickedUp();
 
   };
 

@@ -11,6 +11,7 @@
     var availableShifts;
 
     var getShiftsNearMe = function() {
+      if(Main.getLocation){
       // Main.getMyPos().then(function(pos) {
         Main.fetchStores().then(function(res) {
           myId = UserService.getUser()._id;
@@ -26,6 +27,7 @@
           $ionicLoading.hide();
           return;
         })
+      }
       // })
     };
 
