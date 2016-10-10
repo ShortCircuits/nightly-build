@@ -38,7 +38,7 @@ angular.module('maps.controller', [])
     var confirmation = confirm("Set your home store as " + address + "?");
     if (confirmation) {
       Main.setMyStore(myStoreObj).then(function(response) {
-        console.log("home store set as: ", response)
+        alert("Your home store has been set to: ", address)
       }).catch(function(res) {
         alert(res)
       })
@@ -83,15 +83,13 @@ angular.module('maps.controller', [])
       // $ionicLoading.show();
       // centerOnMe();
       centerOnMe();
-      document.getElementById("pickupshift").style.display = 'none';
-      document.getElementById("covermyshift").style.display = 'none';
+      $scope.pickupButtons = false;
       window.leShift = Main.getShifts();
       markerBuilder(stores);
     }else{
       // $ionicLoading.show();
       centerOnMe();
-      document.getElementById("pickupshift").style.display = 'none';
-      document.getElementById("covermyshift").style.display = 'none';
+      $scope.pickupButtons = false;
       // could be better needs to pickup data from controler 
       // if exists otherwise do another request
       Main.fetchStores().then(function(stores) {
@@ -142,15 +140,13 @@ angular.module('maps.controller', [])
       Main.fetchStores().then(function(){
         $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
         $ionicLoading.hide();
-        document.getElementById("pickupshift").style.display = 'block';
-        document.getElementById("covermyshift").style.display = 'block';
+        $scope.pickupButtons = true;
       })
     })
   }
 
   $scope.zipSearch = function(zipOrCity) {
-    document.getElementById("pickupshift").style.display = 'none';
-    document.getElementById("covermyshift").style.display = 'none';
+    $scope.pickupButtons = false;
     Main.searchByZip(zipOrCity).then(function(response) {
       var locObj = JSON.stringify({lat:response.location.lat, lng:response.location.lng});
       localStorage.setItem('location', locObj);
