@@ -96,20 +96,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
     text-align: center;
 }
 
-/*#notification {
-  display: none;
-  position: absolute;
-  top:8%;
-  right: 1%;
-  width:20%;
-  height:10%;
-  z-index: 101;
-  background-color: #cecece;
-  opacity: 0.9; 
-  text-align: right;
-  padding: 10px;
-}*/
-
 .item-divider{
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7f7f7+0,dddddd+100 */
   background: rgb(247,247,247); /* Old browsers */
@@ -228,14 +214,65 @@ div.buttons.buttons-right.header-item > span > button {
   padding: 0;
 }
 
+h3 {
+  background-color: #e3e6e6;
+  background: -moz-linear-gradient(left,  rgba(254,255,255,1) 0%, rgba(247,247,247,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left,  rgba(254,255,255,1) 0%,rgba(247,247,247,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right,  rgba(254,255,255,1) 0%,rgba(247,247,247,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#f7f7f7',GradientType=1 ); /* IE6-9 */
+  border-bottom: 3px solid #0E848C;
+  color: #59686f;
+  padding: 20px;
+}
+
+
 .mslist .msitem {
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
-  border-bottom: 1px solid #e4e4e4;
+  border-bottom: 1px solid #efefef;
   border-radius: 5px;
   margin: 0.5em 0;
   padding: 0;
+}
+
+.msitem {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,f7feff+100 */
+background: rgb(255,255,255); /* Old browsers */
+background: -moz-linear-gradient(-45deg,  rgba(255,255,255,1) 0%, rgba(247,254,255,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(247,254,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(247,254,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7feff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+  background-color: #e3e6e6;
+  background: -moz-linear-gradient(left,  rgba(254,255,255,1) 0%, rgba(247,247,247,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left,  rgba(254,255,255,1) 0%,rgba(247,247,247,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right,  rgba(254,255,255,1) 0%,rgba(247,247,247,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#f7f7f7',GradientType=1 ); /* IE6-9 */
+}
+.col-33 {
+  padding-bottom: 0px;
+}
+.statusovski{
+  padding-bottom:5px;
+}
+.item .subs {
+  color: #929292;
+}
+
+.item {
+  background-color: transparent;
+}
+.row {
+  padding: 15px;
+}
+
+.item-input{
+  background-color: #fafafa;
+}
+
+.ionic-scroll {
+  background-color: #fdfdfd;
 }
 
 .claimlist .claimitem {
@@ -274,6 +311,27 @@ button.pums {
   text-align: left;
 }
 
+button.pums {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,f3f3f3+50,ededed+51,ffffff+100;White+Gloss+%232 */
+background: rgb(255,255,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(243,243,243,1) 50%, rgba(237,237,237,1) 51%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+
+  color:#6f6f6f;
+  border: 0px solid #ffffff;
+  box-shadow: 0px 2px 1px #e0e0e0;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  font-size: 14px;
+      padding-top: 5px;
+    padding-bottom: 5px;
+    min-height: 43px;
+}
+
 button.pums:hover {
-  color: white;
+  color: #232323;
+  box-shadow: 0px 3px 3px #e0e0e0;
 }

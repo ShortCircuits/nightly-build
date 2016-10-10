@@ -9,20 +9,21 @@
     <ion-list class="mslist">
       <ion-item ng-repeat="shift in data.postedpending" class="item-text-wrap msitem" >
         <div class="row responsive-md">
-          <div class="col col-50">
+          <div class="col col-20">
+            <p><b>Status:</b> PENDING</p>
+
+            <ion-list class="claimlist">
+            <p class="subs">Requested by:</p> 
+              <ion-item ng-repeat="claimant in shift.claimants" class="claimitem">
+                <button ng-click="connect(claimant)" class="button pums">{{claimant.claimant_name}}</button>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <div class="col col-33">
             <p>{{shift.home_store.address}}<p/>
             <p>{{shift.shift_text_time}}<p/>
             <p>Prize: {{shift.prize}}</p>
-          </div>
-          <div class="col col-50">
-            <h2>Status: PENDING</h2>
-
-            <ion-list class="claimlist">
-              <ion-item ng-repeat="claimant in shift.claimants" class="claimitem">
-                <button ng-click="connect(claimant)" class="button pums">Requested by: {{claimant.claimant_name}}</button>
-              </ion-item>
-            </ion-list>
-
           </div>
         </div>
       </ion-item>
@@ -33,14 +34,14 @@
     <ion-list class="mslist">
       <ion-item ng-repeat="shift in data.postedunclaimed" class="item-text-wrap msitem">
         <div class="row responsive-md">
-          <div class="col col-50">
+          <div class="col col-20">
+            <p class="statusovski"><b>Status:</b> UNCLAIMED</p>
+            <button ng-click="delete(shift)" class="button pums">Delete</button>
+          </div>
+          <div class="col col-33">
             <p>{{shift.home_store.address}}<p/>
             <p>{{shift.shift_text_time}}<p/>
             <p>Prize: {{shift.prize}}</p>
-          </div>
-          <div class="col col-50">
-            <h2>Status: UNCLAIMED</h2>
-            <button ng-click="delete(shift)" class="button pums">Delete</button>
           </div>
         </div>
       </ion-item>
@@ -51,14 +52,15 @@
     <ion-list class="mslist">
       <ion-item ng-repeat="shift in data.postedapproved" class="item-text-wrap msitem">
         <div class="row responsive-md">
-          <div class="col col-50">
+          <div class="col col-20">
+            <p class="statusovski"><b>Status:</b> APPROVED</p>
+            <p class="subs">Taken by:</p>
+            <button ng-click="connectAfter(shift)" class="button pums"> {{shift.covered_by_name}} </button>
+          </div>
+          <div class="col col-33">
             <p>{{shift.home_store.address}}<p/>
             <p>{{shift.shift_text_time}}<p/>
             <p>Prize: {{shift.prize}}</p>
-          </div>
-          <div class="col col-50">
-            <h2>Status: APPROVED</h2>
-            <button ng-click="connectAfter(shift)" class="button pums"> Taken by {{shift.covered_by_name}} </button><br/><br/>
           </div>
         </div>
       </ion-item>
@@ -71,14 +73,14 @@
     <ion-list class="mslist">
       <ion-item ng-repeat="shift in data.pickedpending" class="item-text-wrap msitem">
         <div class="row responsive-md">
-          <div class="col col-50">
+          <div class="col col-20">
+            <p class="statusovski"><b>Status:</b> PENDING</p>
+          </div>
+          <div class="col col-33">
             <p>{{shift.shift_where}}<p/>
             <p>{{shift.shift_when}}<p/>
             <p>Posted by: {{shift.shift_owner_name}}<p/>
             <p>Prize: {{shift.shift_prize}}</p>
-          </div>
-          <div class="col col-50">
-            <h2>Status: PENDING</h2>
           </div>
         </div>
       </ion-item>
@@ -89,14 +91,14 @@
     <ion-list class="mslist">
       <ion-item ng-repeat="shift in data.pickedapproved" class="item-text-wrap msitem">
         <div class="row responsive-md">
-          <div class="col col-50">
+          <div class="col col-20">
+            <p class="statusovski"><b>Status:</b> APPROVED</p>
+          </div>
+          <div class="col col-33">
             <p>{{shift.shift_where}}<p/>
             <p>{{shift.shift_when}}<p/>
             <p>Posted by: {{shift.shift_owner_name}}<p/>
             <p>Prize: {{shift.shift_prize}}</p>
-          </div>
-          <div class="col col-50">
-            <h2>Status: APPROVED</h2>
           </div>
           </div>
       </ion-item>
@@ -107,14 +109,14 @@
     <ion-list class="mslist">
       <ion-item ng-repeat="shift in data.pickedrejected" class="item-text-wrap msitem">
         <div class="row responsive-md">
-          <div class="col col-50">
+          <div class="col col-20">
+            <p class="statusovski"><b>Status:</b> REJECTED</p>
+          </div>
+          <div class="col col-33">
             <p>{{shift.shift_where}}<p/>
             <p>{{shift.shift_when}}<p/>
             <p>Posted by: {{shift.shift_owner_name}}<p/>
             <p>Prize: {{shift.shift_prize}}</p>
-          </div>
-          <div class="col col-50">
-            <h2>Status: REJECTED</h2>
           </div>
         </div>
       </ion-item>
