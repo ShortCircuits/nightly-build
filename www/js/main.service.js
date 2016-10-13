@@ -65,7 +65,6 @@
           .then(function(response) {
             stores = response.data;
             shifts = stores.results.filter(function(store) {
-              // console.log("store is: ", store)
               if (store.shifts) return true;
             }).map(function(shift) {
               return shift.shifts;
