@@ -27,6 +27,10 @@ angular.module('maps.controller', [])
         $scope.pickupButtons = true;
         $ionicLoading.hide();
       },700)
+    }).catch(function() {
+      $ionicLoading.hide();
+      $scope.pickupButtons = true;
+      alert("Something went wrong!");
     })
   }
   // sets the store the user works at :: TODO
