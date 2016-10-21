@@ -148,6 +148,16 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
     }
   })
 
+  .state('tab.about', {
+    url: '/about',
+    views: {
+      'tab-settings': {
+        templateUrl: 'templates/about.html',
+        controller: 'AppCtrl'
+      }
+    }
+  })
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('lobby');
 });
