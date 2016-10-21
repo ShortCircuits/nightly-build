@@ -1,6 +1,7 @@
 angular.module('maps.controller', [])
 
 .controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Main, UserService, PickupService, MyShiftsService) {
+  
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
@@ -29,7 +30,8 @@ angular.module('maps.controller', [])
       },700)
     })
   }
-  // sets the store the user works at :: TODO
+
+  // sets the homestore for the user
   window.setMyStore = function(storeId, address) {
     var myStoreObj = {
       storeId: storeId,
@@ -44,9 +46,8 @@ angular.module('maps.controller', [])
       })
     }
   }
+
   var loc = localStorage.getItem("location");
-  // loc = JSON.parse(loc)
-  console.log("this is loc ", loc)
 
   // Notifications
   $scope.notification = function() {
@@ -70,6 +71,7 @@ angular.module('maps.controller', [])
       .catch(function(err) {
         console.log("Could not get home store")
       })
+
     MyShiftsService.GetMyShifts();
     MyShiftsService.GetShiftsIPickedUp();
 
@@ -80,18 +82,13 @@ angular.module('maps.controller', [])
 
     var stores = Main.getStores();
     if(stores){
-      // $ionicLoading.show();
-      // centerOnMe();
       centerOnMe();
       $scope.pickupButtons = false;
       window.leShift = Main.getShifts();
       markerBuilder(stores);
     }else{
-      // $ionicLoading.show();
       centerOnMe();
       $scope.pickupButtons = false;
-      // could be better needs to pickup data from controler 
-      // if exists otherwise do another request
       Main.fetchStores().then(function(stores) {
         window.leShift = Main.getShifts();
         markerBuilder(stores);
@@ -169,14 +166,15 @@ angular.module('maps.controller', [])
   }
 
   function centerOnMe() {
+    var location = Main.getLocation();
+    var stores = Main.getStores();
+    $scope.map = Main.getMap();
+    
     $scope.loading = $ionicLoading.show({
       content: 'Getting current location...',
       showBackdrop: false
     });
-    $scope.map = Main.getMap();
-    var location = Main.getLocation();
-    console.log("this is loc from maps fac", location)
-    var stores = Main.getStores();
+    
     if(location && $scope.map){
       $scope.map.setCenter(new google.maps.LatLng(location.lat, location.lng));
       if(stores){

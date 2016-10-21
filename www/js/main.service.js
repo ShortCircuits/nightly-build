@@ -21,8 +21,13 @@
       getMyStore: function() {
         return $http.get('https://shift-it.herokuapp.com/getProfileInfo')
           .then(function(response) {
-            myStore = response.data[0].home_store.storeId;
-            return myStore;
+            console.log(response, "is el responso")
+            if(response.data[0].home_store){
+              myStore = response.data[0].home_store.storeId;
+              return myStore;
+            }else{
+              alert("Please set your home store by selecting a pin on the map")
+            }
           });
       },
 
