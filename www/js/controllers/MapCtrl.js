@@ -216,7 +216,7 @@ angular.module('maps.controller', [])
     // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
     marker.setMap($scope.map);
     if (place.place_id === $scope.homeStore) {
-      marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+      marker.setIcon('img/favicon-32x32.png')
     }
     google.maps.event.addListener(marker, 'click', function() {
       var info = "";

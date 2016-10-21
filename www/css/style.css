@@ -19,11 +19,14 @@ map {
   text-align: center;
 }
 
-.find-me {
+.button.button-dark.button-clear.find-me {
   position: absolute;
   z-index: 20;
   left: 10px;
   bottom: 43px;
+  background: #ffffff;
+  opacity: 0.9;
+  border-radius: 12px;
 }
 
 .splashPage {
@@ -71,8 +74,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
 }
 
 #searchMe {
-  top: 85%;
-  width: 340px;
+  width: 185px;
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  z-index: 108;
+  left: auto;
+  border-radius: 12px;
 }
 
 .card {
@@ -261,6 +269,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
 .item-input{
   background-color: #fafafa;
+  -webkit-border-radius: 8px;
+  -webkit-border-bottom-right-radius: 0;
+  -moz-border-radius: 8px;
+  -moz-border-radius-bottomright: 0;
+  border-radius: 8px;
+  border-bottom-right-radius: 0;
 }
 
 .ionic-scroll {
