@@ -1,12 +1,18 @@
 angular.module('maps.controller', [])
 
 .controller('MapCtrl', function($scope, $rootScope, $ionicLoading, $timeout, $http, Main, UserService, PickupService, MyShiftsService) {
+  
+  var counter = 0;
   $scope.$on('$ionicView.enter', function() {
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'
     }
-    $scope.notification();
+    $scope.initialization();
     ionic.trigger('resize');
+    if(counter>=1){
+      $scope.pickup();
+    }
+    centerOnMe();
   })
 
   var myId;
@@ -18,23 +24,46 @@ angular.module('maps.controller', [])
   $scope.pickupButtons = false;
 
 
+  // Pickup a shift / Populate the map with stores
+  $scope.pickup = function() {
+
+    var stores = Main.getStores();
+    if(stores){
+      centerOnMe();
+      $scope.pickupButtons = false;
+      window.leShift = Main.getShifts();
+      markerBuilder(stores);
+    }else{
+      centerOnMe();
+      $scope.pickupButtons = false;
+      Main.fetchStores().then(function(stores) {
+        window.leShift = Main.getShifts();
+        markerBuilder(stores);
+      })
+    }
+  };
+
   if($scope.location){
       $ionicLoading.hide();
-      $scope.pickupButtons = true;
+      $scope.pickup();
+      // $scope.pickupButtons = true;
   }else{
     Main.getMyPos().then(function(pos){
       $timeout(function(){
-        $scope.pickupButtons = true;
+        // $scope.pickupButtons = true;
+        $scope.pickup();
         $ionicLoading.hide();
       },700)
     })
   }
-  // sets the store the user works at :: TODO
+
+  // sets the homestore for the user
   window.setMyStore = function(storeId, address) {
     var myStoreObj = {
       storeId: storeId,
       address: address
     }
+
     var confirmation = confirm("Set your home store as " + address + "?");
     if (confirmation) {
       Main.setMyStore(myStoreObj).then(function(response) {
@@ -44,12 +73,15 @@ angular.module('maps.controller', [])
       })
     }
   }
-  var loc = localStorage.getItem("location");
-  // loc = JSON.parse(loc)
-  console.log("this is loc ", loc)
 
-  // Notifications
-  $scope.notification = function() {
+  var loc = localStorage.getItem("location");
+  $scope.doRefresh = function(){
+    $scope.$broadcast('scroll.refreshComplete');
+    window.location.reload(true);
+  }
+
+  // Initialization :: TODO notifications
+  $scope.initialization = function() {
 
     // Get user Id from server
     Main.whoAmI()
@@ -70,43 +102,20 @@ angular.module('maps.controller', [])
       .catch(function(err) {
         console.log("Could not get home store")
       })
+
     MyShiftsService.GetMyShifts();
     MyShiftsService.GetShiftsIPickedUp();
 
   };
 
-  // Pickup a shift page
-  $scope.pickup = function() {
-
-    var stores = Main.getStores();
-    if(stores){
-      // $ionicLoading.show();
-      // centerOnMe();
-      centerOnMe();
-      $scope.pickupButtons = false;
-      window.leShift = Main.getShifts();
-      markerBuilder(stores);
-    }else{
-      // $ionicLoading.show();
-      centerOnMe();
-      $scope.pickupButtons = false;
-      // could be better needs to pickup data from controler 
-      // if exists otherwise do another request
-      Main.fetchStores().then(function(stores) {
-        window.leShift = Main.getShifts();
-        markerBuilder(stores);
-      })
-    }
-
-  };
-
+  // Pickup shift 
   window.pShift = function(shiftid) {
-    console.log("this is le shiftID", shiftid)
+    
     var shift = window.leShift.filter(function(shift) {
       return shift._id === shiftid;
     })
     shift = shift[0];
-    console.log('this is the shifto', shift)
+
     var theData = {
       shift_id: shift._id,
       shift_owner: shift.submitted_by,
@@ -118,6 +127,7 @@ angular.module('maps.controller', [])
       shift_end: shift.shift_end,
       voted: false
     };
+
     // test if shift owner is claiming their own shift
     if ($scope.user !== shift.submitted_by) {
       PickupService.pickUpShift(theData).then(function(response) {
@@ -139,8 +149,10 @@ angular.module('maps.controller', [])
       Main.setLocation(pos);
       Main.fetchStores().then(function(){
         $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
+        $scope.location = {lat:pos.lat, lng:pos.lng};
         $ionicLoading.hide();
         $scope.pickupButtons = true;
+        $scope.pickup();
       })
     })
   }
@@ -169,14 +181,15 @@ angular.module('maps.controller', [])
   }
 
   function centerOnMe() {
+    var location = Main.getLocation();
+    var stores = Main.getStores();
+    $scope.map = Main.getMap();
+    
     $scope.loading = $ionicLoading.show({
       content: 'Getting current location...',
       showBackdrop: false
     });
-    $scope.map = Main.getMap();
-    var location = Main.getLocation();
-    console.log("this is loc from maps fac", location)
-    var stores = Main.getStores();
+    
     if(location && $scope.map){
       $scope.map.setCenter(new google.maps.LatLng(location.lat, location.lng));
       if(stores){
@@ -207,6 +220,7 @@ angular.module('maps.controller', [])
     if (!place.shifts) {
       icons = 'img/marker-gray.png'
     }
+
     var marker = new google.maps.Marker({
       position: {
         lat: place.geometry.location.lat,
@@ -215,11 +229,13 @@ angular.module('maps.controller', [])
       animation: google.maps.Animation.DROP,
       icon: icons
     });
+
     // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
     marker.setMap($scope.map);
     if (place.place_id === $scope.homeStore) {
-      marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+      marker.setIcon('img/home-pin.png')
     }
+
     google.maps.event.addListener(marker, 'click', function() {
       var info = "";
       myId = UserService.getUser()._id;

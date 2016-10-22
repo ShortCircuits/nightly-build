@@ -10,11 +10,11 @@ angular.module('cover.controller', [])
       shiftDate : CoverService.shiftDate(),
       startTime : CoverService.startTime(),
       endTime : CoverService.endTime(),
-
     }
   })
 
   $scope.$on('$ionicView.enter', function() {
+    
     // Code you want executed every time view is opened
     if (!UserService.isAuthenticated()) {
       window.location = '#/lobby'

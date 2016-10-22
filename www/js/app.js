@@ -98,7 +98,7 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
 
   .state('tab.map', {
     url: '/map',
-    cache: false,
+    cache: true,
     views: {
       'tab-map': {
         templateUrl: 'templates/map.html',
@@ -144,6 +144,16 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
       'tab-settings': {
         templateUrl: 'templates/profile.html',
         controller: 'ProfileCtrl'
+      }
+    }
+  })
+
+  .state('tab.about', {
+    url: '/about',
+    views: {
+      'tab-settings': {
+        templateUrl: 'templates/about.html',
+        controller: 'AppCtrl'
       }
     }
   })
