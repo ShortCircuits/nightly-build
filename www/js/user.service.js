@@ -12,20 +12,24 @@
       isAuthenticated: function() {
         return $auth.isAuthenticated();
       },
+
       authenticate: function(provider) {
         $auth
           .authenticate(provider)
           .then(this.successAuth)
           .catch(this.failedAuth);
       },
+
       logOut: function() {
         $auth.logout();
         userData = undefined;
         $rootScope.$emit('userLoggedOut');
       },
+
       getUser: function() {
         return userData;
       },
+
       successAuth: function() {
         userData = $auth.getPayload();
 
@@ -33,6 +37,7 @@
           data: userData
         });
       },
+      
       failedAuth: function() {
         userData = undefined;
         $rootScope.$emit('userFailedLogin');
