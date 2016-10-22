@@ -69,19 +69,23 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
     position: absolute;
     z-index: 9;
 }
+
 .infowindow {
   padding-bottom: 40px;
 }
 
 #searchMe {
-  width: 185px;
+  width: 188px;
   overflow: hidden;
   position: absolute;
   top: 6px;
   right: 8px;
   z-index: 108;
   left: auto;
-  border-radius: 9px;
+  color:#232323;
+  -webkit-box-shadow: 0px 1px 1px 1px rgba(194,194,194,1);
+  -moz-box-shadow: 0px 1px 1px 1px rgba(194,194,194,1);
+  box-shadow: 0px 1px 1px 1px rgba(194,194,194,1);
 }
 
 .card {
@@ -97,7 +101,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
 .floatingButton {
 	position: absolute;
 	top:35%;
-	opacity: 0.9;
+	/*opacity: 0.9;*/
 	z-index: 100;
 	width:400px;
     margin-left:-200px;
@@ -148,6 +152,10 @@ div.buttons.buttons-right.header-item > span > button {
 
 .bar.bar-stable .title {
 	color: white;
+}
+
+.topbar {
+  text-align: right;
 }
 
 #front-page-buttons {
@@ -266,12 +274,8 @@ h3 {
 
 .item-input{
   background-color: #fafafa;
-  -webkit-border-radius: 8px;
-  -webkit-border-bottom-right-radius: 0;
-  -moz-border-radius: 8px;
-  -moz-border-radius-bottomright: 0;
-  border-radius: 8px;
-  border-bottom-right-radius: 0;
+  height: 40px;
+  color:#232323;
 }
 
 .ionic-scroll {

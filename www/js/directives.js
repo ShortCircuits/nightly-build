@@ -6,6 +6,7 @@ angular.module('starter.directives', [])
     scope: {
       onCreate: '&'
     },
+
     link: function($scope, $element, $attr) {
 
       function initialize() {
