@@ -18,6 +18,22 @@ map {
   font-size: 48px;
   text-align: center;
 }
+.button.button-dark.button-clear.find-me2{
+  position: absolute;
+  z-index: 19;
+  left:40px;
+  bottom: 95px;
+  height:15px;
+  background: #f5f5f5;
+  -webkit-border-radius: 12px;
+-webkit-border-bottom-left-radius: 0;
+-moz-border-radius: 12px;
+-moz-border-radius-bottomleft: 0;
+border-radius: 12px;
+border-bottom-left-radius: 0;
+opacity: 0.6;
+
+}
 
 .button.button-dark.button-clear.find-me {
   position: absolute;
@@ -27,6 +43,9 @@ map {
   background: #ffffff;
   opacity: 0.9;
   border-radius: 12px;
+  -webkit-box-shadow: 0px 1px 7px 1px rgba(194,194,194,1);
+  -moz-box-shadow: 0px 1px 7px 1px rgba(194,194,194,1);
+  box-shadow: 0px 1px 7px 1px rgba(194,194,194,1);
 }
 
 .splashPage {

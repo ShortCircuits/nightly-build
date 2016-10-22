@@ -34,9 +34,9 @@
       whoAmI: function() {
         return $http.get('https://shift-it.herokuapp.com/whoami')
           .then(function(response) {
-            var loggedInUser = response.data; // is this needed?
-            user = response.data;
-            return loggedInUser;
+            // // var loggedInUser = response.data; // is this needed?
+            // user = response.data;
+            return response.data;
           });
       },
 
@@ -79,7 +79,7 @@
             }, []);
             return $http.get('https://shift-it.herokuapp.com/whoami')
               .then(function(response) {
-                var loggedInUser = response.data; // ??
+                // var loggedInUser = response.data; // ??
                 user = response.data;
                 shifts = shifts.filter(function(shift) {
                   return !shift.requested.includes(user)
@@ -135,42 +135,54 @@
       getStores: function() {
         return stores;
       },
+
       setApproved: function() {
         approvedShift = true;
       },
+
       getApproved: function() {
         return approvedShift;
       },
+
       getNotificationMsg: function() {
         if (!approvedShift) {
           return "Your shift request has been approved"
         }
         return notificationMsg
       },
+
       getUser: function() {
         return user;
       },
+
       setUser: function(leUser) {
         user = leUser;
       },
+
       getLocation: function() {
         return location;
       },
+
       setLocation: function(loc) {
         location = loc;
       },
+
       getHomeStore: function() {
         return myStore;
       },
+
       getMap: function() {
         return map;
       },
+
       setMap: function(mapObj) {
         map = mapObj;
       },
+
       setApprovals: function(shift) {
         userApprovals = shift;
       },
+      
       getApprovals: function() {
         return userApprovals;
       }
