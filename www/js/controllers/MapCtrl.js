@@ -87,7 +87,6 @@ angular.module('maps.controller', [])
     Main.whoAmI()
       .then(function(user) {
         $scope.user = user;
-        console.log("whoami endpoint returning: ", user)
         localStorage.setItem("theUser", user);
       })
       .catch(function(err) {
@@ -97,7 +96,6 @@ angular.module('maps.controller', [])
     Main.getMyStore()
       .then(function(storeId) {
         $scope.homeStore = storeId;
-        console.log("my store id is: ", storeId);
       })
       .catch(function(err) {
         console.log("Could not get home store")
@@ -142,7 +140,6 @@ angular.module('maps.controller', [])
 
   $scope.findMe = function(){
     $ionicLoading.show();
-    console.log("clicky")
     Main.getMyPos().then(function(pos) {
       var locObj = JSON.stringify(pos);
       localStorage.setItem('location', locObj);
