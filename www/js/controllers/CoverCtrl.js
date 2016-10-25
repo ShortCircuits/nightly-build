@@ -22,7 +22,6 @@ angular.module('cover.controller', [])
     $scope.openDatePicker();
     CoverService.setHomeLocForShift();
     CoverService.resetFields();
-    console.log('Opened!')
   });
 
   // This shows the prize picker modal
