@@ -97,14 +97,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
   width: 188px;
   overflow: hidden;
   position: absolute;
-  top: 6px;
+  top: 10px;
   right: 8px;
   z-index: 108;
   left: auto;
   color:#232323;
-  -webkit-box-shadow: 0px 1px 1px 1px rgba(194,194,194,1);
-  -moz-box-shadow: 0px 1px 1px 1px rgba(194,194,194,1);
-  box-shadow: 0px 1px 1px 1px rgba(194,194,194,1);
+  -webkit-box-shadow: 0px 1px 1px 1px #dddddd;
+  -moz-box-shadow: 0px 1px 1px 1px #dddddd;
+  box-shadow: 0px 1px 1px 1px #dddddd;
 }
 
 .card {
@@ -361,3 +361,11 @@ button.pums:hover {
   color: #232323;
   box-shadow: 0px 3px 3px #e0e0e0;
 }
+
+.md-button {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    min-height: 20px;
+    min-width: 20px;
+  }

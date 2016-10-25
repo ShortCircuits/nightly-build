@@ -1,6 +1,6 @@
 angular.module('main', ['ionic', 'satellizer', 'maps.controller', 'starter.directives']);
 angular.module('profile', ['ionic', 'satellizer', 'profile.controller']);
-angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-timepicker', 'starter.controllers', 'starter.directives','main', 'profile', 'cover.controller'])
+angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-timepicker', 'starter.controllers', 'starter.directives','main', 'profile', 'cover.controller', 'ngMaterial'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -10,7 +10,7 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider, ionicDatePickerProvider, ionicTimePickerProvider, $authProvider) {
+.config(function($stateProvider, $urlRouterProvider, ionicDatePickerProvider, ionicTimePickerProvider, $authProvider, $mdThemingProvider) {
   var datePickerObj = {
     inputDate: new Date(),
     titleLabel: 'Select a Date',
@@ -48,6 +48,10 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
       height: window.screen.height
     }
   };
+
+  $mdThemingProvider.theme('altTheme')
+  .primaryPalette('purple');
+  
 ///////////////////////////////////////////////////
 // Remove this if statement for deployed version //
 ///////////////////////////////////////////////////
