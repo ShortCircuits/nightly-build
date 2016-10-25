@@ -15,7 +15,7 @@
             <ion-list class="claimlist">
             <p class="subs">Requested by:</p> 
               <ion-item ng-repeat="claimant in shift.claimants" class="claimitem">
-                <button ng-click="connect(claimant)" class="button pums">{{claimant.claimant_name}}</button>
+                <md-button ng-click="connect(claimant)" class="button pums md-raised">{{claimant.claimant_name}}</md-button>
               </ion-item>
             </ion-list>
           </div>
@@ -36,7 +36,7 @@
         <div class="row responsive-md">
           <div class="col col-20">
             <p class="statusovski"><b>Status:</b> UNCLAIMED</p>
-            <button ng-click="delete(shift)" class="button pums">Delete</button>
+            <md-button ng-click="delete(shift)" class="button pums md-raised">Delete</md-button>
           </div>
           <div class="col col-33">
             <p>{{shift.home_store.address}}<p/>

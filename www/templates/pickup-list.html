@@ -1,4 +1,4 @@
-<ion-view title="Pickup a shift">
+<ion-view title="Pickup a shift" ng-cloak>
 <ion-content class="padding">
 
 <div class="topbar" >
@@ -22,7 +22,7 @@
 			<button ng-click="pickupShift(shift)" class="button pums">Claim this shift</button>
 		</div>
 	</div>
-	
+
 	</ion-item>
 		<div ng-if="availableShifts == false">
 		<h3>Sorry, currently no shifts are available for pickup</h3>

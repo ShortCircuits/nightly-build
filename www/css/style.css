@@ -361,3 +361,11 @@ button.pums:hover {
   color: #232323;
   box-shadow: 0px 3px 3px #e0e0e0;
 }
+
+.md-button {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    min-height: 20px;
+    min-width: 20px;
+  }
