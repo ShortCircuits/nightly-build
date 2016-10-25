@@ -1,0 +1,41 @@
+
+<ion-view view-title="My Shifts" class="myShifts">
+  <ion-content class="padding" layout="column" flex layout-fill ng-cloak>
+
+  <md-content md-theme="altTheme">
+
+    <section>
+      <md-subheader class="md-primary"><h3>Shifts you posted:</h3></md-subheader>
+      
+    <!-- PENDING = someone has offered to take shift, 
+    original poster needs to make decision -->
+    
+      <ion-list class="mslist">
+        <ion-item ng-repeat="shift in data.postedpending" class="item-text-wrap msitem" >
+        <div class="row responsive-md">
+          <div class="col col-20">
+            <p><b>Status:</b> PENDING</p>
+
+            <ion-list class="claimlist">
+            <p class="subs">Requested by:</p> 
+              <ion-item ng-repeat="claimant in shift.claimants" class="claimitem">
+                <button ng-click="connect(claimant)" class="button pums">{{claimant.claimant_name}}</button>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <div class="col col-33">
+            <p>{{shift.home_store.address}}<p/>
+            <p>{{shift.shift_text_time}}<p/>
+            <p>Prize: {{shift.prize}}</p>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+    </section>
+
+
+
+  </md-content>
+</ion-content>
+</ion-view>
