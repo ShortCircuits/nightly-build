@@ -26,18 +26,21 @@ angular.module('maps.controller', [])
 
   // Pickup a shift / Populate the map with stores
   $scope.pickup = function() {
-
+    alert('a0')
     var stores = Main.getStores();
     if(stores){
       centerOnMe();
       $scope.pickupButtons = false;
       window.leShift = Main.getShifts();
+      alert("a1")
       markerBuilder(stores);
     }else{
+      alert("a2")
       centerOnMe();
       $scope.pickupButtons = false;
       Main.fetchStores().then(function(stores) {
         window.leShift = Main.getShifts();
+        alert("a3")
         markerBuilder(stores);
       })
     }
@@ -217,6 +220,7 @@ angular.module('maps.controller', [])
   }
 
   function createMarker(place) {
+    alert('b1')
     var loc = place.geometry.location;
     var icons = '';
     if (!place.shifts) {
@@ -234,10 +238,9 @@ angular.module('maps.controller', [])
 
     // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
     marker.setMap($scope.map);
-    alert("b2")
     if (place.place_id && $scope.homeStore && place.place_id === $scope.homeStore) {
       marker.setIcon('img/home-pin.png')
-      alert("b3")
+      
     }
 
     google.maps.event.addListener(marker, 'click', function() {
