@@ -86,6 +86,7 @@ angular.module('maps.controller', [])
     // Get user Id from server
     Main.whoAmI()
       .then(function(user) {
+        alert("in who me")
         $scope.user = user;
         localStorage.setItem("theUser", user);
       })
@@ -94,7 +95,9 @@ angular.module('maps.controller', [])
       })
 
     Main.getMyStore()
+
       .then(function(storeId) {
+        alert("in le getting me store")
         $scope.homeStore = storeId;
       })
       .catch(function(err) {
