@@ -26,21 +26,18 @@ angular.module('maps.controller', [])
 
   // Pickup a shift / Populate the map with stores
   $scope.pickup = function() {
-    alert('a0')
+
     var stores = Main.getStores();
     if(stores){
       centerOnMe();
       $scope.pickupButtons = false;
       window.leShift = Main.getShifts();
-      alert("a1")
       markerBuilder(stores);
     }else{
-      alert("a2")
       centerOnMe();
       $scope.pickupButtons = false;
       Main.fetchStores().then(function(stores) {
         window.leShift = Main.getShifts();
-        alert("a3")
         markerBuilder(stores);
       })
     }
@@ -104,9 +101,11 @@ angular.module('maps.controller', [])
       .catch(function(err) {
         console.log("Could not get home store")
       })
-
+      alert('a1')
     MyShiftsService.GetMyShifts();
+    alert('a2')
     MyShiftsService.GetShiftsIPickedUp();
+    alert('a3')
 
   };
 
