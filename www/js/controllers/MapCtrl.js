@@ -29,20 +29,16 @@ angular.module('maps.controller', [])
 
   // Pickup a shift / Populate the map with stores
   $scope.pickup = function() {
-    alert("in pickup")
     var stores = Main.getStores();
     if(stores){
-      alert("in pickup")
       centerOnMe();
       $scope.pickupButtons = false;
       window.leShift = Main.getShifts();
       markerBuilder(stores);
     }else{
-      alert("did not get stores")
       centerOnMe();
       $scope.pickupButtons = false;
       Main.fetchStores().then(function(stores) {
-        alert("fetichined   stores")
         window.leShift = Main.getShifts();
         markerBuilder(stores);
       })
@@ -50,13 +46,11 @@ angular.module('maps.controller', [])
   };
 
   if($scope.location){
-    alert("location exists")
       $ionicLoading.hide();
       $scope.pickup();
       // $scope.pickupButtons = true;
   }else{
     Main.getMyPos().then(function(pos){
-      alert("got position", pos)
       $timeout(function(){
         // $scope.pickupButtons = true;
         $scope.pickup();
