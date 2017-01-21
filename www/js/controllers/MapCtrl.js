@@ -11,6 +11,7 @@ angular.module('maps.controller', [])
     
     ionic.trigger('resize');
     
+    
     // if(counter>=1){
     //   $scope.pickup();
     // }
