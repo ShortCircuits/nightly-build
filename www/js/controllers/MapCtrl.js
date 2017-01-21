@@ -8,11 +8,15 @@ angular.module('maps.controller', [])
       window.location = '#/lobby'
     }
     $scope.initialization();
+    alert('c1')
     ionic.trigger('resize');
-    // if(counter>=1){
+    alert('c2')
+    $ionicLoading.hide();
+    if(counter>=1){
       $scope.pickup();
-    // }
+    }
     centerOnMe();
+    alert('c3')
   })
 
   var myId;
