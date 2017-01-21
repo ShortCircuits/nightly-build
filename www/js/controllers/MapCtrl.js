@@ -106,7 +106,7 @@ angular.module('maps.controller', [])
     alert('a2')
     MyShiftsService.GetShiftsIPickedUp();
     alert('a3')
-
+  $ionicLoading.hide();
   };
 
   // Pickup shift 
