@@ -25,10 +25,10 @@
               myStore = response.data[0].home_store.storeId;
               return myStore;
             }
-            // else{
-            //   alert("Please set your home store by selecting a pin on the map");
-            //   return mystore;
-            // }
+            else{
+              alert("Please set your home store by selecting a pin on the map");
+              return;
+            }
           });
       },
 

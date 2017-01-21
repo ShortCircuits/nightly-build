@@ -9,9 +9,9 @@ angular.module('maps.controller', [])
     }
     $scope.initialization();
     ionic.trigger('resize');
-    if(counter>=1){
+    // if(counter>=1){
       $scope.pickup();
-    }
+    // }
     centerOnMe();
   })
 
@@ -106,7 +106,7 @@ angular.module('maps.controller', [])
     alert('a2')
     MyShiftsService.GetShiftsIPickedUp();
     alert('a3')
-  $ionicLoading.hide();
+  
   };
 
   // Pickup shift 
@@ -219,7 +219,6 @@ angular.module('maps.controller', [])
   }
 
   function createMarker(place) {
-    alert('b1')
     var loc = place.geometry.location;
     var icons = '';
     if (!place.shifts) {
