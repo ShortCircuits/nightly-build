@@ -180,7 +180,7 @@ angular.module('maps.controller', [])
   function centerOnMe() {
     var location = Main.getLocation();
     var stores = Main.getStores();
-    $scope.map = Main.getMap();
+    // $scope.map = Main.getMap();
     
     $scope.loading = $ionicLoading.show({
       content: 'Getting current location...',
@@ -193,17 +193,21 @@ angular.module('maps.controller', [])
         $ionicLoading.hide();
       }
     }else{
-      Main.getMyPos().then(function(pos) {
-        $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
-        $scope.location = Main.getLocation();
-        Main.fetchStores().then(function(res) {
-          $ionicLoading.hide();
-        });
-      })
+      Main.getMyPos()
+        .then(function(pos) {
+          $scope.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
+          $scope.location = Main.getLocation();
+          Main.fetchStores()
+            .then(function(res) {
+              $ionicLoading.hide();
+            }).catch(function(e){ 
+              $ionicLoading.hide();
+            })
+        })
     }
   };
 
-  centerOnMe();
+  // centerOnMe();  // ???
 
   function markerBuilder(results, status) {
     for (var i = 0; i < results.results.length; i++) {
