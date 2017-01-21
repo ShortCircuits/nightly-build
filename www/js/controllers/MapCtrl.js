@@ -86,7 +86,6 @@ angular.module('maps.controller', [])
     // Get user Id from server
     Main.whoAmI()
       .then(function(user) {
-        alert("in who me")
         $scope.user = user;
         localStorage.setItem("theUser", user);
       })
@@ -97,7 +96,6 @@ angular.module('maps.controller', [])
     Main.getMyStore()
 
       .then(function(storeId) {
-        alert("in le getting me store")
         $scope.homeStore = storeId;
       })
       .catch(function(err) {
@@ -236,8 +234,10 @@ angular.module('maps.controller', [])
 
     // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
     marker.setMap($scope.map);
-    if (place.place_id === $scope.homeStore) {
+    alert("b2")
+    if (place.place_id && $scope.homeStore && place.place_id === $scope.homeStore) {
       marker.setIcon('img/home-pin.png')
+      alert("b3")
     }
 
     google.maps.event.addListener(marker, 'click', function() {
