@@ -11,7 +11,7 @@ angular.module('maps.controller', [])
     
     ionic.trigger('resize');
     
-    
+
     // if(counter>=1){
     //   $scope.pickup();
     // }
@@ -109,11 +109,8 @@ angular.module('maps.controller', [])
       .catch(function(err) {
         console.log("Could not get home store")
       })
-      alert('a1')
     MyShiftsService.GetMyShifts();
-    alert('a2')
     MyShiftsService.GetShiftsIPickedUp();
-    alert('a3')
   
   };
 
