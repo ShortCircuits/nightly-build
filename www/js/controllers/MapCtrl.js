@@ -8,15 +8,15 @@ angular.module('maps.controller', [])
       window.location = '#/lobby'
     }
     $scope.initialization();
-    alert('c1')
+    
     ionic.trigger('resize');
-    alert('c2')
+    
     $ionicLoading.hide();
     if(counter>=1){
       $scope.pickup();
     }
     centerOnMe();
-    alert('c3')
+
   })
 
   var myId;
@@ -48,17 +48,24 @@ angular.module('maps.controller', [])
   };
 
   if($scope.location){
+    alert("location exists")
       $ionicLoading.hide();
       $scope.pickup();
       // $scope.pickupButtons = true;
   }else{
     Main.getMyPos().then(function(pos){
+      alert("got position", pos)
       $timeout(function(){
         // $scope.pickupButtons = true;
         $scope.pickup();
         $ionicLoading.hide();
       },700)
     })
+    .catch(function(){
+      console.log("le error")
+        $scope.pickup();
+        $ionicLoading.hide();
+      })
   }
 
   // sets the homestore for the user
