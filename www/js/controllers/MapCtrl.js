@@ -11,10 +11,9 @@ angular.module('maps.controller', [])
     
     ionic.trigger('resize');
     
-    $ionicLoading.hide();
-    if(counter>=1){
-      $scope.pickup();
-    }
+    // if(counter>=1){
+    //   $scope.pickup();
+    // }
     centerOnMe();
 
   })
@@ -199,10 +198,10 @@ angular.module('maps.controller', [])
     var stores = Main.getStores();
     // $scope.map = Main.getMap();
     
-    $scope.loading = $ionicLoading.show({
-      content: 'Getting current location...',
-      showBackdrop: false
-    });
+    // $scope.loading = $ionicLoading.show({
+    //   content: 'Getting current location...',
+    //   showBackdrop: false
+    // });
     
     if(location && $scope.map){
       $scope.map.setCenter(new google.maps.LatLng(location.lat, location.lng));
