@@ -66,6 +66,11 @@ angular.module('starter', ['ionic', 'satellizer', 'ionic-datepicker', 'ionic-tim
     url: 'https://shift-it.herokuapp.com/auth/facebook'
   }));
 
+  $authProvider.google(angular.extend({}, commonConfig, {
+    clientId: '758774257882-1roptb8q4e5o1gd0g5a61pq99558nq6a.apps.googleusercontent.com',
+    url: 'https://shift-it.herokuapp.com/auth/google'
+  }));
+
   $stateProvider
 
   .state('lobby', {
