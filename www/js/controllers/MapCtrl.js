@@ -8,11 +8,15 @@ angular.module('maps.controller', [])
       window.location = '#/lobby'
     }
     $scope.initialization();
+    
     ionic.trigger('resize');
-    if(counter>=1){
-      $scope.pickup();
-    }
+    
+
+    // if(counter>=1){
+    //   $scope.pickup();
+    // }
     centerOnMe();
+
   })
 
   var myId;
@@ -26,7 +30,6 @@ angular.module('maps.controller', [])
 
   // Pickup a shift / Populate the map with stores
   $scope.pickup = function() {
-
     var stores = Main.getStores();
     if(stores){
       centerOnMe();
@@ -55,6 +58,11 @@ angular.module('maps.controller', [])
         $ionicLoading.hide();
       },700)
     })
+    .catch(function(){
+      console.log("le error")
+        $scope.pickup();
+        $ionicLoading.hide();
+      })
   }
 
   // sets the homestore for the user
@@ -94,16 +102,16 @@ angular.module('maps.controller', [])
       })
 
     Main.getMyStore()
+
       .then(function(storeId) {
         $scope.homeStore = storeId;
       })
       .catch(function(err) {
         console.log("Could not get home store")
       })
-
     MyShiftsService.GetMyShifts();
     MyShiftsService.GetShiftsIPickedUp();
-
+  
   };
 
   // Pickup shift 
@@ -182,10 +190,10 @@ angular.module('maps.controller', [])
     var stores = Main.getStores();
     // $scope.map = Main.getMap();
     
-    $scope.loading = $ionicLoading.show({
-      content: 'Getting current location...',
-      showBackdrop: false
-    });
+    // $scope.loading = $ionicLoading.show({
+    //   content: 'Getting current location...',
+    //   showBackdrop: false
+    // });
     
     if(location && $scope.map){
       $scope.map.setCenter(new google.maps.LatLng(location.lat, location.lng));
@@ -233,8 +241,9 @@ angular.module('maps.controller', [])
 
     // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
     marker.setMap($scope.map);
-    if (place.place_id === $scope.homeStore) {
+    if (place.place_id && $scope.homeStore && place.place_id === $scope.homeStore) {
       marker.setIcon('img/home-pin.png')
+      
     }
 
     google.maps.event.addListener(marker, 'click', function() {
